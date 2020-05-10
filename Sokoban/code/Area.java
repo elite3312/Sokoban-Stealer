@@ -13,7 +13,7 @@ public class Area extends Actor {
     
     private void initArea() {
 
-        ImageIcon iicon = new ImageIcon("./pic/area.png");
+        ImageIcon iicon = new ImageIcon("pic/area.png");
         Image image = iicon.getImage();
         setImage(image);
     }

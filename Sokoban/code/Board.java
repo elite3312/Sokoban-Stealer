@@ -1,5 +1,6 @@
 package coding.code;
 
+/*主選單、地圖類別、槍、傳送門*/
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.event.KeyAdapter;
@@ -7,9 +8,10 @@ import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 import javax.swing.JPanel;
 import java.util.Date;
+import java.awt.Font;
 public class Board extends JPanel {
 
-    private final int OFFSET = 30;
+    private final int OFFSET = 30;//地圖離角落的距離
     private final int SPACE = 40;//actor side length
     private final int LEFT_COLLISION = 1;
     private final int RIGHT_COLLISION = 2;
@@ -125,11 +127,25 @@ public class Board extends JPanel {
     }
 
     private void buildWorld(Graphics g) {
-    	if(new Date().getTime()-portal.getStartTime()>5000)
-    		portal.setIsActive(0);
+    	
         g.setColor(new Color(250, 240, 170));
         g.fillRect(0, 0, this.getWidth(), this.getHeight());
-
+        Long temp=new Date().getTime()-portal.getStartTime();
+        String info="\"portal timer:";
+        if(temp>5000) 
+        {
+    		portal.setIsActive(0);
+        	info+="X";
+        }
+        else {
+        	info+=temp.intValue()/1000;
+        }
+        info+="\"    \"rifle availabilty = "+soko.getRifleAvailable();
+        info+="\"    \"ammo = "+soko.getAmmo()+"\"";
+    	g.setColor(new Color(0, 0, 0));
+    	g.setFont(new Font("Calibri", Font.PLAIN, 25));
+    	g.drawString(info, 25,20);
+    	
         ArrayList<Actor> world = new ArrayList<>();
 
         world.addAll(walls);
@@ -137,17 +153,30 @@ public class Board extends JPanel {
         world.addAll(baggs);
         world.add(soko);
         world.add(portal);
+        if(soko.getBullet()!=null)
+        	world.add(soko.getBullet());
         for (int i = 0; i < world.size(); i++) {
 
             Actor item = world.get(i);
 
             if (item instanceof Player || item instanceof Baggage) {
                 
-                g.drawImage(item.getImage(), item.x() + 2, item.y() + 2, this);//嚙瘡嚙踝蕭嚙踝蕭嚙踢之塚蕭嚙踝蕭嚙緬嚙稿嚙踝蕭2
-            } else if(item instanceof Portal){
+                g.drawImage(item.getImage(), item.x() + 2, item.y() + 2, this);//人物跟牆之間有段距離2
+            }
+            else if(item instanceof Portal){
             	Portal portalRef=(Portal)item;
             	if(portalRef.getIsActive()==1)
             		g.drawImage(item.getImage(), item.x() + 2, item.y() + 2, this);
+            } 
+            else if(item instanceof Bullet){
+            	Bullet bulletRef=(Bullet)item;
+            	if(bulletRef!=null&&bulletRef.getMaxRange()>0) {
+            		bulletRef.updateXY();
+            		g.drawImage(item.getImage(), item.x() + 2, item.y() + 2, this);
+            	}
+            	else
+            		soko.setBullet(null);
+            		
             }
               
             else {
@@ -171,7 +200,7 @@ public class Board extends JPanel {
         buildWorld(g);
     }
 
-    private class TAdapter extends KeyAdapter {
+    private class TAdapter extends KeyAdapter {//輸入轉接器
 
         @Override
         public void keyPressed(KeyEvent e) {
@@ -261,7 +290,30 @@ public class Board extends JPanel {
                 	}
                 	
                 	break;
-               
+                case KeyEvent.VK_W:
+                	if(soko.getRifleAvailable()==1&&soko.getAmmo()>0) {
+                		soko.setBullet(new Bullet(soko.x()+SPACE/3,soko.y()+SPACE/3,TOP_COLLISION));
+                		soko.setAmmo(soko.getAmmo()-1);
+                	}
+                	break;
+                case KeyEvent.VK_S:
+                	if(soko.getRifleAvailable()==1&&soko.getAmmo()>0) {
+                		soko.setBullet(new Bullet(soko.x()+SPACE/3,soko.y()+SPACE/3,BOTTOM_COLLISION));
+                		soko.setAmmo(soko.getAmmo()-1);
+                	}
+                	break;
+                case KeyEvent.VK_A:
+                	if(soko.getRifleAvailable()==1&&soko.getAmmo()>0) {
+                		soko.setBullet(new Bullet(soko.x()+SPACE/3,soko.y()+SPACE/3,LEFT_COLLISION));
+                		soko.setAmmo(soko.getAmmo()-1);
+                	}
+                	break;
+                case KeyEvent.VK_D:
+                	if(soko.getRifleAvailable()==1&&soko.getAmmo()>0) {
+                		soko.setBullet(new Bullet(soko.x()+SPACE/3,soko.y()+SPACE/3,RIGHT_COLLISION));
+                		soko.setAmmo(soko.getAmmo()-1);
+                	}
+                	break;
                 default:
                     break;
             }
@@ -490,8 +542,9 @@ public class Board extends JPanel {
                 }
             }
         }
-
-        if (finishedBags == nOfBags) {
+        if(finishedBags==1)
+        	soko.setRifleAvailable(1);
+        else if (finishedBags == nOfBags) {
             
             isCompleted = true;
             repaint();

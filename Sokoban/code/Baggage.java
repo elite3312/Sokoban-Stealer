@@ -13,7 +13,7 @@ public class Baggage extends Actor {
     
     private void initBaggage() {
         
-        ImageIcon iicon = new ImageIcon("./pic/baggage.png");
+        ImageIcon iicon = new ImageIcon("pic/baggage.png");
         Image image = iicon.getImage();
         setImage(image);
     }

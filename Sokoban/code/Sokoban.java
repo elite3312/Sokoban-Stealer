@@ -1,5 +1,6 @@
 package coding.code;
 
+
 import java.awt.EventQueue;
 import javax.swing.JFrame;
 import java.util.Timer;
@@ -27,7 +28,7 @@ public class Sokoban extends JFrame {
         setLocationRelativeTo(null);
         setVisible(true);
         Timer timer=new Timer();
-        TimerTask refresh= new TimerTask(){
+        TimerTask refresh= new TimerTask(){//也可以用匿名類別的方式，
 
 			@Override
 			public void run() {
@@ -35,7 +36,7 @@ public class Sokoban extends JFrame {
 				JFrame.getFrames()[0].repaint();
 			}	
 		};
-		timer.schedule(refresh, 0, 1000);
+		timer.schedule(refresh, 0, 200);
     }
 
     public static void main(String[] args) {

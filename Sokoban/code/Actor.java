@@ -1,5 +1,6 @@
 package coding.code;
 
+
 import java.awt.Image;
 
 public class Actor {
@@ -45,6 +46,7 @@ public class Actor {
     }
 
     public boolean isLeftCollision(Actor actor) {
+    	/*player©¹¥ª¼²¨ìactor*/
         
         return x() - SPACE == actor.x() && y() == actor.y();
     }

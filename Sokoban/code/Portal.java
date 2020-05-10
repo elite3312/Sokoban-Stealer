@@ -15,7 +15,7 @@ public class Portal extends Actor {
     
     private void initPortal() {
     	isActive=0;
-        ImageIcon iicon = new ImageIcon("./pic/portal.png");
+        ImageIcon iicon = new ImageIcon("pic/portal.png");
         Image image = iicon.getImage();
         setImage(image);
     }
