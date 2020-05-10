@@ -46,7 +46,7 @@ public class Actor {
     }
 
     public boolean isLeftCollision(Actor actor) {
-    	/*player©¹¥ª¼²¨ìactor*/
+    	/*playerï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½actor*/
         
         return x() - SPACE == actor.x() && y() == actor.y();
     }
@@ -64,5 +64,9 @@ public class Actor {
     public boolean isBottomCollision(Actor actor) {
         
         return y() + SPACE == actor.y() && x() == actor.x();
+    }
+
+    public boolean inWall(Actor wall){
+        return y() == wall.y() && x() == wall.y();
     }
 }

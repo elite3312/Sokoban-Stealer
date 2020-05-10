@@ -21,6 +21,7 @@ public class Board extends JPanel {
     private ArrayList<Wall> walls;
     private ArrayList<Baggage> baggs;
     private ArrayList<Area> areas;
+    private ArrayList<Wall> initialWalls;
     
     private Player soko;
     private Portal portal;
@@ -30,6 +31,7 @@ public class Board extends JPanel {
     
     private boolean isCompleted = false;
     private boolean collisionIgnore = false;//tj0 f;u6ru4s/6
+    private boolean penetrateNotUsed = true;
 
     private String level
             = "    ######\n"
@@ -67,6 +69,7 @@ public class Board extends JPanel {
         walls = new ArrayList<>();
         baggs = new ArrayList<>();
         areas = new ArrayList<>();
+        initialWalls = new ArrayList<>();
 
         int x = OFFSET;
         int y = OFFSET;
@@ -75,6 +78,9 @@ public class Board extends JPanel {
         Baggage b;
         Area a;
         portal=new Portal(0,0);
+
+        penetrateNotUsed = true;
+
         for (int i = 0; i < level.length(); i++) {//set w,h, actors specified by the string
 
             char item = level.charAt(i);
@@ -131,10 +137,13 @@ public class Board extends JPanel {
         g.setColor(new Color(250, 240, 170));
         g.fillRect(0, 0, this.getWidth(), this.getHeight());
         Long temp=new Date().getTime()-portal.getStartTime();
-        Long checkCollisonTime = new Date().getTime() - collisionIgnoreTime;
-
-        if(checkCollisonTime > 3000){
-            collisionIgnore = false;
+        
+        if(collisionIgnore){
+            Long checkCollisonTime = new Date().getTime() - collisionIgnoreTime;
+            if(checkCollisonTime > 3000){
+                collisionIgnore = false;
+                penetrateNotUsed = false;
+            }
         }
 
         String info="\"portal timer:";
@@ -321,8 +330,10 @@ public class Board extends JPanel {
                 	}
                     break;
                 case KeyEvent.VK_F://tj0 fu;6
-                    collisionIgnore = true;
-                    collisionIgnoreTime = new Date().getTime();
+                    if(penetrateNotUsed){
+                        collisionIgnore = true;
+                        collisionIgnoreTime = new Date().getTime();
+                    }
                     break;
                 default:
                     break;
@@ -334,8 +345,10 @@ public class Board extends JPanel {
 
     private boolean checkWallCollision(Actor actor, int type) {
 
-        if(collisionIgnore){
-            return false;
+        if(penetrateNotUsed){
+            if(collisionIgnore){
+                return false;
+            }
         }
 
         switch (type) {
