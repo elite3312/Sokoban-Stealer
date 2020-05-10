@@ -46,27 +46,23 @@ public class Actor {
     }
 
     public boolean isLeftCollision(Actor actor) {
-    	/*player��������actor*/
+        /*player��������actor*/
         
-        return x() - SPACE == actor.x() && y() == actor.y();
-    }
+        return (x() - SPACE == actor.x() && y() == actor.y()) || (x() == actor.x() && y() == actor.y());
+    }//////////move side is the wall//////////////////////////////in the wall then you can't move
 
     public boolean isRightCollision(Actor actor) {
         
-        return x() + SPACE == actor.x() && y() == actor.y();
+        return (x() + SPACE == actor.x() && y() == actor.y()) || (x() == actor.x() && y() == actor.y());
     }
 
     public boolean isTopCollision(Actor actor) {
         
-        return y() - SPACE == actor.y() && x() == actor.x();
+        return (y() - SPACE == actor.y() && x() == actor.x()) || (x() == actor.x() && y() == actor.y());
     }
 
     public boolean isBottomCollision(Actor actor) {
         
-        return y() + SPACE == actor.y() && x() == actor.x();
-    }
-
-    public boolean inWall(Actor wall){
-        return y() == wall.y() && x() == wall.y();
+        return (y() + SPACE == actor.y() && x() == actor.x()) || (x() == actor.x() && y() == actor.y());
     }
 }
