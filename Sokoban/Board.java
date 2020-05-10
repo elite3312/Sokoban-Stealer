@@ -80,6 +80,7 @@ public class Board extends JPanel {
         portal=new Portal(0,0);
 
         penetrateNotUsed = true;
+        collisionIgnore = false;
 
         for (int i = 0; i < level.length(); i++) {//set w,h, actors specified by the string
 
