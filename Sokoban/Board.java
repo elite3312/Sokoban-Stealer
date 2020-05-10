@@ -1,6 +1,6 @@
 package coding.code;
 
-/*¥D¿ï³æ¡B¦a¹ÏÃþ§O¡Bºj¡B¶Ç°eªù*/
+/*ï¿½Dï¿½ï¿½ï¿½Bï¿½aï¿½ï¿½ï¿½ï¿½ï¿½Oï¿½Bï¿½jï¿½Bï¿½Ç°eï¿½ï¿½*/
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.event.KeyAdapter;
@@ -11,7 +11,7 @@ import java.util.Date;
 import java.awt.Font;
 public class Board extends JPanel {
 
-    private final int OFFSET = 30;//¦a¹ÏÂ÷¨¤¸¨ªº¶ZÂ÷
+    private final int OFFSET = 30;//ï¿½aï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Zï¿½ï¿½
     private final int SPACE = 40;//actor side length
     private final int LEFT_COLLISION = 1;
     private final int RIGHT_COLLISION = 2;
@@ -26,8 +26,10 @@ public class Board extends JPanel {
     private Portal portal;
     private int w = 0;//board width
     private int h = 0;//board height
+    private long collisionIgnoreTime;
     
     private boolean isCompleted = false;
+    private boolean collisionIgnore = false;//tj0 f;u6ru4s/6
 
     private String level
             = "    ######\n"
@@ -43,12 +45,10 @@ public class Board extends JPanel {
             + "    ########\n";
 
     public Board() {
-
         initBoard();
     }
 
     private void initBoard() {
-
         addKeyListener(new TAdapter());
         setFocusable(true);
         initWorld();
@@ -131,6 +131,12 @@ public class Board extends JPanel {
         g.setColor(new Color(250, 240, 170));
         g.fillRect(0, 0, this.getWidth(), this.getHeight());
         Long temp=new Date().getTime()-portal.getStartTime();
+        Long checkCollisonTime = new Date().getTime() - collisionIgnoreTime;
+
+        if(checkCollisonTime > 3000){
+            collisionIgnore = false;
+        }
+
         String info="\"portal timer:";
         if(temp>5000) 
         {
@@ -161,7 +167,7 @@ public class Board extends JPanel {
 
             if (item instanceof Player || item instanceof Baggage) {
                 
-                g.drawImage(item.getImage(), item.x() + 2, item.y() + 2, this);//¤Hª«¸òÀð¤§¶¡¦³¬q¶ZÂ÷2
+                g.drawImage(item.getImage(), item.x() + 2, item.y() + 2, this);//ï¿½Hï¿½ï¿½ï¿½ï¿½ï¿½ð¤§¶ï¿½ï¿½ï¿½ï¿½qï¿½Zï¿½ï¿½2
             }
             else if(item instanceof Portal){
             	Portal portalRef=(Portal)item;
@@ -200,7 +206,7 @@ public class Board extends JPanel {
         buildWorld(g);
     }
 
-    private class TAdapter extends KeyAdapter {//¿é¤JÂà±µ¾¹
+    private class TAdapter extends KeyAdapter {//ï¿½ï¿½Jï¿½à±µï¿½ï¿½
 
         @Override
         public void keyPressed(KeyEvent e) {
@@ -270,12 +276,12 @@ public class Board extends JPanel {
                     
                     break;
                     
-                case KeyEvent.VK_R:
+                case KeyEvent.VK_R://restart
                     
                     restartLevel();
                     
                     break;
-                case KeyEvent.VK_E:
+                case KeyEvent.VK_E://portal
                 	if(portal.getIsActive()==1) {
                 		
                 		soko.setX(portal.x());
@@ -290,30 +296,34 @@ public class Board extends JPanel {
                 	}
                 	
                 	break;
-                case KeyEvent.VK_W:
+                case KeyEvent.VK_W://bullet
                 	if(soko.getRifleAvailable()==1&&soko.getAmmo()>0) {
                 		soko.setBullet(new Bullet(soko.x()+SPACE/3,soko.y()+SPACE/3,TOP_COLLISION));
                 		soko.setAmmo(soko.getAmmo()-1);
                 	}
                 	break;
-                case KeyEvent.VK_S:
+                case KeyEvent.VK_S://bullet
                 	if(soko.getRifleAvailable()==1&&soko.getAmmo()>0) {
                 		soko.setBullet(new Bullet(soko.x()+SPACE/3,soko.y()+SPACE/3,BOTTOM_COLLISION));
                 		soko.setAmmo(soko.getAmmo()-1);
                 	}
                 	break;
-                case KeyEvent.VK_A:
+                case KeyEvent.VK_A://bullet
                 	if(soko.getRifleAvailable()==1&&soko.getAmmo()>0) {
                 		soko.setBullet(new Bullet(soko.x()+SPACE/3,soko.y()+SPACE/3,LEFT_COLLISION));
                 		soko.setAmmo(soko.getAmmo()-1);
                 	}
                 	break;
-                case KeyEvent.VK_D:
+                case KeyEvent.VK_D://bullet
                 	if(soko.getRifleAvailable()==1&&soko.getAmmo()>0) {
                 		soko.setBullet(new Bullet(soko.x()+SPACE/3,soko.y()+SPACE/3,RIGHT_COLLISION));
                 		soko.setAmmo(soko.getAmmo()-1);
                 	}
-                	break;
+                    break;
+                case KeyEvent.VK_F://tj0 fu;6
+                    collisionIgnore = true;
+                    collisionIgnoreTime = new Date().getTime();
+                    break;
                 default:
                     break;
             }
@@ -323,6 +333,10 @@ public class Board extends JPanel {
     }
 
     private boolean checkWallCollision(Actor actor, int type) {
+
+        if(collisionIgnore){
+            return false;
+        }
 
         switch (type) {
             
