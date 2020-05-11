@@ -163,14 +163,18 @@ public class Board extends JPanel {
     	g.drawString(info, 25,20);
     	
         ArrayList<Actor> world = new ArrayList<>();
-
-        world.addAll(walls);
+        
         world.addAll(areas);
-        world.addAll(baggs);
-        world.add(soko);
-        world.add(portal);
         if(soko.getBullet()!=null)
         	world.add(soko.getBullet());
+        world.addAll(walls);
+        world.addAll(baggs);
+        world.add(soko);
+        world.add(portal);		
+        int tempBulletX=-500, tempBulletY=-500;/*
+        record new bullet x,y. If it collides with a wall,
+         delete bullet, initialized to negative numbers to avoid error
+         */
         for (int i = 0; i < world.size(); i++) {
 
             Actor item = world.get(i);
@@ -188,16 +192,23 @@ public class Board extends JPanel {
             	Bullet bulletRef=(Bullet)item;
             	if(bulletRef!=null&&bulletRef.getMaxRange()>0) {
             		bulletRef.updateXY();
-            		g.drawImage(item.getImage(), item.x() + 2, item.y() + 2, this);
+            		tempBulletX=bulletRef.x();
+            		tempBulletY=bulletRef.y();
+            		g.drawImage(item.getImage(), item.x() + 2+SPACE/2, item.y() + 2+SPACE/3, this);
             	}
             	else
             		soko.setBullet(null);
             		
             }
               
-            else {
+            else if(item instanceof Wall)/*wall*/{
             	  g.drawImage(item.getImage(), item.x(), item.y(), this);
+            	  if(item.x()==tempBulletX&& item.y()==tempBulletY)//bullet collides with wall
+            		  soko.setBullet(null);
             } 
+            else {/*area*/
+            	g.drawImage(item.getImage(), item.x(), item.y(), this);
+            }
             
 
             if (isCompleted) {
@@ -308,25 +319,25 @@ public class Board extends JPanel {
                 	break;
                 case KeyEvent.VK_W://bullet
                 	if(soko.getRifleAvailable()==1&&soko.getAmmo()>0) {
-                		soko.setBullet(new Bullet(soko.x()+SPACE/3,soko.y()+SPACE/3,TOP_COLLISION));
+                		soko.setBullet(new Bullet(soko.x(),soko.y(),TOP_COLLISION));
                 		soko.setAmmo(soko.getAmmo()-1);
                 	}
                 	break;
                 case KeyEvent.VK_S://bullet
                 	if(soko.getRifleAvailable()==1&&soko.getAmmo()>0) {
-                		soko.setBullet(new Bullet(soko.x()+SPACE/3,soko.y()+SPACE/3,BOTTOM_COLLISION));
+                		soko.setBullet(new Bullet(soko.x(),soko.y(),BOTTOM_COLLISION));
                 		soko.setAmmo(soko.getAmmo()-1);
                 	}
                 	break;
                 case KeyEvent.VK_A://bullet
                 	if(soko.getRifleAvailable()==1&&soko.getAmmo()>0) {
-                		soko.setBullet(new Bullet(soko.x()+SPACE/3,soko.y()+SPACE/3,LEFT_COLLISION));
+                		soko.setBullet(new Bullet(soko.x(),soko.y(),LEFT_COLLISION));
                 		soko.setAmmo(soko.getAmmo()-1);
                 	}
                 	break;
                 case KeyEvent.VK_D://bullet
                 	if(soko.getRifleAvailable()==1&&soko.getAmmo()>0) {
-                		soko.setBullet(new Bullet(soko.x()+SPACE/3,soko.y()+SPACE/3,RIGHT_COLLISION));
+                		soko.setBullet(new Bullet(soko.x(),soko.y(),RIGHT_COLLISION));
                 		soko.setAmmo(soko.getAmmo()-1);
                 	}
                     break;

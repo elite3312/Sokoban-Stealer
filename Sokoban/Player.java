@@ -10,7 +10,7 @@ public class Player extends Actor {
 	
 	private Bullet bullet=null;
 	private int ammo=5;
-	private int rifleAvailable=0;
+	private int rifleAvailable=1;
     public Player(int x, int y) {
         super(x, y);
 

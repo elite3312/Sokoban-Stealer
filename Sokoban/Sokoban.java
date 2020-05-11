@@ -28,11 +28,10 @@ public class Sokoban extends JFrame {
         setLocationRelativeTo(null);
         setVisible(true);
         Timer timer=new Timer();
-        TimerTask refresh= new TimerTask(){//也可以用匿名類別的方式，
-
+        TimerTask refresh= new TimerTask(){
 			@Override
 			public void run() {
-				// TODO Auto-generated method stub
+				
 				JFrame.getFrames()[0].repaint();
 			}	
 		};
