@@ -179,9 +179,14 @@ public class Board extends JPanel {
 
             Actor item = world.get(i);
 
-            if (item instanceof Player || item instanceof Baggage) {
+            if (item instanceof Player ) {
                 
                 g.drawImage(item.getImage(), item.x() + 2, item.y() + 2, this);//�H�����𤧶����q�Z��2
+            }
+            else if( item instanceof Baggage) {
+            	 g.drawImage(item.getImage(), item.x(), item.y(), this);
+           	  if(item.x()==tempBulletX&& item.y()==tempBulletY)//bullet collides with wall
+           		  soko.setBullet(null);
             }
             else if(item instanceof Portal){
             	Portal portalRef=(Portal)item;
