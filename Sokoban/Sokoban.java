@@ -1,6 +1,5 @@
 package coding.code;
 
-
 import java.awt.EventQueue;
 import javax.swing.JFrame;
 import java.util.Timer;
@@ -41,10 +40,8 @@ public class Sokoban extends JFrame {
     public static void main(String[] args) {
         
         EventQueue.invokeLater(() -> {
-            
             Sokoban game = new Sokoban();
             //game.setVisible(true);
-            
         });
     }
 }

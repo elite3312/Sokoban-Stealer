@@ -1,6 +1,5 @@
 package coding.code;
 
-
 import java.awt.Image;
 
 public class Actor {
@@ -12,7 +11,6 @@ public class Actor {
     private Image image;
 
     public Actor(int x, int y) {
-        
         this.x = x;
         this.y = y;
     }
@@ -26,43 +24,34 @@ public class Actor {
     }
 
     public int x() {
-        
         return x;
     }
 
     public int y() {
-        
         return y;
     }
 
     public void setX(int x) {
-        
         this.x = x;
     }
 
     public void setY(int y) {
-        
         this.y = y;
     }
 
     public boolean isLeftCollision(Actor actor) {
-        /*player��������actor*/
-        
         return (x() - SPACE == actor.x() && y() == actor.y()) || (x() == actor.x() && y() == actor.y());
-    }//////////move side is the wall//////////////////////////////in the wall then you can't move
+    }////////// move side is the wall//////////////////////////////in the wall then you can't move
 
     public boolean isRightCollision(Actor actor) {
-        
         return (x() + SPACE == actor.x() && y() == actor.y()) || (x() == actor.x() && y() == actor.y());
     }
 
     public boolean isTopCollision(Actor actor) {
-        
         return (y() - SPACE == actor.y() && x() == actor.x()) || (x() == actor.x() && y() == actor.y());
     }
 
     public boolean isBottomCollision(Actor actor) {
-        
         return (y() + SPACE == actor.y() && x() == actor.x()) || (x() == actor.x() && y() == actor.y());
     }
 }

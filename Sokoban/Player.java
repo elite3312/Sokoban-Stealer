@@ -1,7 +1,7 @@
 package coding.code;
 
-
 import java.awt.Image;
+
 import java.util.ArrayList;
 
 import javax.swing.ImageIcon;
@@ -15,7 +15,6 @@ public class Player extends Actor {
         super(x, y);
 
         initPlayer();
-        
     }
 
     private void initPlayer() {
