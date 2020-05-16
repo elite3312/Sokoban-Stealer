@@ -1,4 +1,4 @@
-# JAVA期末專案 - Sokoban 1.0.1
+# Sokoban 1.0.1
 
 # Bugs:
   none
