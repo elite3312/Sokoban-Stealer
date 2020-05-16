@@ -1,7 +1,6 @@
-# JAVA期末專案
-# Sokoban 1.0.1
+# JAVA期末專案 - Sokoban 1.0.1
 
-# bugs: \
+# bugs:
 感覺穿牆發動後可以加一個顯示剩餘時間的提示，比較不會緊張(?
 
 尚未開發完成項目:\
@@ -11,12 +10,12 @@
   關卡開發\
   音效選擇
 
-# bug archive: \
+# bug archive:
   讀不到圖問題:修改資料夾層級\
   傳送門之人物蓋住貨物神奇bug:改成上面有貨不給傳\
   子彈可以穿過地圖:改成不能穿\
   穿牆穿出地圖
 
-# version history:\
+# version history
   v1.0.0 NULL\
   v1.0.1 修正貨物可推至hardWall及穿牆可多次使用的bug
