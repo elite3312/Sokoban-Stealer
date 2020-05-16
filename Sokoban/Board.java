@@ -152,7 +152,7 @@ public class Board extends JPanel {
 
         g.setColor(new Color(250, 240, 170));
         g.fillRect(0, 0, this.getWidth(), this.getHeight());
-        Long temp = new Date().getTime() - portal.getStartTime();
+        
 
         if (collisionIgnore) {
             Long checkCollisonTime = new Date().getTime() - collisionIgnoreTime;
@@ -162,14 +162,9 @@ public class Board extends JPanel {
             }
         }
 
-        String info = "\"portal timer:";
+        String info = "\"portals left:"+portal.getAvailability();
 
-        if (temp > 5000) {
-            portal.setIsActive(0);
-            info += "X";
-        } else {
-            info += temp.intValue() / 1000;
-        }
+       
 
         info += "\"    \"rifle availabilty = " + soko.getRifleAvailable();
         info += "\"    \"ammo = " + soko.getAmmo() + "\"";
@@ -330,12 +325,18 @@ public class Board extends JPanel {
                     break;
                 case KeyEvent.VK_E:// portal
                     if (portal.getIsActive() == 1) {
-
+                    	for (int i = 0; i < baggs.size(); i++) {
+                            Baggage ref = baggs.get(i);
+                            if(ref.x()==portal.x()&&ref.y()==portal.y()) /*check if portal is blocked by bag*/
+                            	return;
+                            
+                        }
                         soko.setX(portal.x());
                         soko.setY(portal.y());
                         portal.setIsActive(0);
                     } else {
-                        portal.setStartTime(new Date().getTime());
+                    	if(portal.getAvailability()==0)return;
+                        portal.setAvailability(portal.getAvailability()-1);
                         portal.setX(soko.x());
                         portal.setY(soko.y());
                         portal.setIsActive(1);
@@ -366,7 +367,7 @@ public class Board extends JPanel {
                         soko.setAmmo(soko.getAmmo() - 1);
                     }
                     break;
-                case KeyEvent.VK_F:// tj0 fu;6
+                case KeyEvent.VK_F://penetrate
                     if (penetrateNotUsed) {
                         collisionIgnore = true;
                         collisionIgnoreTime = new Date().getTime();
