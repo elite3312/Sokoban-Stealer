@@ -158,13 +158,10 @@ public class Board extends JPanel {
             Long checkCollisonTime = new Date().getTime() - collisionIgnoreTime;
             if (checkCollisonTime > 3000) {
                 collisionIgnore = false;
-                penetrateNotUsed = false;
             }
         }
 
         String info = "\"portals left:"+portal.getAvailability();
-
-       
 
         info += "\"    \"rifle availabilty = " + soko.getRifleAvailable();
         info += "\"    \"ammo = " + soko.getAmmo() + "\"";
@@ -371,6 +368,7 @@ public class Board extends JPanel {
                     if (penetrateNotUsed) {
                         collisionIgnore = true;
                         collisionIgnoreTime = new Date().getTime();
+                        penetrateNotUsed = false;
                     }
                     break;
                 default:
@@ -429,10 +427,8 @@ public class Board extends JPanel {
 
     private boolean checkWallCollision(Actor actor, int type) {
 
-        if (penetrateNotUsed) {
-            if (collisionIgnore) {
-                return false;
-            }
+        if (collisionIgnore) {
+            return false;
         }
 
         switch (type) {
@@ -505,6 +501,9 @@ public class Board extends JPanel {
                             if (checkWallCollision(bag, LEFT_COLLISION)) {
                                 return true;
                             }
+                            if (checkHardWallCollision(bag, LEFT_COLLISION)) {
+                                return true;
+                            }
                         }
 
                         bag.move(-SPACE, 0);
@@ -534,6 +533,9 @@ public class Board extends JPanel {
                             }
 
                             if (checkWallCollision(bag, RIGHT_COLLISION)) {
+                                return true;
+                            }
+                            if (checkHardWallCollision(bag, RIGHT_COLLISION)) {
                                 return true;
                             }
                         }
@@ -566,6 +568,9 @@ public class Board extends JPanel {
                             if (checkWallCollision(bag, TOP_COLLISION)) {
                                 return true;
                             }
+                            if (checkHardWallCollision(bag, TOP_COLLISION)) {
+                                return true;
+                            }
                         }
 
                         bag.move(0, -SPACE);
@@ -595,7 +600,9 @@ public class Board extends JPanel {
                             }
 
                             if (checkWallCollision(bag, BOTTOM_COLLISION)) {
-
+                                return true;
+                            }
+                            if (checkHardWallCollision(bag, BOTTOM_COLLISION)) {
                                 return true;
                             }
                         }
