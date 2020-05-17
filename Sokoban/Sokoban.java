@@ -34,7 +34,7 @@ public class Sokoban extends JFrame {
 				JFrame.getFrames()[0].repaint();
 			}	
 		};
-		timer.schedule(refresh, 0, 200);
+		timer.schedule(refresh, 0, 1000);
     }
 
     public static void main(String[] args) {

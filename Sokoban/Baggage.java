@@ -24,4 +24,10 @@ public class Baggage extends Actor {
         setX(dx);
         setY(dy);
     }
+    public int getX(){
+        return x();
+    }
+    public int getY(){
+        return y();
+    }
 }

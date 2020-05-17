@@ -49,7 +49,13 @@ public class Police extends Actor{
         
 
     }
-
+    
+    public int getx(){
+        return x();
+    }
+    public int gety(){
+        return y();
+    }
     private void initPolice() {
 
         ImageIcon iicon = new ImageIcon("pic/police.png");

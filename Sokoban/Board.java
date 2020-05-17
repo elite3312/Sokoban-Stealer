@@ -10,7 +10,7 @@ import java.util.Date;
 import java.awt.Font;
 import java.util.Random;
 public class Board extends JPanel {
-
+    private int accu=0;
     private final int OFFSET = 30;
     private final int SPACE = 40;// actor side length
     private final int LEFT_COLLISION = 1;
@@ -37,22 +37,8 @@ public class Board extends JPanel {
      * # : wall (penetrable) H : hard wall (impenetrable) (for the boundary of the
      * map) $ : baggage @ : actor . : goal
      *************************************************************/
-
-    private String level = 
-        "HHHHHHHHHHHHHHHHHHHHH\n" + 
-        "H###################H\n" + 
-        "H#####   ###########H\n" + 
-        "H#####$  ###########H\n" + 
-        "H#####  $###########H\n" + 
-        "H###  $ $ ##########H\n" + 
-        "H### # ## ##########H\n" + 
-        "H#   # ## #####  ..#H\n" + 
-        "H# $  $      ~   ..#H\n" + 
-        "H##### ### #@##  ..#H\n" + 
-        "H#####     #########H\n" + 
-        "H###################H\n" + 
-        "HHHHHHHHHHHHHHHHHHHHH\n" ;
-
+    String level;
+    
     public Board() {
         initBoard();
     }
@@ -85,7 +71,9 @@ public class Board extends JPanel {
         Baggage b;
         Area a;
         HardWall hardWall;
-
+        Map maptest;
+        maptest=new Map();
+        level=maptest.getMap();
         portal = new Portal(0, 0);
 
         penetrateNotUsed = true;//penetrate init
@@ -108,7 +96,7 @@ public class Board extends JPanel {
                     break;
                 case '~':
                     c=new Police(x,y);
-                    //System.out.printf("x=%d,y=%d",x,y);
+                    System.out.printf("x=%d,y=%d",x,y);
                     x+= SPACE;;
                     break;
                 case '#':
@@ -191,7 +179,8 @@ public class Board extends JPanel {
         for (int i = 0; i < world.size(); i++) {
 
             Actor item = world.get(i);
-            if(item instanceof Police&&forbottom==0){
+            
+            if(item instanceof Police&&(forbottom==0)){
                 Police cop=(Police) item;
                 int toward;
                 while(true){
@@ -209,9 +198,11 @@ public class Board extends JPanel {
                     
                     else break;
                 }
+
                 cop.setsituation_change(toward);
                 g.drawImage(item.getImage(), item.x()+2, item.y()+2, this);
             }
+            
             if(forbottom==1)forbottom=0;//prevent repeatly execute when bottom click
             if (item instanceof Player) {
 
@@ -530,8 +521,10 @@ public class Board extends JPanel {
                                 return true;
                             }
                         }
-
-                        bag.move(-SPACE, 0);
+                        if(!(bag.getX()-SPACE==c.x()&&bag.getY()==c.y())){
+                            bag.move(-SPACE, 0);System.out.print("fault");
+                        }
+                        else return true;
                         isCompleted();
                     }
                 }
@@ -564,8 +557,11 @@ public class Board extends JPanel {
                                 return true;
                             }
                         }
-
-                        bag.move(SPACE, 0);
+                        if(!(bag.getX()+SPACE==c.getx()&&bag.getY()==c.gety())){
+                            bag.move(SPACE, 0);System.out.printf("falut");
+                        }
+                        else return true;
+                        
                         isCompleted();
                     }
                 }
@@ -597,8 +593,11 @@ public class Board extends JPanel {
                                 return true;
                             }
                         }
-
-                        bag.move(0, -SPACE);
+                        if(!(bag.getX()==c.x()&&bag.getY()-SPACE==c.y())){
+                            bag.move(0, -SPACE);System.out.printf("falut");
+                        }
+                        else return true;
+                        
                         isCompleted();
                     }
                 }
@@ -631,8 +630,11 @@ public class Board extends JPanel {
                                 return true;
                             }
                         }
-
-                        bag.move(0, SPACE);
+                        if(!(bag.getX()==c.x()&&bag.getY()+SPACE==c.y())){
+                            bag.move(0, SPACE);System.out.printf("falut");
+                        }
+                            
+                        else return true;
                         isCompleted();
                     }
                 }
