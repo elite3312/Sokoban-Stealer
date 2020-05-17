@@ -1,4 +1,4 @@
-# Sokoban 1.0.1
+﻿# Sokoban 1.0.1
 
 # Bugs:
   none
@@ -23,3 +23,7 @@
 # Version History
 v1.0.0 - NULL\
 v1.0.1 - 修正貨物可推至hardWall及穿牆可多次使用的bug
+v1.0.2 - 警衛版一更改 增加警衛class 在board裡增加checkBagCollisionforPolice method 
+
+#程式內變數解釋
+ forbottom:為了防止當sokoban 裡的timer refresh repaint 時和點按鍵時的repaint 重複

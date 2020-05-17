@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import javax.swing.JPanel;
 import java.util.Date;
 import java.awt.Font;
-
+import java.util.Random;
 public class Board extends JPanel {
 
     private final int OFFSET = 30;
@@ -17,12 +17,12 @@ public class Board extends JPanel {
     private final int RIGHT_COLLISION = 2;
     private final int TOP_COLLISION = 3;
     private final int BOTTOM_COLLISION = 4;
-
+    private int forbottom=0;
     private ArrayList<Wall> walls;
     private ArrayList<Baggage> baggs;
     private ArrayList<Area> areas;
     private ArrayList<HardWall> hardWalls;
-
+    private Police c;
     private Player soko;
     private Portal portal;
     private int w = 0;// board width
@@ -32,7 +32,7 @@ public class Board extends JPanel {
     private boolean isCompleted = false;
     private boolean collisionIgnore = false;//penetrate skill
     private boolean penetrateNotUsed = true;//penetrate skill
-
+    Random ran=new Random();
     /************************************************************
      * # : wall (penetrable) H : hard wall (impenetrable) (for the boundary of the
      * map) $ : baggage @ : actor . : goal
@@ -47,7 +47,7 @@ public class Board extends JPanel {
         "H###  $ $ ##########H\n" + 
         "H### # ## ##########H\n" + 
         "H#   # ## #####  ..#H\n" + 
-        "H# $  $          ..#H\n" + 
+        "H# $  $      ~   ..#H\n" + 
         "H##### ### #@##  ..#H\n" + 
         "H#####     #########H\n" + 
         "H###################H\n" + 
@@ -106,7 +106,11 @@ public class Board extends JPanel {
 
                     x = OFFSET;
                     break;
-
+                case '~':
+                    c=new Police(x,y);
+                    //System.out.printf("x=%d,y=%d",x,y);
+                    x+= SPACE;;
+                    break;
                 case '#':
                     wall = new Wall(x, y);  // create wall at (x,y)
                     walls.add(wall);
@@ -170,7 +174,7 @@ public class Board extends JPanel {
         g.drawString(info, 25, 20);
 
         ArrayList<Actor> world = new ArrayList<>();
-
+        world.add(c);
         world.addAll(areas);
         if (soko.getBullet() != null)
             world.add(soko.getBullet());
@@ -187,7 +191,28 @@ public class Board extends JPanel {
         for (int i = 0; i < world.size(); i++) {
 
             Actor item = world.get(i);
-
+            if(item instanceof Police&&forbottom==0){
+                Police cop=(Police) item;
+                int toward;
+                while(true){
+                    toward=(ran.nextInt(40)%4)+1;
+                    System.out.print(toward);
+                    if (checkHardWallCollision(cop, toward)) {
+                        continue;
+                    }
+                    else if (checkWallCollision(cop, toward)) {
+                        continue;
+                    }
+                    else if (checkBagCollisionforPolice(cop,toward)) {
+                        continue;
+                    }
+                    
+                    else break;
+                }
+                cop.setsituation_change(toward);
+                g.drawImage(item.getImage(), item.x()+2, item.y()+2, this);
+            }
+            if(forbottom==1)forbottom=0;//prevent repeatly execute when bottom click
             if (item instanceof Player) {
 
                 g.drawImage(item.getImage(), item.x() + 2, item.y() + 2, this);
@@ -374,7 +399,7 @@ public class Board extends JPanel {
                 default:
                     break;
             }
-
+            forbottom=1;
             repaint();
         }
     }
@@ -620,7 +645,51 @@ public class Board extends JPanel {
 
         return false;
     }
+    private boolean checkBagCollisionforPolice(Actor actor, int type) {
 
+        switch (type) {
+
+            case LEFT_COLLISION:
+                for (int i = 0; i < baggs.size(); i++) {
+                    Baggage bag = baggs.get(i);
+                    if (actor.isLeftCollision(bag)) {
+                        return true;
+                    }
+                }
+                return false;
+
+            case RIGHT_COLLISION:
+                for (int i = 0; i < baggs.size(); i++) {
+                    Baggage bag = baggs.get(i);
+                    if (actor.isRightCollision(bag)) {
+                        return true;
+                    }
+                }
+                return false;
+
+            case TOP_COLLISION:
+                for (int i = 0; i < baggs.size(); i++) {
+                    Baggage bag = baggs.get(i);
+                    if (actor.isTopCollision(bag)) {
+                        return true;
+                    }
+                }
+                return false;
+
+            case BOTTOM_COLLISION:
+                for (int i = 0; i < baggs.size(); i++) {
+                    Baggage bag = baggs.get(i);
+                    if (actor.isBottomCollision(bag)) {
+                        return true;
+                    }
+                }
+                return false;
+
+            default:
+                break;
+        }
+        return false;
+    }
     public void isCompleted() {
         int nOfBags = baggs.size();
         int finishedBags = 0;
