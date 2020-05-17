@@ -7,31 +7,32 @@ import java.util.ArrayList;
 import javax.swing.ImageIcon;
 
 public class Player extends Actor {
-	
-	private Bullet bullet=null;
-	private int ammo=5;
-	private int rifleAvailable=1;
-    public Player(int x, int y) {
-        super(x, y);
 
-        initPlayer();
-    }
+	private Bullet bullet = null;
+	private int ammo = 5;
+	private int rifleAvailable = 1;
 
-    private void initPlayer() {
+	public Player(int x, int y) {
+		super(x, y);
 
-        ImageIcon iicon = new ImageIcon("pic/sokoban.png");
-        Image image = iicon.getImage();
-        setImage(image);
-    }
+		initPlayer();
+	}
 
-    public void move(int x, int y) {
+	private void initPlayer() {
 
-        int dx = x() + x;
-        int dy = y() + y;
-        
-        setX(dx);
-        setY(dy);
-    }
+		ImageIcon iicon = new ImageIcon("pic/sokoban.png");
+		Image image = iicon.getImage();
+		setImage(image);
+	}
+
+	public void move(int x, int y) {
+
+		int dx = x() + x;
+		int dy = y() + y;
+
+		setX(dx);
+		setY(dy);
+	}
 
 	public int getRifleAvailable() {
 		return rifleAvailable;

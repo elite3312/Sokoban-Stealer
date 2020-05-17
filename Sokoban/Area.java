@@ -7,10 +7,10 @@ public class Area extends Actor {
 
     public Area(int x, int y) {
         super(x, y);
-        
+
         initArea();
     }
-    
+
     private void initArea() {
 
         ImageIcon iicon = new ImageIcon("pic/area.png");
