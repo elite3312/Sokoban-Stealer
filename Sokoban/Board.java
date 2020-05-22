@@ -18,7 +18,7 @@ public class Board extends JPanel {
     private final int RIGHT_COLLISION = 2;
     private final int TOP_COLLISION = 3;
     private final int BOTTOM_COLLISION = 4;
-    private int forbottom = 0;
+    public static int forbutton = 0;
     private ArrayList<Wall> walls;
     private ArrayList<Baggage> baggs;
     private ArrayList<Area> areas;
@@ -38,12 +38,6 @@ public class Board extends JPanel {
      * # : wall (penetrable) H : hard wall (impenetrable) (for the boundary of the
      * map) $ : baggage @ : actor . : goal
      *************************************************************/
-
-    private String level = "HHHHHHHHHHHHHHHHHHHHH\n" + "H###################H\n" + "H#####   ###########H\n"
-            + "H#####$  ###########H\n" + "H#####  $###########H\n" + "H###  $ $ ##########H\n"
-            + "H### # ## ##########H\n" + "H#   # ## #####  ..#H\n" + "H# $  $      ~   ..#H\n"
-            + "H##### ### #@##  ..#H\n" + "H#####     #########H\n" + "H###################H\n"
-            + "HHHHHHHHHHHHHHHHHHHHH\n";
 
     public Board() {
         initBoard();
@@ -69,7 +63,7 @@ public class Board extends JPanel {
         baggs = new ArrayList<>();
         areas = new ArrayList<>();
         hardWalls = new ArrayList<>();
-
+        String level;
         int x = OFFSET;
         int y = OFFSET;
 
@@ -77,7 +71,9 @@ public class Board extends JPanel {
         Baggage b;
         Area a;
         HardWall hardWall;
-
+        Map maptest;
+        maptest=new Map();
+        level=(String)(maptest.getMap());
         portal = new Portal(0, 0);
 
         penetrateNotUsed = true;// penetrate init
@@ -183,7 +179,8 @@ public class Board extends JPanel {
         for (int i = 0; i < world.size(); i++) {
 
             Actor item = world.get(i);
-            if (item instanceof Police && forbottom == 0) {
+            if (item instanceof Police && forbutton == 0) {
+                System.out.printf("fkeytrigger=%d\n",forbutton);
                 Police cop = (Police) item;
                 int toward;
                 while (true) {
@@ -203,8 +200,7 @@ public class Board extends JPanel {
                 cop.setsituation_change(toward);
                 g.drawImage(item.getImage(), item.x() + 2, item.y() + 2, this);
             }
-            if (forbottom == 1)
-                forbottom = 0;// prevent repeatly execute when bottom click
+            
             if (item instanceof Player) {
 
                 g.drawImage(item.getImage(), item.x() + 2, item.y() + 2, this);
@@ -242,6 +238,8 @@ public class Board extends JPanel {
             }
 
         }
+        if (forbutton == 1)
+                forbutton = 0;// prevent repeatly execute when bottom click
     }
 
     @Override
@@ -378,8 +376,9 @@ public class Board extends JPanel {
                 default:
                     break;
             }
-            forbottom = 1;
+            forbutton = 1;System.out.printf("skeytrigger=%d",forbutton);
             repaint();
+            
         }
     }
 
@@ -501,7 +500,10 @@ public class Board extends JPanel {
                                 return true;
                             }
                         }
-                        bag.move(-SPACE, 0);
+                        if(!(bag.getX()-SPACE==c.x()&&bag.getY()==c.y())){
+                            bag.move(-SPACE, 0);System.out.print("fault");
+                        }
+                        else return true;
                         isCompleted();
                     }
                 }
@@ -526,8 +528,11 @@ public class Board extends JPanel {
                                 return true;
                             }
                         }
-
-                        bag.move(SPACE, 0);
+                        if(!(bag.getX()+SPACE==c.getx()&&bag.getY()==c.gety())){
+                            bag.move(SPACE, 0);System.out.printf("falut");
+                        }
+                        else return true;
+                        
                         isCompleted();
                     }
                 }
@@ -552,8 +557,11 @@ public class Board extends JPanel {
                                 return true;
                             }
                         }
-
-                        bag.move(0, -SPACE);
+                        if(!(bag.getX()==c.x()&&bag.getY()-SPACE==c.y())){
+                            bag.move(0, -SPACE);System.out.printf("falut");
+                        }
+                        else return true;
+                        
                         isCompleted();
                     }
                 }
@@ -579,8 +587,12 @@ public class Board extends JPanel {
                                 return true;
                             }
                         }
-
-                        bag.move(0, SPACE);
+                        if(!(bag.getX()==c.x()&&bag.getY()+SPACE==c.y())){
+                            bag.move(0, SPACE);System.out.printf("falut");
+                        }
+                            
+                        else return true;
+                        
                         isCompleted();
                     }
                 }
@@ -659,6 +671,7 @@ public class Board extends JPanel {
             soko.setRifleAvailable(1);
         } else if (finishedBags == nOfBags) {
             isCompleted = true;
+            System.out.printf("aboutbagger fauult\n");
             repaint();
         }
     }
