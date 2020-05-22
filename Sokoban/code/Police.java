@@ -49,12 +49,20 @@ public class Police extends Actor {
         setY(dy);
 
     }
-    public int getx(){
+
+    @Override
+    public String getActorName(){
+        return "police";
+    }
+
+    public int getx() {
         return x();
     }
-    public int gety(){
+
+    public int gety() {
         return y();
     }
+
     private void initPolice() {
 
         File f = new File("");

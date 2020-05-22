@@ -20,6 +20,11 @@ public class Bullet extends Actor {
 		initBullet();
 	}
 
+	@Override
+    public String getActorName(){
+        return "Bullet";
+    }
+
 	private void initBullet() {
 
 		File f = new File("");

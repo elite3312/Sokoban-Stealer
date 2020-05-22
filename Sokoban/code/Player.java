@@ -29,6 +29,11 @@ public class Player extends Actor {
 		setImage(image);
 	}
 
+	@Override
+	public String getActorName(){
+		return "player";
+	}
+
 	public void move(int x, int y) {
 
 		int dx = x() + x;

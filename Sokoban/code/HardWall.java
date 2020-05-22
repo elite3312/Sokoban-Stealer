@@ -14,6 +14,11 @@ public class HardWall extends Actor {
         initHardWall();
     }
 
+    @Override
+    public String getActorName(){
+        return "hardWall";
+    }
+
     private void initHardWall() {
 
         File f = new File("");

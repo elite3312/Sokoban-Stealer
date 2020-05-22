@@ -12,6 +12,11 @@ public class Area extends Actor {
         initArea();
     }
 
+    @Override
+    public String getActorName(){
+        return "area";
+    }
+
     private void initArea() {
 
         File f = new File("");

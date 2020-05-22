@@ -2,6 +2,16 @@ package coding.code;
 
 import java.util.Random;
 public class Map {
+
+    /************************************************************
+     # : wall (penetrable) 
+     H : hard wall (impenetrable) (for the boundary of themap)
+     $ : baggage
+     @ : player
+     . : goal
+     ~ : police
+     *************************************************************/
+
     public String level_1 = 
         "HHHHHHHHHHHHHHHHHHHHH\n" + 
         "H###################H\n" + 
@@ -31,6 +41,7 @@ public class Map {
     + "HHHH##                    ########HHH\n"
     + "HHHH########################HHHHHHHHH\n"
     + "HHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHH";
+
     public String level_3 =
       "HHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHH\n"
     + "HHHH###############################H\n"
@@ -47,6 +58,7 @@ public class Map {
     + "HH#####       #####    ##      ###HH\n"
     + "HHHH###############################H\n"
     + "HHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHH";
+
     Random ran =new Random();
     public String getMap(){
         int temp=ran.nextInt(10)%3;

@@ -12,6 +12,11 @@ public class Baggage extends Actor {
         initBaggage();
     }
 
+    @Override
+    public String getActorName(){
+        return "Baggage";
+    }
+
     private void initBaggage() {
  
         File f = new File("");

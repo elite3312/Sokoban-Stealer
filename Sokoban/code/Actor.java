@@ -39,6 +39,10 @@ public class Actor {
         this.y = y;
     }
 
+    public String getActorName(){ // for the use of determine the actor's type
+        return "none";
+    }
+
     public boolean isLeftCollision(Actor actor) {
         return (x() - SPACE == actor.x() && y() == actor.y()) || (x() == actor.x() && y() == actor.y());
     }////////// move side is the wall//////////////////////////////in the wall then

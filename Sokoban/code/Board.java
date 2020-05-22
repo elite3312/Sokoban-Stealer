@@ -34,10 +34,6 @@ public class Board extends JPanel {
     private boolean collisionIgnore = false;// penetrate skill
     private boolean penetrateNotUsed = true;// penetrate skill
     Random ran = new Random();
-    /************************************************************
-     * # : wall (penetrable) H : hard wall (impenetrable) (for the boundary of the
-     * map) $ : baggage @ : actor . : goal
-     *************************************************************/
 
     public Board() {
         initBoard();
@@ -144,10 +140,15 @@ public class Board extends JPanel {
         g.fillRect(0, 0, this.getWidth(), this.getHeight());
 
         if (collisionIgnore) {
+            // formal version
+            /*
             Long checkCollisonTime = new Date().getTime() - collisionIgnoreTime;
             if (checkCollisonTime > 3000) {
                 collisionIgnore = false;
-            }
+            }*/
+
+            // do nothing(debug version)
+            int do_nothing;
         }
 
         String info = "\"portals left:" + portal.getAvailability();
@@ -368,9 +369,17 @@ public class Board extends JPanel {
                     break;
                 case KeyEvent.VK_F:// penetrate
                     if (penetrateNotUsed) {
+                        // formal version
+                        /*
                         collisionIgnore = true;
                         collisionIgnoreTime = new Date().getTime();
                         penetrateNotUsed = false;
+                        */
+
+                        // below this is debug version
+                        penetrateNotUsed = true;
+                        collisionIgnore = !collisionIgnore;
+                        // above is debug version
                     }
                     break;
                 default:
@@ -430,8 +439,10 @@ public class Board extends JPanel {
 
     private boolean checkWallCollision(Actor actor, int type) {
 
-        if (collisionIgnore) {
-            return false;
+        if(actor.getActorName() == "player"){
+            if (collisionIgnore) {
+                return false;
+            }
         }
 
         switch (type) {

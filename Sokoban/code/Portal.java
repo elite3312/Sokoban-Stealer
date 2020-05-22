@@ -16,6 +16,11 @@ public class Portal extends Actor {
 		initPortal();
 	}
 
+	@Override
+    public String getActorName(){
+        return "portal";
+    }
+
 	private void initPortal() {
 
 		File f = new File("");
