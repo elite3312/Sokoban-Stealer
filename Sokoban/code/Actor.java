@@ -39,7 +39,7 @@ public class Actor {
         this.y = y;
     }
 
-    public String getActorName(){ // for the use of determine the actor's type
+    public String getActorName(){ // for the use of determine the actor's type, the child Class should override this func
         return "none";
     }
 

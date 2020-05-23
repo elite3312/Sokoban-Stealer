@@ -118,7 +118,7 @@ public class Board extends JPanel {
                     break;
 
                 case '@':
-                    soko = new Player(x, y);
+                    soko = new Player(x, y);// player
                     x += SPACE;
                     break;
 
@@ -205,15 +205,21 @@ public class Board extends JPanel {
             if (item instanceof Player) {
 
                 g.drawImage(item.getImage(), item.x() + 2, item.y() + 2, this);
+
             } else if (item instanceof Baggage) {
+
                 g.drawImage(item.getImage(), item.x(), item.y(), this);
                 if (item.x() == tempBulletX && item.y() == tempBulletY)// bullet collides with wall
                     soko.setBullet(null);
+
             } else if (item instanceof Portal) {
+
                 Portal portalRef = (Portal) item;
                 if (portalRef.getIsActive() == 1)
                     g.drawImage(item.getImage(), item.x() + 2, item.y() + 2, this);
+
             } else if (item instanceof Bullet) {
+
                 Bullet bulletRef = (Bullet) item;
                 if (bulletRef != null && bulletRef.getMaxRange() > 0) {
                     bulletRef.updateXY();
@@ -224,12 +230,14 @@ public class Board extends JPanel {
                     soko.setBullet(null);
 
             }
-
             else if (item instanceof Wall)/* wall */ {
+
                 g.drawImage(item.getImage(), item.x(), item.y(), this);
                 if (item.x() == tempBulletX && item.y() == tempBulletY)// bullet collides with wall
                     soko.setBullet(null);
+
             } else {/* area */
+                
                 g.drawImage(item.getImage(), item.x(), item.y(), this);
             }
 
