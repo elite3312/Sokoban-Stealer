@@ -8,6 +8,11 @@ public class Wall extends Actor {
 
     private Image image;
 
+    @Override
+    public String getActorName(){
+        return "wall";
+    }
+
     public Wall(int x, int y) {
         super(x, y);
 
