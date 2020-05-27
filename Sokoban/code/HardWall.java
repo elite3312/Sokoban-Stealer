@@ -23,8 +23,10 @@ public class HardWall extends Actor {
 
         File f = new File("");
         String path = f.getAbsolutePath();
-        path = path.replaceAll("code", "pic/hardWall.png");
-
+        
+        if(!path.contains("code"))path="pic/hardWall.png";
+        else path = path.replaceAll("code", "pic/hardWall.png");
+        
         ImageIcon iicon = new ImageIcon(path);
         image = iicon.getImage();
         setImage(image);

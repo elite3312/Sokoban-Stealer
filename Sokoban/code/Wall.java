@@ -23,8 +23,11 @@ public class Wall extends Actor {
 
         File f = new File("");
         String path = f.getAbsolutePath();
-        path = path.replaceAll("code", "pic/wall.png");
-        
+     
+        if (!path.contains("code"))
+			path = "pic/wall.png";
+		else
+			path = path.replaceAll("code", "pic/wall.png");
         ImageIcon iicon = new ImageIcon(path);
         image = iicon.getImage();
         setImage(image);

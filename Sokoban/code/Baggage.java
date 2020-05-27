@@ -21,8 +21,9 @@ public class Baggage extends Actor {
  
         File f = new File("");
         String path = f.getAbsolutePath();
-        path = path.replaceAll("code", "pic/baggage.png");
-
+        
+        if(!path.contains("code"))path="pic/baggage.png";
+        else path = path.replaceAll("code", "pic/baggage.png");
         ImageIcon iicon = new ImageIcon(path);
         Image image = iicon.getImage();
         setImage(image);

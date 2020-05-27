@@ -17,16 +17,19 @@ public class Portal extends Actor {
 	}
 
 	@Override
-    public String getActorName(){
-        return "portal";
-    }
+	public String getActorName() {
+		return "portal";
+	}
 
 	private void initPortal() {
 
 		File f = new File("");
-        String path = f.getAbsolutePath();
-		path = path.replaceAll("code", "pic/portal.png");
-		
+		String path = f.getAbsolutePath();
+
+		if (!path.contains("code"))
+			path = "pic/portal.png";
+		else
+			path = path.replaceAll("code", "pic/portal.png");
 		isActive = 0;
 		ImageIcon iicon = new ImageIcon(path);
 		Image image = iicon.getImage();
