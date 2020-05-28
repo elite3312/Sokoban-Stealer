@@ -1,4 +1,4 @@
-﻿# Sokoban 1.2.1
+﻿# Sokoban 1.2.2
 
 # Bugs:
   把警衛逼近死角遊戲會crash\
@@ -32,7 +32,7 @@ v1.1.0 - 警衛版一更改 增加警衛class 在board裡增加checkBagCollision
 v1.1.1 - 圖片更改；圖片封裝優先度更改，警衛的圖片會顯示在較上層\
 v1.2.0 - 新增地圖，更改路徑。\
 v1.2.1 - 將警衛改為不可穿牆。為debug將穿牆功能暫時改為按一次即可永久穿牆，再按一次恢復，交替運作\
-v1.2.1 - 配合eclipse修改圖片載入路徑
+v1.2.2 - 配合eclipse修改圖片載入路徑
 
 # 程式內變數解釋
  forbottom:為了防止當sokoban 裡的timer refresh repaint 時和點按鍵時的repaint 重複
