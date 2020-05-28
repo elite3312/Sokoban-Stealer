@@ -1,5 +1,5 @@
 cd Sokoban
 cd code
 javac -d . *.java
-java coding.code.Sokoban
+java java2020.finalProject.Sokoban
 pause

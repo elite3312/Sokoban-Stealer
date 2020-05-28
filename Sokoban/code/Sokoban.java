@@ -1,4 +1,4 @@
-package coding.code;
+package java2020.finalProject;
 
 import java.awt.EventQueue;
 import javax.swing.JFrame;

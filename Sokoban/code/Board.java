@@ -1,4 +1,4 @@
-package coding.code;
+package java2020.finalProject;
 
 import java.awt.Color;
 import java.awt.Graphics;
@@ -18,6 +18,12 @@ public class Board extends JPanel {
     private final int RIGHT_COLLISION = 2;
     private final int TOP_COLLISION = 3;
     private final int BOTTOM_COLLISION = 4;
+
+    private final int faceUp = 1;
+	private final int faceLeft = 2;
+	private final int faceDown = 3;
+    private final int faceRight = 4;
+    
     public static int forbutton = 0;
     private ArrayList<Wall> walls;
     private ArrayList<Baggage> baggs;
@@ -33,6 +39,7 @@ public class Board extends JPanel {
     private boolean isCompleted = false;
     private boolean collisionIgnore = false;// penetrate skill
     private boolean penetrateNotUsed = true;// penetrate skill
+    
     Random ran = new Random();
 
     public Board() {
@@ -281,6 +288,8 @@ public class Board extends JPanel {
                         return;
                     }
                     soko.move(-SPACE, 0);
+                    soko.setPlayerImage(faceLeft);
+
                     break;
 
                 case KeyEvent.VK_RIGHT:
@@ -294,10 +303,11 @@ public class Board extends JPanel {
                         return;
                     }
                     soko.move(SPACE, 0);
+                    soko.setPlayerImage(faceRight);
+
                     break;
 
                 case KeyEvent.VK_UP:
-
                     if (checkHardWallCollision(soko, TOP_COLLISION)) {
                         return;
                     }
@@ -308,10 +318,11 @@ public class Board extends JPanel {
                         return;
                     }
                     soko.move(0, -SPACE);
+                    soko.setPlayerImage(faceUp);
+
                     break;
 
                 case KeyEvent.VK_DOWN:
-
                     if (checkHardWallCollision(soko, BOTTOM_COLLISION)) {
                         return;
                     }
@@ -321,8 +332,9 @@ public class Board extends JPanel {
                     if (checkBagCollision(BOTTOM_COLLISION)) {
                         return;
                     }
-
                     soko.move(0, SPACE);
+                    soko.setPlayerImage(faceDown);
+
                     break;
 
                 case KeyEvent.VK_R:// restart
@@ -330,7 +342,7 @@ public class Board extends JPanel {
                     restartLevel();
 
                     break;
-                case KeyEvent.VK_E:// portal
+                case KeyEvent.VK_Z:// portal
                     if (portal.getIsActive() == 1) {
                         for (int i = 0; i < baggs.size(); i++) {
                             Baggage ref = baggs.get(i);
@@ -375,7 +387,7 @@ public class Board extends JPanel {
                         soko.setAmmo(soko.getAmmo() - 1);
                     }
                     break;
-                case KeyEvent.VK_F:// penetrate
+                case KeyEvent.VK_X:// penetrate
                     if (penetrateNotUsed) {
                         // formal version
                         /*
