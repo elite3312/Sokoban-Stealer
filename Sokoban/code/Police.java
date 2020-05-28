@@ -28,10 +28,10 @@ public class Police extends Actor {
     public void setsituation_change(int toward) {
 
         if (toward == 1) {
-
             dx = x() - SPACE;
             // left
             dy = y();
+
         } else if (toward == 2) {
             dy = y();
             dx = x() + SPACE;

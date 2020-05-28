@@ -18,12 +18,13 @@ public class Board extends JPanel {
 	private final int RIGHT_COLLISION = 2;
 	private final int TOP_COLLISION = 3;
 	private final int BOTTOM_COLLISION = 4;
-
-	private final int faceUp = 1;
-	private final int faceLeft = 2;
-	private final int faceDown = 3;
-	private final int faceRight = 4;
+	
+	private final int faceLeft = 1;
+	private final int faceRight = 2;
+	private final int faceUp = 3;
+	private final int faceDown = 4;	
 	private int currentlyFacing = 3;
+
 	public static int forbutton = 0;
 	private ArrayList<Wall> walls;
 	private ArrayList<Baggage> baggs;
@@ -87,54 +88,54 @@ public class Board extends JPanel {
 			char item = level.charAt(i);
 
 			switch (item) {
-			case '\n':
-				y += SPACE;
-				if (this.w < x) {
-					this.w = x;
-				}
-				x = OFFSET;
-				break;
-			case '~':
-				c = new Police(x, y);
-				// System.out.printf("x=%d,y=%d",x,y);
-				x += SPACE;
-				;
-				break;
-			case '#':
-				wall = new Wall(x, y); // create wall at (x,y)
-				walls.add(wall);
-				x += SPACE;
-				break;
+				case '\n':
+					y += SPACE;
+					if (this.w < x) {
+						this.w = x;
+					}
+					x = OFFSET;
+					break;
+				case '~':
+					c = new Police(x, y);
+					// System.out.printf("x=%d,y=%d",x,y);
+					x += SPACE;
+					;
+					break;
+				case '#':
+					wall = new Wall(x, y); // create wall at (x,y)
+					walls.add(wall);
+					x += SPACE;
+					break;
 
-			case 'H':
-				hardWall = new HardWall(x, y); // hard wall cannot be penetrated
-				hardWalls.add(hardWall);
-				x += SPACE;
-				break;
+				case 'H':
+					hardWall = new HardWall(x, y); // hard wall cannot be penetrated
+					hardWalls.add(hardWall);
+					x += SPACE;
+					break;
 
-			case '$':
-				b = new Baggage(x, y);
-				baggs.add(b);
-				x += SPACE;
-				break;
+				case '$':
+					b = new Baggage(x, y);
+					baggs.add(b);
+					x += SPACE;
+					break;
 
-			case '.':
-				a = new Area(x, y);// target area
-				areas.add(a);
-				x += SPACE;
-				break;
+				case '.':
+					a = new Area(x, y);// target area
+					areas.add(a);
+					x += SPACE;
+					break;
 
-			case '@':
-				soko = new Player(x, y);// player
-				x += SPACE;
-				break;
+				case '@':
+					soko = new Player(x, y);// player
+					x += SPACE;
+					break;
 
-			case ' ':
-				x += SPACE;
-				break;
+				case ' ':
+					x += SPACE;
+					break;
 
-			default:
-				break;
+				default:
+					break;
 			}
 
 			h = y;
@@ -275,115 +276,115 @@ public class Board extends JPanel {
 			int key = e.getKeyCode();
 
 			switch (key) {
-			case KeyEvent.VK_LEFT:
-				if (checkHardWallCollision(soko, LEFT_COLLISION)) {
-					return;
-				}
-				if (checkWallCollision(soko, LEFT_COLLISION)) {
-					return;
-				}
-				if (checkBagCollision(LEFT_COLLISION)) {
-					return;
-				}
-				soko.move(-SPACE, 0);
-				soko.setPlayerImage(faceLeft);
-				currentlyFacing = LEFT_COLLISION;
-				break;
-
-			case KeyEvent.VK_RIGHT:
-				if (checkHardWallCollision(soko, RIGHT_COLLISION)) {
-					return;
-				}
-				if (checkWallCollision(soko, RIGHT_COLLISION)) {
-					return;
-				}
-				if (checkBagCollision(RIGHT_COLLISION)) {
-					return;
-				}
-				soko.move(SPACE, 0);
-				soko.setPlayerImage(faceRight);
-				currentlyFacing=RIGHT_COLLISION;
-				break;
-
-			case KeyEvent.VK_UP:
-				if (checkHardWallCollision(soko, TOP_COLLISION)) {
-					return;
-				}
-				if (checkWallCollision(soko, TOP_COLLISION)) {
-					return;
-				}
-				if (checkBagCollision(TOP_COLLISION)) {
-					return;
-				}
-				soko.move(0, -SPACE);
-				soko.setPlayerImage(faceUp);
-				currentlyFacing=TOP_COLLISION;
-				break;
-
-			case KeyEvent.VK_DOWN:
-				if (checkHardWallCollision(soko, BOTTOM_COLLISION)) {
-					return;
-				}
-				if (checkWallCollision(soko, BOTTOM_COLLISION)) {
-					return;
-				}
-				if (checkBagCollision(BOTTOM_COLLISION)) {
-					return;
-				}
-				soko.move(0, SPACE);
-				soko.setPlayerImage(faceDown);
-				currentlyFacing=BOTTOM_COLLISION;
-				break;
-
-			case KeyEvent.VK_R:// restart
-
-				restartLevel();
-
-				break;
-			case KeyEvent.VK_Z:// portal
-				if (portal.getIsActive() == 1) {
-					for (int i = 0; i < baggs.size(); i++) {
-						Baggage ref = baggs.get(i);
-						if (ref.x() == portal.x() && ref.y() == portal.y()) /* check if portal is blocked by bag */
-							return;
-
-					}
-					soko.setX(portal.x());
-					soko.setY(portal.y());
-					portal.setIsActive(0);
-				} else {
-					if (portal.getAvailability() == 0)
+				case KeyEvent.VK_LEFT:
+					if (checkHardWallCollision(soko, LEFT_COLLISION)) {
 						return;
-					portal.setAvailability(portal.getAvailability() - 1);
-					portal.setX(soko.x());
-					portal.setY(soko.y());
-					portal.setIsActive(1);
-				}
+					}
+					if (checkWallCollision(soko, LEFT_COLLISION)) {
+						return;
+					}
+					if (checkBagCollision(LEFT_COLLISION)) {
+						return;
+					}
+					soko.move(-SPACE, 0);
+					soko.setPlayerImage(faceLeft);
+					currentlyFacing = faceLeft;
+					break;
 
-				break;
-			case KeyEvent.VK_SPACE:// bullet
-				if (soko.getRifleAvailable() == 1 && soko.getAmmo() > 0) {
-					soko.setBullet(new Bullet(soko.x(), soko.y(), currentlyFacing));
-					soko.setAmmo(soko.getAmmo() - 1);
-				}
-				break;
-			
-			case KeyEvent.VK_X:// penetrate
-				if (penetrateNotUsed) {
-					// formal version
-					/*
-					 * collisionIgnore = true; collisionIgnoreTime = new Date().getTime();
-					 * penetrateNotUsed = false;
-					 */
+				case KeyEvent.VK_RIGHT:
+					if (checkHardWallCollision(soko, RIGHT_COLLISION)) {
+						return;
+					}
+					if (checkWallCollision(soko, RIGHT_COLLISION)) {
+						return;
+					}
+					if (checkBagCollision(RIGHT_COLLISION)) {
+						return;
+					}
+					soko.move(SPACE, 0);
+					soko.setPlayerImage(faceRight);
+					currentlyFacing = faceRight;
+					break;
 
-					// below this is debug version
-					penetrateNotUsed = true;
-					collisionIgnore = !collisionIgnore;
-					// above is debug version
-				}
-				break;
-			default:
-				break;
+				case KeyEvent.VK_UP:
+					if (checkHardWallCollision(soko, TOP_COLLISION)) {
+						return;
+					}
+					if (checkWallCollision(soko, TOP_COLLISION)) {
+						return;
+					}
+					if (checkBagCollision(TOP_COLLISION)) {
+						return;
+					}
+					soko.move(0, -SPACE);
+					soko.setPlayerImage(faceUp);
+					currentlyFacing = faceUp;
+					break;
+
+				case KeyEvent.VK_DOWN:
+					if (checkHardWallCollision(soko, BOTTOM_COLLISION)) {
+						return;
+					}
+					if (checkWallCollision(soko, BOTTOM_COLLISION)) {
+						return;
+					}
+					if (checkBagCollision(BOTTOM_COLLISION)) {
+						return;
+					}
+					soko.move(0, SPACE);
+					soko.setPlayerImage(faceDown);
+					currentlyFacing = faceDown;
+					break;
+
+				case KeyEvent.VK_R:// restart
+
+					restartLevel();
+
+					break;
+				case KeyEvent.VK_Z:// portal
+					if (portal.getIsActive() == 1) {
+						for (int i = 0; i < baggs.size(); i++) {
+							Baggage ref = baggs.get(i);
+							if (ref.x() == portal.x() && ref.y() == portal.y()) /* check if portal is blocked by bag */
+								return;
+
+						}
+						soko.setX(portal.x());
+						soko.setY(portal.y());
+						portal.setIsActive(0);
+					} else {
+						if (portal.getAvailability() == 0)
+							return;
+						portal.setAvailability(portal.getAvailability() - 1);
+						portal.setX(soko.x());
+						portal.setY(soko.y());
+						portal.setIsActive(1);
+					}
+
+					break;
+				case KeyEvent.VK_SPACE:// bullet
+					if (soko.getRifleAvailable() == 1 && soko.getAmmo() > 0) {
+						soko.setBullet(new Bullet(soko.x(), soko.y(), currentlyFacing));
+						soko.setAmmo(soko.getAmmo() - 1);
+					}
+					break;
+
+				case KeyEvent.VK_X:// penetrate
+					if (penetrateNotUsed) {
+						// formal version
+						/*
+						 * collisionIgnore = true; collisionIgnoreTime = new Date().getTime();
+						 * penetrateNotUsed = false;
+						 */
+
+						// below this is debug version
+						penetrateNotUsed = true;
+						collisionIgnore = !collisionIgnore;
+						// above is debug version
+					}
+					break;
+				default:
+					break;
 			}
 			forbutton = 1;
 			System.out.printf("skeytrigger=%d", forbutton);
@@ -396,44 +397,44 @@ public class Board extends JPanel {
 
 		switch (type) {
 
-		case LEFT_COLLISION:
-			for (int i = 0; i < hardWalls.size(); i++) {
-				HardWall hardWall = hardWalls.get(i);
-				if (actor.isLeftCollision(hardWall)) {
-					return true;
+			case LEFT_COLLISION:
+				for (int i = 0; i < hardWalls.size(); i++) {
+					HardWall hardWall = hardWalls.get(i);
+					if (actor.isLeftCollision(hardWall)) {
+						return true;
+					}
 				}
-			}
-			return false;
+				return false;
 
-		case RIGHT_COLLISION:
-			for (int i = 0; i < hardWalls.size(); i++) {
-				HardWall hardWall = hardWalls.get(i);
-				if (actor.isRightCollision(hardWall)) {
-					return true;
+			case RIGHT_COLLISION:
+				for (int i = 0; i < hardWalls.size(); i++) {
+					HardWall hardWall = hardWalls.get(i);
+					if (actor.isRightCollision(hardWall)) {
+						return true;
+					}
 				}
-			}
-			return false;
+				return false;
 
-		case TOP_COLLISION:
-			for (int i = 0; i < hardWalls.size(); i++) {
-				HardWall hardWall = hardWalls.get(i);
-				if (actor.isTopCollision(hardWall)) {
-					return true;
+			case TOP_COLLISION:
+				for (int i = 0; i < hardWalls.size(); i++) {
+					HardWall hardWall = hardWalls.get(i);
+					if (actor.isTopCollision(hardWall)) {
+						return true;
+					}
 				}
-			}
-			return false;
+				return false;
 
-		case BOTTOM_COLLISION:
-			for (int i = 0; i < hardWalls.size(); i++) {
-				HardWall hardWall = hardWalls.get(i);
-				if (actor.isBottomCollision(hardWall)) {
-					return true;
+			case BOTTOM_COLLISION:
+				for (int i = 0; i < hardWalls.size(); i++) {
+					HardWall hardWall = hardWalls.get(i);
+					if (actor.isBottomCollision(hardWall)) {
+						return true;
+					}
 				}
-			}
-			return false;
+				return false;
 
-		default:
-			break;
+			default:
+				break;
 		}
 		return false;
 	}
@@ -448,44 +449,44 @@ public class Board extends JPanel {
 
 		switch (type) {
 
-		case LEFT_COLLISION:
-			for (int i = 0; i < walls.size(); i++) {
-				Wall wall = walls.get(i);
-				if (actor.isLeftCollision(wall)) {
-					return true;
+			case LEFT_COLLISION:
+				for (int i = 0; i < walls.size(); i++) {
+					Wall wall = walls.get(i);
+					if (actor.isLeftCollision(wall)) {
+						return true;
+					}
 				}
-			}
-			return false;
+				return false;
 
-		case RIGHT_COLLISION:
-			for (int i = 0; i < walls.size(); i++) {
-				Wall wall = walls.get(i);
-				if (actor.isRightCollision(wall)) {
-					return true;
+			case RIGHT_COLLISION:
+				for (int i = 0; i < walls.size(); i++) {
+					Wall wall = walls.get(i);
+					if (actor.isRightCollision(wall)) {
+						return true;
+					}
 				}
-			}
-			return false;
+				return false;
 
-		case TOP_COLLISION:
-			for (int i = 0; i < walls.size(); i++) {
-				Wall wall = walls.get(i);
-				if (actor.isTopCollision(wall)) {
-					return true;
+			case TOP_COLLISION:
+				for (int i = 0; i < walls.size(); i++) {
+					Wall wall = walls.get(i);
+					if (actor.isTopCollision(wall)) {
+						return true;
+					}
 				}
-			}
-			return false;
+				return false;
 
-		case BOTTOM_COLLISION:
-			for (int i = 0; i < walls.size(); i++) {
-				Wall wall = walls.get(i);
-				if (actor.isBottomCollision(wall)) {
-					return true;
+			case BOTTOM_COLLISION:
+				for (int i = 0; i < walls.size(); i++) {
+					Wall wall = walls.get(i);
+					if (actor.isBottomCollision(wall)) {
+						return true;
+					}
 				}
-			}
-			return false;
+				return false;
 
-		default:
-			break;
+			default:
+				break;
 		}
 		return false;
 	}
@@ -494,130 +495,130 @@ public class Board extends JPanel {
 
 		switch (type) {
 
-		case LEFT_COLLISION:
-			for (int i = 0; i < baggs.size(); i++) {
-				Baggage bag = baggs.get(i);
-				if (soko.isLeftCollision(bag)) {
-					for (int j = 0; j < baggs.size(); j++) {
-						Baggage item = baggs.get(j);
-						if (!bag.equals(item)) {
-							if (bag.isLeftCollision(item)) {
+			case LEFT_COLLISION:
+				for (int i = 0; i < baggs.size(); i++) {
+					Baggage bag = baggs.get(i);
+					if (soko.isLeftCollision(bag)) {
+						for (int j = 0; j < baggs.size(); j++) {
+							Baggage item = baggs.get(j);
+							if (!bag.equals(item)) {
+								if (bag.isLeftCollision(item)) {
+									return true;
+								}
+							}
+							if (checkWallCollision(bag, LEFT_COLLISION)) {
+								return true;
+							}
+							if (checkHardWallCollision(bag, LEFT_COLLISION)) {
 								return true;
 							}
 						}
-						if (checkWallCollision(bag, LEFT_COLLISION)) {
+						if (!(bag.getX() - SPACE == c.x() && bag.getY() == c.y())) {
+							bag.move(-SPACE, 0);
+							System.out.print("fault");
+						} else
 							return true;
-						}
-						if (checkHardWallCollision(bag, LEFT_COLLISION)) {
-							return true;
-						}
+						isCompleted();
 					}
-					if (!(bag.getX() - SPACE == c.x() && bag.getY() == c.y())) {
-						bag.move(-SPACE, 0);
-						System.out.print("fault");
-					} else
-						return true;
-					isCompleted();
 				}
-			}
 
-			return false;
+				return false;
 
-		case RIGHT_COLLISION:
-			for (int i = 0; i < baggs.size(); i++) {
-				Baggage bag = baggs.get(i);
-				if (soko.isRightCollision(bag)) {
-					for (int j = 0; j < baggs.size(); j++) {
-						Baggage item = baggs.get(j);
-						if (!bag.equals(item)) {
-							if (bag.isRightCollision(item)) {
+			case RIGHT_COLLISION:
+				for (int i = 0; i < baggs.size(); i++) {
+					Baggage bag = baggs.get(i);
+					if (soko.isRightCollision(bag)) {
+						for (int j = 0; j < baggs.size(); j++) {
+							Baggage item = baggs.get(j);
+							if (!bag.equals(item)) {
+								if (bag.isRightCollision(item)) {
+									return true;
+								}
+							}
+							if (checkWallCollision(bag, RIGHT_COLLISION)) {
+								return true;
+							}
+							if (checkHardWallCollision(bag, RIGHT_COLLISION)) {
 								return true;
 							}
 						}
-						if (checkWallCollision(bag, RIGHT_COLLISION)) {
+						if (!(bag.getX() + SPACE == c.getx() && bag.getY() == c.gety())) {
+							bag.move(SPACE, 0);
+							System.out.printf("falut");
+						} else
 							return true;
-						}
-						if (checkHardWallCollision(bag, RIGHT_COLLISION)) {
-							return true;
-						}
+
+						isCompleted();
 					}
-					if (!(bag.getX() + SPACE == c.getx() && bag.getY() == c.gety())) {
-						bag.move(SPACE, 0);
-						System.out.printf("falut");
-					} else
-						return true;
-
-					isCompleted();
 				}
-			}
-			return false;
+				return false;
 
-		case TOP_COLLISION:
-			for (int i = 0; i < baggs.size(); i++) {
-				Baggage bag = baggs.get(i);
-				if (soko.isTopCollision(bag)) {
-					for (int j = 0; j < baggs.size(); j++) {
-						Baggage item = baggs.get(j);
-						if (!bag.equals(item)) {
-							if (bag.isTopCollision(item)) {
+			case TOP_COLLISION:
+				for (int i = 0; i < baggs.size(); i++) {
+					Baggage bag = baggs.get(i);
+					if (soko.isTopCollision(bag)) {
+						for (int j = 0; j < baggs.size(); j++) {
+							Baggage item = baggs.get(j);
+							if (!bag.equals(item)) {
+								if (bag.isTopCollision(item)) {
+									return true;
+								}
+							}
+
+							if (checkWallCollision(bag, TOP_COLLISION)) {
+								return true;
+							}
+							if (checkHardWallCollision(bag, TOP_COLLISION)) {
 								return true;
 							}
 						}
+						if (!(bag.getX() == c.x() && bag.getY() - SPACE == c.y())) {
+							bag.move(0, -SPACE);
+							System.out.printf("falut");
+						} else
+							return true;
 
-						if (checkWallCollision(bag, TOP_COLLISION)) {
-							return true;
-						}
-						if (checkHardWallCollision(bag, TOP_COLLISION)) {
-							return true;
-						}
+						isCompleted();
 					}
-					if (!(bag.getX() == c.x() && bag.getY() - SPACE == c.y())) {
-						bag.move(0, -SPACE);
-						System.out.printf("falut");
-					} else
-						return true;
-
-					isCompleted();
 				}
-			}
 
-			return false;
+				return false;
 
-		case BOTTOM_COLLISION:
-			for (int i = 0; i < baggs.size(); i++) {
-				Baggage bag = baggs.get(i);
-				if (soko.isBottomCollision(bag)) {
-					for (int j = 0; j < baggs.size(); j++) {
-						Baggage item = baggs.get(j);
-						if (!bag.equals(item)) {
-							if (bag.isBottomCollision(item)) {
+			case BOTTOM_COLLISION:
+				for (int i = 0; i < baggs.size(); i++) {
+					Baggage bag = baggs.get(i);
+					if (soko.isBottomCollision(bag)) {
+						for (int j = 0; j < baggs.size(); j++) {
+							Baggage item = baggs.get(j);
+							if (!bag.equals(item)) {
+								if (bag.isBottomCollision(item)) {
+									return true;
+								}
+							}
+
+							if (checkWallCollision(bag, BOTTOM_COLLISION)) {
+								return true;
+							}
+							if (checkHardWallCollision(bag, BOTTOM_COLLISION)) {
 								return true;
 							}
 						}
-
-						if (checkWallCollision(bag, BOTTOM_COLLISION)) {
-							return true;
+						if (!(bag.getX() == c.x() && bag.getY() + SPACE == c.y())) {
+							bag.move(0, SPACE);
+							System.out.printf("falut");
 						}
-						if (checkHardWallCollision(bag, BOTTOM_COLLISION)) {
+
+						else
 							return true;
-						}
-					}
-					if (!(bag.getX() == c.x() && bag.getY() + SPACE == c.y())) {
-						bag.move(0, SPACE);
-						System.out.printf("falut");
-					}
 
-					else
-						return true;
-
-					isCompleted();
+						isCompleted();
+					}
 				}
-			}
 
-			break;
+				break;
 
-		default:
-			break;
+			default:
+				break;
 		}
 
 		return false;
@@ -627,44 +628,44 @@ public class Board extends JPanel {
 
 		switch (type) {
 
-		case LEFT_COLLISION:
-			for (int i = 0; i < baggs.size(); i++) {
-				Baggage bag = baggs.get(i);
-				if (actor.isLeftCollision(bag)) {
-					return true;
+			case LEFT_COLLISION:
+				for (int i = 0; i < baggs.size(); i++) {
+					Baggage bag = baggs.get(i);
+					if (actor.isLeftCollision(bag)) {
+						return true;
+					}
 				}
-			}
-			return false;
+				return false;
 
-		case RIGHT_COLLISION:
-			for (int i = 0; i < baggs.size(); i++) {
-				Baggage bag = baggs.get(i);
-				if (actor.isRightCollision(bag)) {
-					return true;
+			case RIGHT_COLLISION:
+				for (int i = 0; i < baggs.size(); i++) {
+					Baggage bag = baggs.get(i);
+					if (actor.isRightCollision(bag)) {
+						return true;
+					}
 				}
-			}
-			return false;
+				return false;
 
-		case TOP_COLLISION:
-			for (int i = 0; i < baggs.size(); i++) {
-				Baggage bag = baggs.get(i);
-				if (actor.isTopCollision(bag)) {
-					return true;
+			case TOP_COLLISION:
+				for (int i = 0; i < baggs.size(); i++) {
+					Baggage bag = baggs.get(i);
+					if (actor.isTopCollision(bag)) {
+						return true;
+					}
 				}
-			}
-			return false;
+				return false;
 
-		case BOTTOM_COLLISION:
-			for (int i = 0; i < baggs.size(); i++) {
-				Baggage bag = baggs.get(i);
-				if (actor.isBottomCollision(bag)) {
-					return true;
+			case BOTTOM_COLLISION:
+				for (int i = 0; i < baggs.size(); i++) {
+					Baggage bag = baggs.get(i);
+					if (actor.isBottomCollision(bag)) {
+						return true;
+					}
 				}
-			}
-			return false;
+				return false;
 
-		default:
-			break;
+			default:
+				break;
 		}
 		return false;
 	}

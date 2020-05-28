@@ -12,10 +12,10 @@ public class Player extends Actor {
 	private int ammo = 5;
 	private int rifleAvailable = 1;
 
-	private final int faceUp = 1;
-	private final int faceLeft = 2;
-	private final int faceDown = 3;
-	private final int faceRight = 4;
+	private final int faceLeft = 1;
+	private final int faceRight = 2;
+	private final int faceUp = 3;
+	private final int faceDown = 4;
 
 	private ImageIcon upIcon;
 	private ImageIcon leftIcon;
@@ -25,8 +25,6 @@ public class Player extends Actor {
 
 	public Player(int x, int y) {
 		super(x, y);
-
-		System.out.println("come in");
 
 		initPlayer();
 	}
