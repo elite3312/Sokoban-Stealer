@@ -1,5 +1,5 @@
 package java2020.finalProject;
-
+import javax.swing.JOptionPane;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.event.KeyAdapter;
@@ -174,7 +174,7 @@ public class Board extends JPanel {
 		world.addAll(walls);
 		world.addAll(hardWalls);
 		world.addAll(baggs);
-		world.add(c);
+		if(c!=null)world.add(c);
 		world.add(soko);
 		world.add(portal);
 
@@ -183,14 +183,15 @@ public class Board extends JPanel {
 		 * record new bullet x,y. If it collides with a wall, delete bullet, initialized
 		 * to negative numbers to avoid error
 		 */
-
+		
 		for (int i = 0; i < world.size(); i++) {
-
+			
 			Actor item = world.get(i);
-			if (item instanceof Police && forbutton == 0) {
-				System.out.printf("fkeytrigger=%d\n", forbutton);
+			if (item!=null && item instanceof Police && forbutton == 0) {
+				
 				Police cop = (Police) item;
 				int toward;
+				
 				while (true) {
 					toward = (ran.nextInt(40) % 4) + 1;
 					System.out.print(toward);
@@ -200,12 +201,24 @@ public class Board extends JPanel {
 						continue;
 					} else if (checkBagCollisionforPolice(cop, toward)) {
 						continue;
+					}else if(check_copandplayercollision(cop, soko, toward)){
+						youfuckinglose();	
+					}if(cop.x() == tempBulletX && cop.y() == tempBulletY){
+						soko.setBullet(null);
+						world.remove(c);
+						c=null;
+						System.out.printf("cop lead");
+						break;
 					}
-
 					else
 						break;
 				}
+				if(c==null){
+					System.out.print("bullet contact cop!!\n");
+					continue;
+				}
 				cop.setsituation_change(toward);
+				
 				g.drawImage(item.getImage(), item.x() + 2, item.y() + 2, this);
 			}
 
@@ -232,7 +245,14 @@ public class Board extends JPanel {
 					bulletRef.updateXY();
 					tempBulletX = bulletRef.x();
 					tempBulletY = bulletRef.y();
-					g.drawImage(item.getImage(), item.x() + 2 + SPACE / 2, item.y() + 2 + SPACE / 3, this);
+					if(c!=null&&c.x() == tempBulletX && c.y() == tempBulletY){
+						soko.setBullet(null);
+						world.remove(c);
+						c=null;
+						System.out.printf("bullet lead");
+						continue;
+					}
+					else g.drawImage(item.getImage(), item.x() + 2 + SPACE / 2, item.y() + 2 + SPACE / 3, this);
 				} else
 					soko.setBullet(null);
 
@@ -286,6 +306,12 @@ public class Board extends JPanel {
 					if (checkBagCollision(LEFT_COLLISION)) {
 						return;
 					}
+					if(c!=null){
+						if(check_copandplayercollision(soko,c,LEFT_COLLISION)){
+						youfuckinglose();
+						}
+					}
+					
 					soko.move(-SPACE, 0);
 					soko.setPlayerImage(faceLeft);
 					currentlyFacing = faceLeft;
@@ -301,6 +327,12 @@ public class Board extends JPanel {
 					if (checkBagCollision(RIGHT_COLLISION)) {
 						return;
 					}
+					if(c!=null){
+						if(check_copandplayercollision(soko,c,RIGHT_COLLISION)){
+						youfuckinglose();
+					}
+					}
+					
 					soko.move(SPACE, 0);
 					soko.setPlayerImage(faceRight);
 					currentlyFacing = faceRight;
@@ -316,6 +348,12 @@ public class Board extends JPanel {
 					if (checkBagCollision(TOP_COLLISION)) {
 						return;
 					}
+					if(c!=null){
+						if(check_copandplayercollision(soko,c,TOP_COLLISION)){
+						youfuckinglose();
+						}
+					}
+					
 					soko.move(0, -SPACE);
 					soko.setPlayerImage(faceUp);
 					currentlyFacing = faceUp;
@@ -331,6 +369,12 @@ public class Board extends JPanel {
 					if (checkBagCollision(BOTTOM_COLLISION)) {
 						return;
 					}
+					if(c!=null){
+						if(check_copandplayercollision(soko,c,BOTTOM_COLLISION)){
+						youfuckinglose();
+					}
+					}
+					
 					soko.move(0, SPACE);
 					soko.setPlayerImage(faceDown);
 					currentlyFacing = faceDown;
@@ -387,7 +431,7 @@ public class Board extends JPanel {
 					break;
 			}
 			forbutton = 1;
-			System.out.printf("skeytrigger=%d", forbutton);
+			System.out.printf("key");
 			repaint();
 
 		}
@@ -669,7 +713,37 @@ public class Board extends JPanel {
 		}
 		return false;
 	}
-
+	private Boolean check_copandplayercollision(Actor actor,Actor actor1,int type){
+		switch(type){
+			case TOP_COLLISION:
+				if(actor.isTopCollision(actor1)){
+					return true;
+				}
+				return false;
+			case BOTTOM_COLLISION:
+				if(actor.isBottomCollision(actor1)){
+					return true;
+				}
+				return false;
+			case LEFT_COLLISION:
+				if(actor.isLeftCollision(actor1)){
+					return true;
+				}
+				return false;
+			case RIGHT_COLLISION:
+				if(actor.isRightCollision(actor1)){
+					return true;
+				}
+				return false;
+			default:
+				break;
+		}
+		return false;
+	}
+	public void youfuckinglose(){
+		JOptionPane.showMessageDialog(this,"You_are_Game_Over");
+		this.setVisible(false);
+	}
 	public void isCompleted() {
 		int nOfBags = baggs.size();
 		int finishedBags = 0;
