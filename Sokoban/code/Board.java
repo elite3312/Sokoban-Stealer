@@ -24,7 +24,7 @@ public class Board extends JPanel {
 	private final int faceUp = 3;
 	private final int faceDown = 4;	
 	private int currentlyFacing = 3;
-
+	public int excutetime=0;//repaint time
 	public static int forbutton = 0;
 	private ArrayList<Wall> walls;
 	private ArrayList<Baggage> baggs;
@@ -143,7 +143,7 @@ public class Board extends JPanel {
 	}
 
 	private void buildWorld(Graphics g) {
-
+		
 		g.setColor(new Color(250, 240, 170));
 		g.fillRect(0, 0, this.getWidth(), this.getHeight());
 
@@ -187,7 +187,7 @@ public class Board extends JPanel {
 		for (int i = 0; i < world.size(); i++) {
 			
 			Actor item = world.get(i);
-			if (item!=null && item instanceof Police && forbutton == 0) {
+			if (item!=null && item instanceof Police && forbutton == 0 && excutetime%2==1) {
 				
 				Police cop = (Police) item;
 				int toward;
@@ -273,7 +273,7 @@ public class Board extends JPanel {
 			}
 
 		}
-		if (forbutton == 1)
+		if (forbutton==1)
 			forbutton = 0;// prevent repeatly execute when bottom click
 	}
 
@@ -432,6 +432,7 @@ public class Board extends JPanel {
 			}
 			forbutton = 1;
 			System.out.printf("key");
+			
 			repaint();
 
 		}
@@ -557,10 +558,14 @@ public class Board extends JPanel {
 								return true;
 							}
 						}
-						if (!(bag.getX() - SPACE == c.x() && bag.getY() == c.y())) {
+						if (c!=null&&(!(bag.getX() - SPACE == c.x() && bag.getY() == c.y()))) {
 							bag.move(-SPACE, 0);
 							System.out.print("fault");
-						} else
+						}
+						else if(c==null){//when police death ,the way can prevent bug
+							bag.move(-SPACE, 0);
+						}
+						else
 							return true;
 						isCompleted();
 					}
@@ -586,10 +591,15 @@ public class Board extends JPanel {
 								return true;
 							}
 						}
-						if (!(bag.getX() + SPACE == c.getx() && bag.getY() == c.gety())) {
+						if (c!=null&&(!(bag.getX() + SPACE == c.getx() && bag.getY() == c.gety()))) {
 							bag.move(SPACE, 0);
 							System.out.printf("falut");
-						} else
+						} 
+						else if(c==null){
+							bag.move(SPACE, 0);
+						}
+
+						else
 							return true;
 
 						isCompleted();
@@ -616,10 +626,14 @@ public class Board extends JPanel {
 								return true;
 							}
 						}
-						if (!(bag.getX() == c.x() && bag.getY() - SPACE == c.y())) {
+						if (c!=null&&(!(bag.getX() == c.x() && bag.getY() - SPACE == c.y()))) {
 							bag.move(0, -SPACE);
 							System.out.printf("falut");
-						} else
+						} 
+						else if(c==null){
+							bag.move(0, -SPACE);
+						}
+						else
 							return true;
 
 						isCompleted();
@@ -647,9 +661,12 @@ public class Board extends JPanel {
 								return true;
 							}
 						}
-						if (!(bag.getX() == c.x() && bag.getY() + SPACE == c.y())) {
+						if (c!=null&&(!(bag.getX() == c.x() && bag.getY() + SPACE == c.y()))) {
 							bag.move(0, SPACE);
 							System.out.printf("falut");
+						}
+						else if(c==null){
+							bag.move(0, SPACE);
 						}
 
 						else

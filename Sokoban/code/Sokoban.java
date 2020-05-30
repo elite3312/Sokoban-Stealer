@@ -30,11 +30,12 @@ public class Sokoban extends JFrame {
         TimerTask refresh = new TimerTask() {
             @Override
             public void run() {
+                board.excutetime++;
                 System.out.printf("about time\n");
                 JFrame.getFrames()[0].repaint();
             }
         };
-        timer.schedule(refresh, 0, 700);
+        timer.schedule(refresh, 0, 200);
     }
 
     public static void main(String[] args) {
