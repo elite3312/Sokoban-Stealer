@@ -12,7 +12,7 @@ public class Bullet extends Actor {
 	private final int TOP = 3;
 	private final int BOTTOM = 4;
 	private int dir;
-	private int maxRange = 5;
+	private int maxRange = 15;
 
 	public Bullet(int x, int y, int initDir) {
 		super(x, y);

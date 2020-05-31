@@ -20,8 +20,8 @@ public class Map {
         "H#####  $###########H\n" + 
         "H###  $ $ ##########H\n" + 
         "H### # ## ##########H\n" + 
-        "H#   # ## #####  ..#H\n" + 
-        "H# $  $      ~   ..#H\n" + 
+        "H#  ~# ## #####  ..#H\n" + 
+        "H# $  $          ..#H\n" + 
         "H##### ### #@##  ..#H\n" + 
         "H#####     #########H\n" + 
         "H###################H\n" + 
@@ -59,22 +59,16 @@ public class Map {
     + "HHHH###############################H\n"
     + "HHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHH";
 
-    Random ran =new Random();
-    public String getMap(){
-        int temp=ran.nextInt(10)%3;
-        if(temp==0){
-            return this.level_3;
+   
+    public String getMap(int selection){
+        switch (selection){
+        	case 1:return this.level_1;
+        	case 2:return this.level_2;
+        	case 3:return this.level_3;
+        	default :return "invalid selection";
         }
-        else if(temp==1){
-            return this.level_2;
-        }
-        else if(temp==2){
-            return this.level_1;
-        }
-        else {
-            System.out.printf("Mapfault");
-            return null;
-        }
+        
+        
 
     }
 }

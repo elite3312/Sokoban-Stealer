@@ -18,13 +18,13 @@ public class Board extends JPanel {
 	private final int RIGHT_COLLISION = 2;
 	private final int TOP_COLLISION = 3;
 	private final int BOTTOM_COLLISION = 4;
-	
+	private final int selection;
 	private final int faceLeft = 1;
 	private final int faceRight = 2;
 	private final int faceUp = 3;
 	private final int faceDown = 4;	
 	private int currentlyFacing = 3;
-	public int excutetime=0;//repaint time
+	public int executetime=0;//repaint time
 	public static int forbutton = 0;
 	private ArrayList<Wall> walls;
 	private ArrayList<Baggage> baggs;
@@ -38,12 +38,18 @@ public class Board extends JPanel {
 	private long collisionIgnoreTime;
 
 	private boolean isCompleted = false;
+	private boolean lost = false;
 	private boolean collisionIgnore = false;// penetrate skill
 	private boolean penetrateNotUsed = true;// penetrate skill
 
 	Random ran = new Random();
+	private int policePeriod;
 
-	public Board() {
+	public Board(int player,int level) {
+		selection=level;
+		if(level==3)policePeriod=4;
+		else if(level==2)policePeriod=8;
+		else policePeriod=12;
 		initBoard();
 	}
 
@@ -77,7 +83,7 @@ public class Board extends JPanel {
 		HardWall hardWall;
 		Map maptest;
 		maptest = new Map();
-		level = (String) (maptest.getMap());
+		level = (String) (maptest.getMap(selection));
 		portal = new Portal(0, 0);
 
 		penetrateNotUsed = true;// penetrate init
@@ -187,7 +193,7 @@ public class Board extends JPanel {
 		for (int i = 0; i < world.size(); i++) {
 			
 			Actor item = world.get(i);
-			if (item!=null && item instanceof Police && forbutton == 0 && excutetime%2==1) {
+			if (item!=null && item instanceof Police && forbutton == 0 && executetime%policePeriod==1) {
 				
 				Police cop = (Police) item;
 				int toward;
@@ -202,7 +208,7 @@ public class Board extends JPanel {
 					} else if (checkBagCollisionforPolice(cop, toward)) {
 						continue;
 					}else if(check_copandplayercollision(cop, soko, toward)){
-						youfuckinglose();	
+						youLost();	
 					}if(cop.x() == tempBulletX && cop.y() == tempBulletY){
 						soko.setBullet(null);
 						world.remove(c);
@@ -238,7 +244,7 @@ public class Board extends JPanel {
 				if (portalRef.getIsActive() == 1)
 					g.drawImage(item.getImage(), item.x() + 2, item.y() + 2, this);
 
-			} else if (item instanceof Bullet) {
+			} else if (item instanceof Bullet&& forbutton == 0 ) {
 
 				Bullet bulletRef = (Bullet) item;
 				if (bulletRef != null && bulletRef.getMaxRange() > 0) {
@@ -274,7 +280,7 @@ public class Board extends JPanel {
 
 		}
 		if (forbutton==1)
-			forbutton = 0;// prevent repeatly execute when bottom click
+			forbutton = 0;// prevent repeated execution when bottom is clicked
 	}
 
 	@Override
@@ -308,7 +314,7 @@ public class Board extends JPanel {
 					}
 					if(c!=null){
 						if(check_copandplayercollision(soko,c,LEFT_COLLISION)){
-						youfuckinglose();
+						youLost();
 						}
 					}
 					
@@ -329,7 +335,7 @@ public class Board extends JPanel {
 					}
 					if(c!=null){
 						if(check_copandplayercollision(soko,c,RIGHT_COLLISION)){
-						youfuckinglose();
+						youLost();
 					}
 					}
 					
@@ -350,7 +356,7 @@ public class Board extends JPanel {
 					}
 					if(c!=null){
 						if(check_copandplayercollision(soko,c,TOP_COLLISION)){
-						youfuckinglose();
+						youLost();
 						}
 					}
 					
@@ -371,7 +377,7 @@ public class Board extends JPanel {
 					}
 					if(c!=null){
 						if(check_copandplayercollision(soko,c,BOTTOM_COLLISION)){
-						youfuckinglose();
+						youLost();
 					}
 					}
 					
@@ -407,10 +413,13 @@ public class Board extends JPanel {
 
 					break;
 				case KeyEvent.VK_SPACE:// bullet
-					if (soko.getRifleAvailable() == 1 && soko.getAmmo() > 0) {
+					if(soko.getBullet()!=null)return;
+					else if (soko.getRifleAvailable() == 1 && soko.getAmmo() > 0) {
+						
 						soko.setBullet(new Bullet(soko.x(), soko.y(), currentlyFacing));
 						soko.setAmmo(soko.getAmmo() - 1);
 					}
+					
 					break;
 
 				case KeyEvent.VK_X:// penetrate
@@ -757,9 +766,11 @@ public class Board extends JPanel {
 		}
 		return false;
 	}
-	public void youfuckinglose(){
-		JOptionPane.showMessageDialog(this,"You_are_Game_Over");
-		this.setVisible(false);
+	public void youLost(){
+		c=null;
+		JOptionPane.showMessageDialog(this,"Game_Over");
+		lost=true;
+		
 	}
 	public void isCompleted() {
 		int nOfBags = baggs.size();
@@ -796,5 +807,13 @@ public class Board extends JPanel {
 		if (isCompleted) {
 			isCompleted = false;
 		}
+	}
+
+	public boolean isLost() {
+		return lost;
+	}
+
+	public void setLost(boolean lost) {
+		this.lost = lost;
 	}
 }
