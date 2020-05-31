@@ -1,4 +1,4 @@
-﻿# Sokoban 1.4.0
+﻿# Sokoban 1.4.1
 
 # Bugs:
 部分命名未遵守camel case\
