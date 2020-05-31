@@ -2,7 +2,8 @@
 
 # Bugs:
 部分命名未遵守camel case\
-把警衛逼近死角遊戲會crash
+把警衛逼近死角遊戲會crash\
+關卡complete會當掉
   
 # 提案或建議:
 感覺穿牆發動後可以加一個顯示剩餘時間的提示，比較不會緊張(?\
@@ -26,7 +27,6 @@
 程式碼出現不雅字眼
 
 # Version History
-(重大更新：改最前面數字。中等更新：改中間數字。微幅更動：改後面數字)\
 v1.0.0 - NULL\
 v1.0.1 - 修正貨物可推至hardWall及穿牆可多次使用的bug\
 v1.1.0 - 警衛版一更改 增加警衛class 在board裡增加checkBagCollisionforPolice method\
