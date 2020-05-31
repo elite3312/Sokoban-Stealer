@@ -43,7 +43,7 @@ public class Sokoban extends JFrame {
 				}
 			}
 		};
-		timer.schedule(refresh, 0, 100);
+		timer.schedule(refresh, 0, 50);
 		
 	}
 
