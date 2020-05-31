@@ -30,8 +30,9 @@ public class Bullet extends Actor {
 		File f = new File("");
         String path = f.getAbsolutePath();
 		
-		if(!path.contains("code"))path="pic/bullet.png";
-        else path = path.replaceAll("code", "pic/bullet.png");
+		if(!path.contains("code"))path = "pic/bullet.png";
+		else path = path.replaceAll("code", "pic/bullet.png");
+		
 		ImageIcon iicon = new ImageIcon(path);
 		Image image = iicon.getImage();
 		setImage(image);

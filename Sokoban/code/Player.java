@@ -21,7 +21,6 @@ public class Player extends Actor {
 	private ImageIcon leftIcon;
 	private ImageIcon downIcon;
 	private ImageIcon rightIcon;
-	private Image image;
 
 	public Player(int x, int y) {
 		super(x, y);
@@ -33,52 +32,51 @@ public class Player extends Actor {
 
 		File f = new File("");
 		String path = f.getAbsolutePath();
-		String temp;
-       
-		if(!path.contains("code")) temp="pic/sokobanUp.png";
-		else temp = path.replaceAll("code", "pic/sokobanUp.png");
-		upIcon = new ImageIcon(temp);
+		String up, down, left, right;
 
-		if(!path.contains("code")) temp="pic/sokobanLeft.png";
-		else temp = path.replaceAll("code", "pic/sokobanLeft.png");
-		leftIcon = new ImageIcon(temp);
+		if (!path.contains("code")){
+			up = "pic/sokobanUp.png";
+			left = "pic/sokobanLeft.png";
+			down = "pic/sokobanDown.png";
+			right = "pic/sokobanRight.png";
+		}
+		else{
+			up = path.replaceAll("code", "pic/sokobanUp.png");
+			left = path.replaceAll("code", "pic/sokobanLeft.png");
+			down = path.replaceAll("code", "pic/sokobanDown.png");
+			right = path.replaceAll("code", "pic/sokobanRight.png");
+		}
 
-		if(!path.contains("code")) temp="pic/sokobanDown.png";
-		else temp = path.replaceAll("code", "pic/sokobanDown.png");
-		downIcon = new ImageIcon(temp);
+		upIcon = new ImageIcon(up);
+		leftIcon = new ImageIcon(left);
+		downIcon = new ImageIcon(down);
+		rightIcon = new ImageIcon(right);
 
-		if(!path.contains("code")) temp="pic/sokobanRight.png";
-		else temp = path.replaceAll("code", "pic/sokobanRight.png");
-		rightIcon = new ImageIcon(temp);
-
-		image = upIcon.getImage();
-		
-		setImage(image);
+		setImage(upIcon.getImage());
 	}
 
 	@Override
-	public String getActorName(){
+	public String getActorName() {
 		return "player";
 	}
 
-	public void setPlayerImage(int direction){
+	public void setPlayerImage(int direction) {
 
-		switch (direction){
+		switch (direction) {
 			case faceUp:
-				image = upIcon.getImage();
+				setImage(upIcon.getImage());
 				break;
 			case faceLeft:
-				image = leftIcon.getImage();
+				setImage(leftIcon.getImage());
 				break;
 			case faceDown:
-				image = downIcon.getImage();
+				setImage(downIcon.getImage());
 				break;
 			case faceRight:
-				image = rightIcon.getImage();
+				setImage(rightIcon.getImage());
 				break;
 		}
 
-		setImage(image);
 	}
 
 	public void move(int x, int y) {

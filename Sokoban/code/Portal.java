@@ -7,7 +7,7 @@ import javax.swing.ImageIcon;
 
 public class Portal extends Actor {
 	private int isActive = 0;
-	// private long startTime=0;
+	// private long startTime = 0;
 	private int availability = 5;
 
 	public Portal(int x, int y) {
@@ -30,6 +30,7 @@ public class Portal extends Actor {
 			path = "pic/portal.png";
 		else
 			path = path.replaceAll("code", "pic/portal.png");
+
 		isActive = 0;
 		ImageIcon iicon = new ImageIcon(path);
 		Image image = iicon.getImage();

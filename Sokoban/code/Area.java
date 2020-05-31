@@ -22,7 +22,7 @@ public class Area extends Actor {
         File f = new File("");
         String path = f.getAbsolutePath();
         
-        if(!path.contains("code"))path="pic/area.png";
+        if(!path.contains("code")) path = "pic/area.png";
         else path = path.replaceAll("code", "pic/area.png");
 
         ImageIcon iicon = new ImageIcon(path);

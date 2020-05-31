@@ -22,7 +22,6 @@ public class Police extends Actor {
         super(x, y);
 
         initPolice();
-
     }
 
     public void setsituation_change(int toward) {
@@ -47,7 +46,6 @@ public class Police extends Actor {
 
         setX(dx);
         setY(dy);
-
     }
 
     @Override

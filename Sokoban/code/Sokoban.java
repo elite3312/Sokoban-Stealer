@@ -22,7 +22,7 @@ public class Sokoban extends JFrame {
 		Board board = new Board(player, level);
 		add(board);
 
-		setTitle("Sokoban");
+		setTitle("Sokoban-Stealer");
 
 		setSize(board.getBoardWidth() + OFFSET, board.getBoardHeight() + 2 * OFFSET);
 

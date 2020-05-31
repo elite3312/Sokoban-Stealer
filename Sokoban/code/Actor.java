@@ -45,8 +45,7 @@ public class Actor {
 
     public boolean isLeftCollision(Actor actor) {
         return (x() - SPACE == actor.x() && y() == actor.y()) || (x() == actor.x() && y() == actor.y());
-    }////////// move side is the wall//////////////////////////////in the wall then
-     ////////// you can't move
+    }// you can't move if move side is the wall               or is in the wall
 
     public boolean isRightCollision(Actor actor) {
         return (x() + SPACE == actor.x() && y() == actor.y()) || (x() == actor.x() && y() == actor.y());

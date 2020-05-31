@@ -27,7 +27,8 @@ public class Wall extends Actor {
         if (!path.contains("code"))
 			path = "pic/wall.png";
 		else
-			path = path.replaceAll("code", "pic/wall.png");
+            path = path.replaceAll("code", "pic/wall.png");
+            
         ImageIcon iicon = new ImageIcon(path);
         image = iicon.getImage();
         setImage(image);
