@@ -1,10 +1,12 @@
 package java2020.finalProject;
 
 import javax.swing.JOptionPane;
+
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.io.File;
 import java.util.ArrayList;
 import javax.swing.JPanel;
 import java.util.Date;
@@ -55,14 +57,34 @@ public class Board extends JPanel {
 	private int stepsNow = policeStep;
 	private int toward = (ran.nextInt(40) % 4) + 1;
 
-	public Board(int player, int level) {
+	private final int playerSkinOne = 1;
+	private final int playerSkinTwo = 2;
+	private int playerSkin;
+
+	public Board(int playerSkinChoosen, int level) {
 		selection = level;
-		if (level == 3)
+		if (level == 3) {
 			policePeriod = 4;
-		else if (level == 2)
+			File temp = new File("");
+			String path = temp.getAbsolutePath();
+
+			if (!path.contains("code"))
+				path = "BGM/tempBGM.mp3";
+			else
+				path = path.replaceAll("code", "BGM/tempBGM.mp3");
+
+			// play music here(failed (tried once) )
+
+		} else if (level == 2)
 			policePeriod = 8;
 		else
 			policePeriod = 12;
+
+		if(playerSkinChoosen == playerSkinTwo)
+			playerSkin = playerSkinTwo;
+		else // playerSkinChoosen == playerSkinOne, become a default
+			playerSkin = playerSkinOne;
+
 		initBoard();
 	}
 
@@ -91,10 +113,6 @@ public class Board extends JPanel {
 		int x = OFFSET;
 		int y = OFFSET;
 
-		Wall wall;
-		Baggage b;
-		Area a;
-		HardWall hardWall;
 		Map maptest;
 
 		maptest = new Map();
@@ -141,14 +159,14 @@ public class Board extends JPanel {
 					break;
 
 				case '@':
-					soko = new Player(x, y);// player
+					soko = new Player(x, y, playerSkin);// player
 					x += SPACE;
 					break;
 
 				case ' ':
 					x += SPACE;
 					break;
-				
+
 				case '%':
 					areas.add(new Area(x, y));
 					baggs.add(new Baggage(x, y));
@@ -213,11 +231,10 @@ public class Board extends JPanel {
 				Police cop = (Police) item;
 
 				while (true) {
-					if(stepsNow == 0){
+					if (stepsNow == 0) {
 						toward = (ran.nextInt(40) % 4) + 1;
 						stepsNow = policeStep;
-					}
-					else{
+					} else {
 						stepsNow--;
 					}
 
@@ -228,8 +245,8 @@ public class Board extends JPanel {
 						continue;
 					} else if (checkBagCollisionforPolice(cop, toward)) {
 						continue;
-					} else if (checkCopandPlyerCollision(cop, soko, toward)) {
-						youLost();
+					} else if (checkCopAndPlayerCollision(cop, soko, toward)) {
+						playerLoss();
 					}
 					if (cop.x() == tempBulletX && cop.y() == tempBulletY) {
 						soko.setBullet(null);
@@ -326,8 +343,8 @@ public class Board extends JPanel {
 						return;
 					}
 					if (cop != null) {
-						if (checkCopandPlyerCollision(soko, cop, LEFT_COLLISION)) {
-							youLost();
+						if (checkCopAndPlayerCollision(soko, cop, LEFT_COLLISION)) {
+							playerLoss();
 						}
 					}
 
@@ -341,8 +358,8 @@ public class Board extends JPanel {
 						return;
 					}
 					if (cop != null) {
-						if (checkCopandPlyerCollision(soko, cop, RIGHT_COLLISION)) {
-							youLost();
+						if (checkCopAndPlayerCollision(soko, cop, RIGHT_COLLISION)) {
+							playerLoss();
 						}
 					}
 
@@ -356,8 +373,8 @@ public class Board extends JPanel {
 						return;
 					}
 					if (cop != null) {
-						if (checkCopandPlyerCollision(soko, cop, TOP_COLLISION)) {
-							youLost();
+						if (checkCopAndPlayerCollision(soko, cop, TOP_COLLISION)) {
+							playerLoss();
 						}
 					}
 
@@ -371,8 +388,8 @@ public class Board extends JPanel {
 						return;
 					}
 					if (cop != null) {
-						if (checkCopandPlyerCollision(soko, cop, BOTTOM_COLLISION)) {
-							youLost();
+						if (checkCopAndPlayerCollision(soko, cop, BOTTOM_COLLISION)) {
+							playerLoss();
 						}
 					}
 
@@ -628,6 +645,7 @@ public class Board extends JPanel {
 								return true;
 							}
 						}
+
 						if (cop != null && (!(bag.getX() == cop.x() && bag.getY() - SPACE == cop.y()))) {
 							bag.move(0, -SPACE);
 							System.out.printf("falut");
@@ -727,7 +745,7 @@ public class Board extends JPanel {
 		return false;
 	}
 
-	private Boolean checkCopandPlyerCollision(Actor actor, Actor actor1, int type) {
+	private Boolean checkCopAndPlayerCollision(Actor actor, Actor actor1, int type) {
 		switch (type) {
 			case TOP_COLLISION:
 				if (actor.isTopCollision(actor1)) {
@@ -755,11 +773,10 @@ public class Board extends JPanel {
 		return false;
 	}
 
-	public void youLost() {
+	public void playerLoss() {
 		cop = null;
 		JOptionPane.showMessageDialog(this, "Game_Over");
 		lost = true;
-
 	}
 
 	public void isCompleted() {
@@ -800,9 +817,11 @@ public class Board extends JPanel {
 	public boolean isLost() {
 		return lost;
 	}
+
 	public boolean getIsCompleted() {
-		return isCompleted; 
+		return isCompleted;
 	}
+
 	public void setLost(boolean lost) {
 		this.lost = lost;
 	}

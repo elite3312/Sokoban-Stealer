@@ -11,5 +11,3 @@ public class MenuDemo {
 		frame.setVisible(true);
 	}
 }
-
-

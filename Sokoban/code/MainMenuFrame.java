@@ -28,21 +28,30 @@ import java.awt.Color;
 import javax.swing.JButton;
 
 public class MainMenuFrame extends JFrame implements ActionListener {
-	private JTextField textField1;
 
+	private JTextField textField1;
 	private JTextField textField;
+
 	private JPanel topPanel;
 	private JPanel picPanel;
 	private JPanel bottomPanel;
+
 	private JRadioButton p1;
 	private JRadioButton p2;
+
 	private ButtonGroup character;
+
 	private JRadioButton l1;
 	private JRadioButton l2;
 	private JRadioButton l3;
+
 	private ButtonGroup level;
+
 	private int characterChosen;
+	private final int playerSkinOne = 1;
+	private final int playerSkinTwo = 2;
 	private int levelChosen;
+
 	private JButton levelSelect;
 	private JButton exitBtn;
 	private JButton launchBtn;
@@ -186,9 +195,9 @@ public class MainMenuFrame extends JFrame implements ActionListener {
 			MainMenuFrame.this.dispose();
 		} else {
 			if (p1.isSelected())
-				characterChosen = 1;
+				characterChosen = playerSkinOne;
 			else
-				characterChosen = 2;
+				characterChosen = playerSkinTwo;
 
 			if (l1.isSelected())
 				levelChosen = 1;

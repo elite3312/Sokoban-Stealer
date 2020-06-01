@@ -17,34 +17,53 @@ public class Player extends Actor {
 	private final int faceUp = 3;
 	private final int faceDown = 4;
 
+	private final int playerSkinOne = 1;
+	private final int playerSkinTwo = 2;
+
 	private ImageIcon upIcon;
 	private ImageIcon leftIcon;
 	private ImageIcon downIcon;
 	private ImageIcon rightIcon;
 
-	public Player(int x, int y) {
+	public Player(int x, int y, int playerSkinChoosed) {
 		super(x, y);
 
-		initPlayer();
+		initPlayer(playerSkinChoosed);
 	}
 
-	private void initPlayer() {
+	private void initPlayer(int playerSkinChoosed) {
 
 		File f = new File("");
 		String path = f.getAbsolutePath();
 		String up, down, left, right;
 
-		if (!path.contains("code")){
-			up = "pic/sokobanUp.png";
-			left = "pic/sokobanLeft.png";
-			down = "pic/sokobanDown.png";
-			right = "pic/sokobanRight.png";
+		if(playerSkinChoosed == playerSkinOne){
+			if (!path.contains("code")){
+				up = "pic/playerOneUp.png";
+				left = "pic/playerOneLeft.png";
+				down = "pic/playerOneDown.png";
+				right = "pic/playerOneRight.png";
+			}
+			else{
+				up = path.replaceAll("code", "pic/playerOneUp.png");
+				left = path.replaceAll("code", "pic/playerOneLeft.png");
+				down = path.replaceAll("code", "pic/playerOneDown.png");
+				right = path.replaceAll("code", "pic/playerOneRight.png");
+			}
 		}
 		else{
-			up = path.replaceAll("code", "pic/sokobanUp.png");
-			left = path.replaceAll("code", "pic/sokobanLeft.png");
-			down = path.replaceAll("code", "pic/sokobanDown.png");
-			right = path.replaceAll("code", "pic/sokobanRight.png");
+			if (!path.contains("code")){
+				up = "pic/playerTwoUp.png";
+				left = "pic/playerTwoLeft.png";
+				down = "pic/playerTwoDown.png";
+				right = "pic/playerTwoRight.png";
+			}
+			else{
+				up = path.replaceAll("code", "pic/playerTwoUp.png");
+				left = path.replaceAll("code", "pic/playerTwoLeft.png");
+				down = path.replaceAll("code", "pic/playerTwoDown.png");
+				right = path.replaceAll("code", "pic/playerTwoRight.png");
+			}
 		}
 
 		upIcon = new ImageIcon(up);

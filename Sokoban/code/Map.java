@@ -1,6 +1,5 @@
 package java2020.finalProject;
 
-import java.util.Random;
 public class Map {
 
     /************************************************************
