@@ -2,6 +2,8 @@ package java2020.finalProject;
 
 import java.awt.EventQueue;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
+
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -34,10 +36,16 @@ public class Sokoban extends JFrame {
 			@Override
 			public void run() {
 				board.executetime++;
-
+				
 				board.repaint();
 				if (board.isLost()) {
 					this.cancel();
+					Sokoban.this.dispose();
+					setVisible(false);
+				}
+				else if(board.getIsCompleted()) {
+					this.cancel();
+					
 					Sokoban.this.dispose();
 					setVisible(false);
 				}

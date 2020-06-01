@@ -780,6 +780,7 @@ public class Board extends JPanel {
 		if (finishedBags == 1) {
 			soko.setRifleAvailable(1);
 		} else if (finishedBags == nOfBags) {
+			JOptionPane.showMessageDialog(this, "win!");
 			isCompleted = true;
 			System.out.printf("aboutbagger fauult\n");
 			repaint();
@@ -799,7 +800,9 @@ public class Board extends JPanel {
 	public boolean isLost() {
 		return lost;
 	}
-
+	public boolean getIsCompleted() {
+		return isCompleted; 
+	}
 	public void setLost(boolean lost) {
 		this.lost = lost;
 	}
