@@ -131,12 +131,12 @@ public class MainMenuFrame extends JFrame implements ActionListener {
 		label2.setFont(font);
 		JPanel radioBtnPanel2 = new JPanel(new FlowLayout());
 
-		l1 = new JRadioButton("洗劫宿舍冰箱(簡單)", true);
+		l1 = new JRadioButton("男二舍冰箱大盜(簡單)", true);
 		l1.setFont(font);
 		l1.setIcon(new ImageIcon(selectPath));
 		l1.setSelectedIcon(new ImageIcon(selectedPath));
 
-		l2 = new JRadioButton("男二大盜(困難)", false);
+		l2 = new JRadioButton("左右為難的警衛(困難)", false);
 		l2.setFont(font);
 		l2.setIcon(new ImageIcon(selectPath));
 		l2.setSelectedIcon(new ImageIcon(selectedPath));
