@@ -15,15 +15,15 @@ public class Map {
     private String level_1 = 
         "HHHHHHHHHHHHHHHHHHHHH\n" + 
         "H###################H\n" + 
-        "H#####   ###########H\n" + 
+        "H#####  !###########H\n" + 
         "H#####$  ###########H\n" + 
         "H#####  $###########H\n" + 
         "H###  $ $ ##########H\n" + 
         "H### # ## ##########H\n" + 
-        "H#  !# ## #####  ..#H\n" + 
+        "H#  # ## #####   ..#H\n" + 
         "H# $  $          ..#H\n" + 
         "H##### ### #@##  ..#H\n" + 
-        "H#####     #########H\n" + 
+        "H##### !   #########H\n" + 
         "H###################H\n" + 
         "HHHHHHHHHHHHHHHHHHHHH\n" ;
     
@@ -31,11 +31,11 @@ public class Map {
       "HHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHH\n"
     + "HHHH############################HHHHH\n"
     + "HHHH##          !      .......  #HHHH\n"
-    + "HHHH##$              $         ##HHHH\n"
+    + "HHHH##$    !         $         ##HHHH\n"
     + "HH####  $         ########     ##HHHH\n"
-    + "HH##  $ $ #                   ##HHHHH\n"
-    + "H#### # ## #                   #####H\n"
-    + "H##   # ## #####      ##          #HH\n"
+    + "HH##  $ $ #  !                ##HHHHH\n"
+    + "H#### # ## #        !          #####H\n"
+    + "H##   # ## #####      ##!         #HH\n"
     + "H##                               #HH\n"
     + "H##### ### #@# $#        $       #HHH\n"
     + "HHHH##                    ########HHH\n"
