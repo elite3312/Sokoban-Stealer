@@ -9,8 +9,8 @@ import javax.swing.ImageIcon;
 public class Player extends Actor {
 
 	private Bullet bullet = null;
-	private int ammo = 10;
-	private int rifleAvailable = 1;
+	private int ammo =10;
+	private int rifleAvailable = 0;
 
 	private final int faceLeft = 1;
 	private final int faceRight = 2;

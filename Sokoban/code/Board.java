@@ -824,7 +824,7 @@ public class Board extends JPanel {
 
 	public void playerLoss() {
 		cops = null;
-		JOptionPane.showMessageDialog(this, "Game_Over");
+		
 		lost = true;
 	}
 
