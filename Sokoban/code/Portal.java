@@ -8,7 +8,7 @@ import javax.swing.ImageIcon;
 public class Portal extends Actor {
 	private int isActive = 0;
 	// private long startTime = 0;
-	private int availability = 5;
+	private int availability = 3;
 
 	public Portal(int x, int y) {
 		super(x, y);

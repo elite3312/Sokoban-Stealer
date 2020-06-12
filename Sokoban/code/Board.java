@@ -70,9 +70,9 @@ public class Board extends JPanel {
 			String path = temp.getAbsolutePath();
 
 			if (!path.contains("code"))
-				path = "BGM/tempBGM.mp3";
+				path = "BGM/BGM.mp3";
 			else
-				path = path.replaceAll("code", "BGM/tempBGM.mp3");
+				path = path.replaceAll("code", "BGM/BGM.mp3");
 
 			// play music here(failed (tried once) )
 
@@ -135,7 +135,6 @@ public class Board extends JPanel {
 					break;
 				case '!':
 					cops.add(new Police(x, y));
-					System.out.printf("x=%d,y=%d",x,y);
 					x += SPACE;
 					;
 					break;
@@ -186,21 +185,30 @@ public class Board extends JPanel {
 		g.setColor(new Color(230, 230, 230));
 		g.fillRect(0, 0, this.getWidth(), this.getHeight());
 
-		if (collisionIgnore) {
-			// formal version
-			/*
-			 * Long checkCollisonTime = new Date().getTime() - collisionIgnoreTime; if
-			 * (checkCollisonTime > 3000) { collisionIgnore = false; }
-			 */
-
-			// do nothing(debug version)
-			int do_nothing;
-		}
-
 		String info = "\"portals left:" + portal.getAvailability();
 
 		info += "\"    \"rifle availabilty = " + soko.getRifleAvailable();
 		info += "\"    \"ammo = " + soko.getAmmo() + "\"";
+
+		if (collisionIgnore) {
+			Long checkCollisonTime = new Date().getTime() - collisionIgnoreTime;
+			checkCollisonTime = 3000 - checkCollisonTime;
+			if(checkCollisonTime <= 0) {
+				collisionIgnore = false;
+			}
+			double temp = checkCollisonTime / 1000.0;
+			if(temp >= 0)
+				info += "    \"skill time:\" " + String.format("%.2f", temp);
+		}
+		else{
+			if(penetrateNotUsed){
+				info += "    \"skill:\" avalible";
+			}
+			else{
+				info += "    \"skill:\" unavalible";
+			}
+		}
+
 		g.setColor(new Color(0, 0, 0));
 		g.setFont(new Font("default", Font.PLAIN, 25));
 		g.drawString(info, 25, 20);
@@ -240,7 +248,6 @@ public class Board extends JPanel {
 						stepsNow--;
 					}
 
-					System.out.print(toward);
 					if (checkHardWallCollision(cop, toward)) {
 						policeCanGo=0;
 					} else if (checkWallCollision(cop, toward)) {
@@ -259,18 +266,14 @@ public class Board extends JPanel {
 					}
 					if (cop.x() == tempBulletX && cop.y() == tempBulletY) {
 						soko.setBullet(null);
-						System.out.printf("2cop numbefor%d",cops.size());
 						world.remove(cop);
-						System.out.printf("2cop numafter%d",cops.size());
 						cop = null;
-						System.out.printf("cop lead");
 						break;
 					} 
 					/*else
 						break;*/
 				}
 				if (cop == null) {
-					System.out.print("bullet contact cop!!\n");
 					continue;
 				}
 				cop.setsituation_change(toward);
@@ -307,12 +310,9 @@ public class Board extends JPanel {
 							Police cop=cops.get(k);
 							if(judge_XandY_Collision(tempBulletX, tempBulletY, cop.getx(), cop.gety())){
 								soko.setBullet(null);
-								System.out.printf("1cop numbefor%d",cops.size());
 								cops.remove(k);
 								world.remove(cop);
-								System.out.printf("1cop numafter%d",cops.size());
 								cop = null;
-								System.out.printf("bullet lead");
 								bulletExist=0;
 								continue;
 							}
@@ -474,23 +474,14 @@ public class Board extends JPanel {
 
 				case KeyEvent.VK_X:// penetrate
 					if (penetrateNotUsed) {
-						// formal version
-						/*
-						 * collisionIgnore = true; collisionIgnoreTime = new Date().getTime();
-						 * penetrateNotUsed = false;
-						 */
-
-						// below this is debug version
-						penetrateNotUsed = true;
-						collisionIgnore = !collisionIgnore;
-						// above is debug version
+						collisionIgnore = true; collisionIgnoreTime = new Date().getTime();
+						penetrateNotUsed = false;
 					}
 					break;
 				default:
 					break;
 			}
 			forbutton = 1;
-			System.out.printf("key");
 
 			repaint();
 		}
@@ -625,7 +616,6 @@ public class Board extends JPanel {
 
 						if (cops != null &&!checkBagCollisiontoPolice(bag.getX() - SPACE, bag.getY())) {
 							bag.move(-SPACE, 0);
-							System.out.print("fault");
 						} else if (cops.isEmpty()) {// when police death ,the way can prevent bug
 							bag.move(-SPACE, 0);
 						} else
@@ -654,7 +644,6 @@ public class Board extends JPanel {
 						}
 						if (cops != null &&!checkBagCollisiontoPolice(bag.getX() + SPACE, bag.getY()) ) {
 							bag.move(SPACE, 0);
-							System.out.printf("falut");
 						} else if (cops.isEmpty()) {
 							bag.move(SPACE, 0);
 						}
@@ -686,7 +675,6 @@ public class Board extends JPanel {
 
 						if (cops != null &&!checkBagCollisiontoPolice(bag.getX(), bag.getY()-SPACE)) {
 							bag.move(0, -SPACE);
-							System.out.printf("falut");
 						} else if (cops.isEmpty()) {
 							bag.move(0, -SPACE);
 						} else
@@ -717,7 +705,6 @@ public class Board extends JPanel {
 						}
 						if (cops != null &&!checkBagCollisiontoPolice(bag.getX() , bag.getY()+ SPACE)) {
 							bag.move(0, SPACE);
-							System.out.printf("falut");
 						} else if (cops.isEmpty()) {
 							bag.move(0, SPACE);
 						}
@@ -848,7 +835,6 @@ public class Board extends JPanel {
 		} else if (finishedBags == nOfBags) {
 			JOptionPane.showMessageDialog(this, "win!");
 			isCompleted = true;
-			System.out.printf("aboutbagger fauult\n");
 			repaint();
 		}
 	}
