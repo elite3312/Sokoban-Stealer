@@ -41,7 +41,8 @@ public class Sokoban extends JFrame {
 				if (board.isLost()) {
 					this.cancel();
 					JOptionPane.showMessageDialog(null, "Game_Over");
-					sleep(500);
+					for(int i=0;i<10000;i++){
+						int wait;}
 					Sokoban.this.dispose();
 					setVisible(false);
 				}
