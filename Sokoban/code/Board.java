@@ -57,7 +57,7 @@ public class Board extends JPanel {
 	private int policeStep = 2;
 	private int stepsNow = policeStep;
 	private int toward = (ran.nextInt(40) % 4) + 1;
-
+	private int bagaccu=1;
 	private final int playerSkinOne = 1;
 	private final int playerSkinTwo = 2;
 	private int playerSkin;
@@ -112,7 +112,7 @@ public class Board extends JPanel {
 		cops =new ArrayList<>();
 		String level;
 		int x = OFFSET;
-		int y = OFFSET;
+		int y = OFFSET+50;
 
 		Map maptest;
 
@@ -201,6 +201,7 @@ public class Board extends JPanel {
 				info += "    \"skill time:\" " + String.format("%.2f", temp);
 		}
 		else{
+
 			if(penetrateNotUsed){
 				info += "    \"skill:\" avalible";
 			}
@@ -208,11 +209,12 @@ public class Board extends JPanel {
 				info += "    \"skill:\" unavalible";
 			}
 		}
-
+		String info2="bagAchivement "+(bagaccu-1);
 		g.setColor(new Color(0, 0, 0));
 		g.setFont(new Font("default", Font.PLAIN, 25));
 		g.drawString(info, 25, 20);
-
+		g.setColor(new Color(100, 20, 200));
+		g.drawString(info2, 25, 50);
 		ArrayList<Actor> world = new ArrayList<>();
 		world.addAll(areas);
 
@@ -234,12 +236,20 @@ public class Board extends JPanel {
 		 */
 
 		for (int i = 0; i < world.size(); i++) {
-
+			
 			Actor item = world.get(i);
 			if (item != null && item instanceof Police && forbutton == 0 && executetime % policePeriod == 1) {
 				Police cop = (Police) item;
 				int policeCanGo=0;//means next direction police can move  
+				int accumulate=0;//avoid police surrounded by bag
 				while (policeCanGo==0) {
+					if((accumulate+=1)==50){
+						System.out.printf("died surr");
+						world.remove(cop);
+						cops.remove(cop);
+						cop = null;
+						break;
+					}
 					policeCanGo=1;
 					if (stepsNow == 0) {
 						toward = (ran.nextInt(40) % 4) + 1;
@@ -256,6 +266,8 @@ public class Board extends JPanel {
 						policeCanGo=0;
 					} else if (checkPersonAndPersonCollision(cop, soko, toward)) {
 						policeCanGo=0;
+						//System.out.printf("kill\n");
+						playerLoss();
 					}
 					for (int c = 0; i < cops.size(); c++) {//做每個警衛比較
 						Police pol= cops.get(c);
@@ -829,10 +841,11 @@ public class Board extends JPanel {
 				}
 			}
 		}
-
-		if (finishedBags == 1) {
-			soko.setRifleAvailable(1);
-		} else if (finishedBags == nOfBags) {
+        if(finishedBags==bagaccu){
+			bagaccu+=1;
+			soko.setAmmo(soko.getAmmo()+3);
+		}
+		if (finishedBags == nOfBags) {
 			JOptionPane.showMessageDialog(this, "win!");
 			isCompleted = true;
 			repaint();

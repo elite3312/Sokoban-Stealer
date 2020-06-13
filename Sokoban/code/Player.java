@@ -9,8 +9,8 @@ import javax.swing.ImageIcon;
 public class Player extends Actor {
 
 	private Bullet bullet = null;
-	private int ammo =10;
-	private int rifleAvailable = 0;
+	private int ammo =3;
+	private int rifleAvailable = 1;
 
 	private final int faceLeft = 1;
 	private final int faceRight = 2;
@@ -124,6 +124,7 @@ public class Player extends Actor {
 	}
 
 	public int getAmmo() {
+		if(getRifleAvailable()==0)return 0;
 		return ammo;
 	}
 
