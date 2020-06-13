@@ -243,7 +243,7 @@ public class Board extends JPanel {
 				int policeCanGo=0;//means next direction police can move  
 				int accumulate=0;//avoid police surrounded by bag
 				while (policeCanGo==0) {
-					if((accumulate+=1)==50){
+					if((accumulate+=1)==100){
 						System.out.printf("died surr");
 						world.remove(cop);
 						cops.remove(cop);
