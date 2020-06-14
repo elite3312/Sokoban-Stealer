@@ -1,5 +1,8 @@
 ﻿# Sokoban 1.6.0
 
+# Demo:
+https://youtu.be/ItoZPud7C1g
+
 # Bugs:
 把警衛逼近死角遊戲會crash\
 邊按上下左右邊射子彈，子彈的軌跡會怪怪的
