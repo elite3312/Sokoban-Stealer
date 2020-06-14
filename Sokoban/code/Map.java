@@ -74,6 +74,21 @@ public class Map {
     + "H  #   #  !#   #  H \n"
     + "HHHHHHHHHHHHHHHHHHH \n";
 
+    private String old_level_4 =
+      "HHHHHHHHHHHHHHHHHHH \n"
+    + "H   ##############H \n"
+    + "H $  #############H \n"
+    + "H# # #       #####H \n"
+    + "H# #   $#$#@  #   H \n"
+    + "H  #      $ #   $ H \n"
+    + "H !### ######### #H \n"
+    + "H  ## ..%..... # #H \n"
+    + "H# ## %.%..%.% # #H \n"
+    + "H $########## ##$ H \n"
+    + "H  $   $  $    $  H \n"
+    + "H  #   #   #   #  H \n"
+    + "HHHHHHHHHHHHHHHHHHH \n";
+
    
     public String getMap(int selection){
         switch (selection){

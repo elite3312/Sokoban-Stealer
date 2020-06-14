@@ -166,11 +166,13 @@ public class MainMenuFrame extends JFrame implements ActionListener {
 		radioBtnPanel2.add(l3);
 
 		bottomPanel.add(radioBtnPanel2);
+
 		/* launch! */
 		launchBtn = new JButton(new ImageIcon(gameStartPath));
 		launchBtn.setFont(font);
 		launchBtn.addActionListener(this);
 		bottomPanel.add(launchBtn);
+		
 		/* exit */
 		exitBtn = new JButton(new ImageIcon(exitPath));
 		exitBtn.setFont(font);
