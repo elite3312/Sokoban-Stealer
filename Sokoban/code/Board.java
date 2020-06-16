@@ -187,7 +187,6 @@ public class Board extends JPanel {
 
 		String info = "\"portals left:" + portal.getAvailability();
 
-		info += "\"    \"rifle availabilty = " + soko.getRifleAvailable();
 		info += "\"    \"ammo = " + soko.getAmmo() + "\"";
 
 		if (collisionIgnore) {
@@ -202,9 +201,9 @@ public class Board extends JPanel {
 		} else {
 
 			if (penetrateNotUsed) {
-				info += "    \"skill:\" avalible";
+				info += "    \"ghost skill:\" avalible";
 			} else {
-				info += "    \"skill:\" unavalible";
+				info += "    \"ghost skill:\" unavalible";
 			}
 		}
 
