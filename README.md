@@ -39,7 +39,9 @@ v1.4.4 - 警衛2.0 \
 v1.5.0 - 微調 \
 v1.5.1 - 讓警衛被困住時消失，子彈一開始就有，怕警衛太多沒辦法攻擊，每疊完一個bag加3個子彈 \
 v1.6.0 - 最終調整 \
-v1.6.1 - bugs fixed
+v1.6.1 - bugs fixed \
+v1.6.2 - 增加音樂 \
+
 
 # 程式內變數解釋
  forbottom:為了防止當sokoban 裡的timer refresh repaint 時和點按鍵時的repaint 重複

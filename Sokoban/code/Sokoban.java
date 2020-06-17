@@ -3,12 +3,16 @@ package java2020.finalProject;
 import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
+import java.io.FileNotFoundException;
 
+import javazoom.jl.decoder.JavaLayerException;
+import ntou.cs.finalterm.test.game.BackgroundMP3Player;
+import javazoom.jl.player.advanced.AdvancedPlayer;
 import java.util.Timer;
 import java.util.TimerTask;
 
 public class Sokoban extends JFrame {
-
+	private BackgroundMP3Player music;
 	private final int OFFSET = 30;
 	private int player;
 	private int level;
@@ -22,6 +26,12 @@ public class Sokoban extends JFrame {
 	private void initUI() {
 
 		Board board = new Board(player, level);
+		try {
+			music = new BackgroundMP3Player();
+			music.circularPlay();
+		} catch (FileNotFoundException | JavaLayerException e) {
+			System.out.printf("music err");
+		}
 		add(board);
 
 		setTitle("Sokoban-Stealer");
@@ -36,11 +46,12 @@ public class Sokoban extends JFrame {
 			@Override
 			public void run() {
 				board.executetime++;
-				
 				board.repaint();
 				if (board.isLost()) {
+					music.close();
 					this.cancel();
 					JOptionPane.showMessageDialog(null, "Game_Over");
+
 					for(int i=0;i<10000;i++){
 						int wait;}
 					Sokoban.this.dispose();

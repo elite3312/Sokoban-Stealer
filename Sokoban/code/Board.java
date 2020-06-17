@@ -225,8 +225,13 @@ public class Board extends JPanel {
 		world.addAll(hardWalls);
 		world.addAll(baggs);
 
-		if (!cop.isEmpty())
-		    world.addAll(cops);
+		if (cops.isEmpty()!=true){
+			
+			world.addAll(cops);
+		}else{
+			System.out.printf("dd");
+		}
+		    
 		world.add(soko);
 		world.add(portal);
 
@@ -269,6 +274,7 @@ public class Board extends JPanel {
 						policeCanGo = 0;
 						// System.out.printf("kill\n");
 						playerLoss();
+						return;
 					}
 					for (int c = 0; i < cops.size(); c++) {// 做每個警衛比較
 						Police pol = cops.get(c);
@@ -276,7 +282,9 @@ public class Board extends JPanel {
 							continue;
 						if (checkPersonAndPersonCollision(cop, pol, toward)) {
 							policeCanGo = 0;
+	
 						}
+						
 					}
 					if (cop.x() == tempBulletX && cop.y() == tempBulletY) {
 						soko.setBullet(null);
@@ -386,6 +394,7 @@ public class Board extends JPanel {
 							Police cop = cops.get(i);
 							if (checkPersonAndPersonCollision(soko, cop, LEFT_COLLISION)) {
 								playerLoss();
+								return;
 							}
 						}
 
@@ -404,6 +413,7 @@ public class Board extends JPanel {
 							Police cop = cops.get(i);
 							if (checkPersonAndPersonCollision(soko, cop, RIGHT_COLLISION)) {
 								playerLoss();
+								return;
 							}
 						}
 
@@ -422,6 +432,7 @@ public class Board extends JPanel {
 							Police cop = cops.get(i);
 							if (checkPersonAndPersonCollision(soko, cop, TOP_COLLISION)) {
 								playerLoss();
+								return;
 							}
 						}
 
@@ -440,6 +451,7 @@ public class Board extends JPanel {
 							Police cop = cops.get(i);
 							if (checkPersonAndPersonCollision(soko, cop, BOTTOM_COLLISION)) {
 								playerLoss();
+								return;
 							}
 						}
 
@@ -832,9 +844,10 @@ public class Board extends JPanel {
 	}
 
 	public void playerLoss() {
-		cops = null;
+		//cops = null;
 
 		lost = true;
+		
 	}
 
 	public void isCompleted() {

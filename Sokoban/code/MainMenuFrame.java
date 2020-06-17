@@ -2,6 +2,8 @@ package java2020.finalProject;
 
 import java.awt.GridLayout;
 
+
+
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.EventQueue;
@@ -35,7 +37,8 @@ public class MainMenuFrame extends JFrame implements ActionListener {
 	private JPanel topPanel;
 	private JPanel picPanel;
 	private JPanel bottomPanel;
-
+	
+	
 	private JRadioButton p1;
 	private JRadioButton p2;
 
@@ -181,11 +184,13 @@ public class MainMenuFrame extends JFrame implements ActionListener {
 	}
 
 	public void launch() {
-
+		
 		EventQueue.invokeLater(() -> {
 			Sokoban game = new Sokoban(characterChosen, levelChosen);
 			// game.setVisible(true);
 		});
+		
+		//music.close();
 	}
 
 	// handle button events
@@ -211,5 +216,6 @@ public class MainMenuFrame extends JFrame implements ActionListener {
 			launch();
 		}
 	}
+	
 }
 //
