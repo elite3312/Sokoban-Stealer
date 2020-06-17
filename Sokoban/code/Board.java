@@ -228,8 +228,6 @@ public class Board extends JPanel {
 		if (cops.isEmpty()!=true){
 			
 			world.addAll(cops);
-		}else{
-			System.out.printf("dd");
 		}
 		    
 		world.add(soko);

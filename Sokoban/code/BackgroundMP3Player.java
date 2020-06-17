@@ -69,7 +69,7 @@ public class BackgroundMP3Player {
 	// To intentionally terminate the player 
 	public void close() {
 		loop = false;
-		System.out.printf("hgfhd");
+		
 		playerr.close();
 	}
 
