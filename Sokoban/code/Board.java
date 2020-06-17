@@ -225,8 +225,8 @@ public class Board extends JPanel {
 		world.addAll(hardWalls);
 		world.addAll(baggs);
 
-		// if (cop != null)
-		world.addAll(cops);
+		if (!cop.isEmpty())
+		    world.addAll(cops);
 		world.add(soko);
 		world.add(portal);
 
