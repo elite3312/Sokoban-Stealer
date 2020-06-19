@@ -124,7 +124,8 @@ public class Player extends Actor {
 	}
 
 	public int getAmmo() {
-		if(getRifleAvailable()==0)return 0;
+		if(getRifleAvailable() == 0)
+			return 0;
 		return ammo;
 	}
 

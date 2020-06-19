@@ -77,7 +77,7 @@ public class Board extends JPanel {
 
 		if (playerSkinChoosen == playerSkinTwo)
 			playerSkin = playerSkinTwo;
-		else // playerSkinChoosen == playerSkinOne, become a default
+		else // playerSkinChoosen == playerSkinOne, become default
 			playerSkin = playerSkinOne;
 
 		initBoard();
@@ -866,7 +866,7 @@ public class Board extends JPanel {
 		}
 		if (finishedBags == bagaccu) {
 			bagaccu += 1;
-			soko.setAmmo(soko.getAmmo() + 3);
+			soko.setAmmo(soko.getAmmo() + 2);
 		}
 		if (finishedBags == nOfBags) {
 			JOptionPane.showMessageDialog(this, "win!");

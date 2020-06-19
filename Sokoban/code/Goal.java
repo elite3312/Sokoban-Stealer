@@ -8,7 +8,6 @@ public class Goal extends Actor {
 
     public Goal(int x, int y) {
         super(x, y);
-
         initArea();
     }
 
