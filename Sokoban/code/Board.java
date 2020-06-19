@@ -57,6 +57,7 @@ public class Board extends JPanel {
 	// private Police cop;
 	private Player soko;
 	private Portal portal;
+	private CheatManager cheater = new CheatManager();
 
 	private boolean isCompleted = false;
 	private boolean lost = false;
@@ -179,9 +180,9 @@ public class Board extends JPanel {
 		g.setColor(new Color(230, 230, 230));
 		g.fillRect(0, 0, this.getWidth(), this.getHeight());
 
-		String info = "\"portals left:" + portal.getAvailability();
+		String info = "portals left：" + portal.getAvailability();
 
-		info += "\"    \"ammo = " + soko.getAmmo() + "\"";
+		info += "        ammo：" + soko.getAmmo();
 
 		if (collisionIgnore) {
 			Long checkCollisonTime = new Date().getTime() - collisionIgnoreTime;
@@ -191,15 +192,23 @@ public class Board extends JPanel {
 			}
 			double temp = checkCollisonTime / 1000.0;
 			if (temp >= 0)
-				info += "    \"skill time:\" " + String.format("%.2f", temp);
+				info += "        skill time：" + String.format("%.2f", temp);
 		}
 		else {
 			if (penetrateNotUsed) {
-				info += "    \"ghost skill:\" avalible";
+				info += "        ghost skill：avalible";
 			}
 			else {
-				info += "    \"ghost skill:\" unavalible";
+				info += "        ghost skill：unavalible";
 			}
+		}
+
+		if(cheater.checkCondition()){
+			info = "portals left：∞        ammo：∞        ghost skill：∞";
+			penetrateNotUsed = true;
+			collisionIgnore = true;
+			soko.setAmmo(9999);
+			portal.setAvailability(9999);;
 		}
 
 		String info2 = "bagAchivement " + (bagaccu - 1);
@@ -388,6 +397,10 @@ public class Board extends JPanel {
 
 			switch (key) {
 				case KeyEvent.VK_LEFT:
+					currentlyFacing = faceLeft;
+					cheater.pushCommand(faceLeft);
+					soko.setPlayerImage(faceLeft);
+
 					if (checkCollisions(soko, LEFT_COLLISION)) {
 						return;
 					}
@@ -402,11 +415,13 @@ public class Board extends JPanel {
 
 					}
 					soko.move(-SPACE, 0);
-					soko.setPlayerImage(faceLeft);
-					currentlyFacing = faceLeft;
 					break;
 
 				case KeyEvent.VK_RIGHT:
+					currentlyFacing = faceRight;
+					cheater.pushCommand(faceRight);
+					soko.setPlayerImage(faceRight);
+
 					if (checkCollisions(soko, RIGHT_COLLISION)) {
 						return;
 					}
@@ -421,11 +436,13 @@ public class Board extends JPanel {
 
 					}
 					soko.move(SPACE, 0);
-					soko.setPlayerImage(faceRight);
-					currentlyFacing = faceRight;
 					break;
 
 				case KeyEvent.VK_UP:
+					currentlyFacing = faceUp;
+					cheater.pushCommand(faceUp);
+					soko.setPlayerImage(faceUp);
+
 					if (checkCollisions(soko, TOP_COLLISION)) {
 						return;
 					}
@@ -440,11 +457,13 @@ public class Board extends JPanel {
 
 					}
 					soko.move(0, -SPACE);
-					soko.setPlayerImage(faceUp);
-					currentlyFacing = faceUp;
 					break;
 
 				case KeyEvent.VK_DOWN:
+					currentlyFacing = faceDown;
+					cheater.pushCommand(faceDown);
+					soko.setPlayerImage(faceDown);
+
 					if (checkCollisions(soko, BOTTOM_COLLISION)) {
 						return;
 					}
@@ -458,10 +477,7 @@ public class Board extends JPanel {
 						}
 
 					}
-
 					soko.move(0, SPACE);
-					soko.setPlayerImage(faceDown);
-					currentlyFacing = faceDown;
 					break;
 
 				case KeyEvent.VK_R: // restart

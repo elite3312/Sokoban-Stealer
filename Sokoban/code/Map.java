@@ -39,29 +39,29 @@ public class Map {
 		"H##                               #HH\n" +
 		"H##### ### #@# $#        $       #HHH\n" +
 		"HHHH##                    ########HHH\n" +
-		"HHHH########################HHHHHHHHH\n" +
-		"HHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHH";
+		"HHHH##############################HHH\n" +
+		"HHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHH\n";
 
     private String level_3 =
 		"HHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHH\n" +
 		"H##################################H\n" +
-		"H#####          !     ........    #H\n" +
-		"H#####!    #     ##    #  $       #H\n" +
-		"H#####  $ ###  ####  ###  # # ### #H\n" +
+		"H#####           !     .......... #H\n" +
+		"H##!       #     ##    #  $  #### #H\n" +
+		"H#####    ###  ####  ######   ### #H\n" +
 		"H###  $   #                 #     #H\n" +
-		"H###!#    #  #####    ##        ###H\n" +
-		"H#   # ## ######      #   ##### ###H\n" +
+		"H###!#     $ #####$   ###       ###H\n" +
+		"H# $ # ##### ###      #   ##### ###H\n" +
 		"H#      ##          ! #       ! ###H\n" +
-		"H###   # #@# $##       $  ####  ###H\n" +
-		"H#####        #     ## #   $    ###H\n" +
-		"H#! ###          $    ##  ! ###$###H\n" +
-		"H##                 !  #          #H\n" +
-		"H###########  #####################H\n" +
-		"HHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHH";
+		"H###    ##@##$##       $  ####  ###H\n" +
+		"H#####   ###  #     ####   $    ###H\n" +
+		"H#! ####$             ##  ! ###$###H\n" +
+		"H#                  !  #          #H\n" +
+		"H##################################H\n" +
+		"HHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHH\n";
 
     private String level_4 = 
 		"HHHHHHHHHHHHHHHHHHH \n" +
-		"H   ######  !     H \n" +
+		"H   ##      !     H \n" +
 		"H $  ##########   H \n" +
 		"H# # #       #### H \n" +
 		"H# #   $#$#@  #   H \n" +
@@ -71,7 +71,7 @@ public class Map {
 		"H# ##  .....   # #H \n" +
 		"H $#########  ##$ H \n" +
 		"H  $  !   $    $ !H \n" +
-		"H  #   #  !#   #  H \n" +
+		"H !#   #  !#   #  H \n" +
 		"HHHHHHHHHHHHHHHHHHH \n";
 
     private String old_level_4 =

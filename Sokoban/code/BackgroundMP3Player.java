@@ -6,7 +6,6 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 
 import javazoom.jl.decoder.JavaLayerException;
-
 import javazoom.jl.player.advanced.AdvancedPlayer;
 // import javazoom.jl.player.Player;
 /* References:
@@ -19,30 +18,31 @@ public class BackgroundMP3Player {
 	private AdvancedPlayer playerr;
 	boolean loop = true;
 	private File file;
+	private File tempfile = new File("");
+	private String path = tempfile.getAbsolutePath();
 
 	public BackgroundMP3Player() throws FileNotFoundException, JavaLayerException {
-		;
-	}
 
-	public void setSong(int songSeq){
-
-		File tempfile = new File("");
-		String path = tempfile.getAbsolutePath();
+		tempfile = new File("");
+		path = tempfile.getAbsolutePath();
 
 		if(!path.contains("code"))
 			path = "BGM/rep.mp3";
 		else
 			path = path.replaceAll("code", "BGM/rep.mp3");
-		
+	}
+
+	public void setSong(int songSeq){
+
 		switch (songSeq) {
 			case 1:
 				path = path.replaceAll("rep", "Beyond_My_Beloved_Horizon");
 				break;
 			case 2:
-				path = path.replaceAll("rep", "AlanWalkerSpectre");
+				path = path.replaceAll("rep", "Spika");
 				break;
 			case 3:
-				path = path.replaceAll("rep", "Spika");
+				path = path.replaceAll("rep", "AlanWalkerSpectre");
 				break;
 			default:
 				path = path.replaceAll("rep", "AlanWalkerSpectre");
@@ -100,5 +100,4 @@ public class BackgroundMP3Player {
 		playerr.close();
 	}
 
-	
 }
