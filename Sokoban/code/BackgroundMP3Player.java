@@ -19,23 +19,37 @@ public class BackgroundMP3Player {
 	private AdvancedPlayer playerr;
 	boolean loop = true;
 	private File file;
-	private int songChoose = 1;
 
 	public BackgroundMP3Player() throws FileNotFoundException, JavaLayerException {
-		
+		;
+	}
+
+	public void setSong(int songSeq){
+
 		File tempfile = new File("");
 		String path = tempfile.getAbsolutePath();
 
 		if(!path.contains("code"))
-			path = "BGM/BGM3.mp3";
+			path = "BGM/rep.mp3";
 		else
-			path = path.replaceAll("code", "BGM/BGM3.mp3");
+			path = path.replaceAll("code", "BGM/rep.mp3");
+		
+		switch (songSeq) {
+			case 1:
+				path = path.replaceAll("rep", "Beyond_My_Beloved_Horizon");
+				break;
+			case 2:
+				path = path.replaceAll("rep", "AlanWalkerSpectre");
+				break;
+			case 3:
+				path = path.replaceAll("rep", "Spika");
+				break;
+			default:
+				path = path.replaceAll("rep", "AlanWalkerSpectre");
+				break;
+		}
 
 		file = new File(path);
-	}
-
-	public void setSong(int songSeq){
-		songChoose = songSeq;
 	}
 
 	public void circularPlay() {

@@ -26,12 +26,15 @@ public class Sokoban extends JFrame {
 	private void initUI() {
 
 		Board board = new Board(player, level);
+
 		try {
 			music = new BackgroundMP3Player();
+			music.setSong(level);
 			music.circularPlay();
 		} catch (FileNotFoundException | JavaLayerException e) {
 			System.out.printf("music err");
 		}
+
 		add(board);
 
 		setTitle("Sokoban-Stealer");
