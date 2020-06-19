@@ -19,10 +19,23 @@ public class BackgroundMP3Player {
 	private AdvancedPlayer playerr;
 	boolean loop = true;
 	private File file;
+	private int songChoose = 1;
 
 	public BackgroundMP3Player() throws FileNotFoundException, JavaLayerException {
 		
-		file = new File("Alan Walker - Spectre [NCS Release].mp3");
+		File tempfile = new File("");
+		String path = tempfile.getAbsolutePath();
+
+		if(!path.contains("code"))
+			path = "BGM/BGM3.mp3";
+		else
+			path = path.replaceAll("code", "BGM/BGM3.mp3");
+
+		file = new File(path);
+	}
+
+	public void setSong(int songSeq){
+		songChoose = songSeq;
 	}
 
 	public void circularPlay() {

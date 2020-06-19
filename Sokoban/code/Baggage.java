@@ -7,7 +7,6 @@ import javax.swing.ImageIcon;
 public class Baggage extends Actor {
 
     public Baggage(int x, int y) {
-
         super(x, y);
         initBaggage();
     }
@@ -22,8 +21,11 @@ public class Baggage extends Actor {
         File f = new File("");
         String path = f.getAbsolutePath();
         
-        if(!path.contains("code")) path = "pic/baggage.png";
-        else path = path.replaceAll("code", "pic/baggage.png");
+        if(!path.contains("code"))
+            path = "pic/baggage.png";
+        else
+            path = path.replaceAll("code", "pic/baggage.png");
+            
         ImageIcon iicon = new ImageIcon(path);
         Image image = iicon.getImage();
         setImage(image);
@@ -43,6 +45,5 @@ public class Baggage extends Actor {
 
     public int getY(){
         return y();
-    }
-    
+    }   
 }

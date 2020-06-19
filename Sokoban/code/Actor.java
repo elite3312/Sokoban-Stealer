@@ -8,6 +8,7 @@ public class Actor {
 
     private int x;
     private int y;
+    
     private Image image;
 
     public Actor(int x, int y) {
@@ -45,7 +46,7 @@ public class Actor {
 
     public boolean isLeftCollision(Actor actor) {
         return (x() - SPACE == actor.x() && y() == actor.y()) || (x() == actor.x() && y() == actor.y());
-    }// you can't move if move side is the wall               or is in the wall
+    } // you can't move if move side is the wall               or is in the wall
 
     public boolean isRightCollision(Actor actor) {
         return (x() + SPACE == actor.x() && y() == actor.y()) || (x() == actor.x() && y() == actor.y());

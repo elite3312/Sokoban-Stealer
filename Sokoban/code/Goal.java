@@ -4,9 +4,9 @@ import java.awt.Image;
 import java.io.File;
 import javax.swing.ImageIcon;
 
-public class Area extends Actor {
+public class Goal extends Actor {
 
-    public Area(int x, int y) {
+    public Goal(int x, int y) {
         super(x, y);
 
         initArea();
@@ -22,8 +22,10 @@ public class Area extends Actor {
         File f = new File("");
         String path = f.getAbsolutePath();
         
-        if(!path.contains("code")) path = "pic/area.png";
-        else path = path.replaceAll("code", "pic/area.png");
+        if(!path.contains("code"))
+            path = "pic/area.png";
+        else
+            path = path.replaceAll("code", "pic/area.png");
 
         ImageIcon iicon = new ImageIcon(path);
         Image image = iicon.getImage();

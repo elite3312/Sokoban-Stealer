@@ -66,8 +66,11 @@ public class Police extends Actor {
         File f = new File("");
         String path = f.getAbsolutePath();
         
-        if(!path.contains("code"))path="pic/police.png";
-        else path = path.replaceAll("code", "pic/police.png");
+        if(!path.contains("code"))
+            path = "pic/police.png";
+        else
+            path = path.replaceAll("code", "pic/police.png");
+            
         ImageIcon iicon = new ImageIcon(path);
         Image image = iicon.getImage();
         setImage(image);

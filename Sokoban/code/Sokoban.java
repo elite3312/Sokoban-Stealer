@@ -35,12 +35,11 @@ public class Sokoban extends JFrame {
 		add(board);
 
 		setTitle("Sokoban-Stealer");
-
 		setSize(board.getBoardWidth() + OFFSET, board.getBoardHeight() + 2 * OFFSET);
-
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setLocationRelativeTo(null);
 		setVisible(true);
+
 		Timer timer = new Timer();
 		TimerTask refresh = new TimerTask() {
 			@Override
@@ -59,14 +58,12 @@ public class Sokoban extends JFrame {
 				}
 				else if(board.getIsCompleted()) {
 					this.cancel();
-					
 					Sokoban.this.dispose();
 					setVisible(false);
 				}
 			}
 		};
-		timer.schedule(refresh, 0, 50);
-		
-	}
 
+		timer.schedule(refresh, 0, 50);
+	}
 }

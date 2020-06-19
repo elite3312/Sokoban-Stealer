@@ -1,18 +1,22 @@
 package java2020.finalProject;
 
+import java.util.List;
+
+import java.io.File;
+import java.io.IOException;
+
+import java.net.URISyntaxException;
+
 import java.awt.GridLayout;
-
-
-
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.EventQueue;
 import java.awt.event.ActionListener;
-import java.io.File;
-import java.io.IOException;
-import java.net.URISyntaxException;
-import java.util.List;
+import java.awt.FlowLayout;
+import java.awt.Font;
+import java.awt.Color;
 import java.awt.event.ActionEvent;
+
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.BorderFactory;
@@ -24,9 +28,6 @@ import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.border.Border;
 import javax.swing.JTextArea;
-import java.awt.FlowLayout;
-import java.awt.Font;
-import java.awt.Color;
 import javax.swing.JButton;
 
 public class MainMenuFrame extends JFrame implements ActionListener {
@@ -37,7 +38,6 @@ public class MainMenuFrame extends JFrame implements ActionListener {
 	private JPanel topPanel;
 	private JPanel picPanel;
 	private JPanel bottomPanel;
-	
 	
 	private JRadioButton p1;
 	private JRadioButton p2;
@@ -218,4 +218,3 @@ public class MainMenuFrame extends JFrame implements ActionListener {
 	}
 	
 }
-//

@@ -6,11 +6,13 @@ import java.io.File;
 import javax.swing.ImageIcon;
 
 public class Bullet extends Actor {
-	private final int SPACE = 40;// actor side length
+
+	private final int SPACE = 40; // actor side length
 	private final int LEFT = 1;
 	private final int RIGHT = 2;
 	private final int TOP = 3;
 	private final int BOTTOM = 4;
+
 	private int dir;
 	private int maxRange = 15;
 
@@ -30,8 +32,10 @@ public class Bullet extends Actor {
 		File f = new File("");
         String path = f.getAbsolutePath();
 		
-		if(!path.contains("code"))path = "pic/bullet.png";
-		else path = path.replaceAll("code", "pic/bullet.png");
+		if(!path.contains("code"))
+			path = "pic/bullet.png";
+		else
+			path = path.replaceAll("code", "pic/bullet.png");
 		
 		ImageIcon iicon = new ImageIcon(path);
 		Image image = iicon.getImage();

@@ -28,74 +28,74 @@ public class Map {
         "HHHHHHHHHHHHHHHHHHHHH\n" ;
     
     private String level_2 =
-      "HHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHH\n"
-    + "HHHH############################HHHHH\n"
-    + "HHHH##          !      .......  #HHHH\n"
-    + "HHHH##$    !         $         ##HHHH\n"
-    + "HH####  $         ########     ##HHHH\n"
-    + "HH##  $ $ #  !                ##HHHHH\n"
-    + "H#### # ## #        !          #####H\n"
-    + "H##   # ## #####      ##!         #HH\n"
-    + "H##                               #HH\n"
-    + "H##### ### #@# $#        $       #HHH\n"
-    + "HHHH##                    ########HHH\n"
-    + "HHHH########################HHHHHHHHH\n"
-    + "HHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHH";
+		"HHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHH\n" +
+		"HHHH############################HHHHH\n" +
+		"HHHH##          !      .......  #HHHH\n" +
+		"HHHH##$    !         $         ##HHHH\n" +
+		"HH####  $         ########     ##HHHH\n" +
+		"HH##  $ $ #  !                ##HHHHH\n" +
+		"H#### # ## #        !          #####H\n" +
+		"H##   # ## #####      ##!         #HH\n" +
+		"H##                               #HH\n" +
+		"H##### ### #@# $#        $       #HHH\n" +
+		"HHHH##                    ########HHH\n" +
+		"HHHH########################HHHHHHHHH\n" +
+		"HHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHH";
 
     private String level_3 =
-      "HHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHH\n"
-    + "HHHH###############################H\n"
-    + "HHHH##          !     .......     #H\n"
-    + "HHHH##!    #     ##    #  $       #H\n"
-    + "HH####  $ ###  ####  ###  # #   ###H\n"
-    + "HH##  $   #                 #   ###H\n"
-    + "H###!#    #  #####    ##        ###H\n"
-    + "H#   # ## ######      #   ##### ###H\n"
-    + "H#      ##          ! #       ! ###H\n"
-    + "H###   # #@# $##       $  ####  ###H\n"
-    + "H#####        #     ## #   $    ###H\n"
-    + "H######          $    ##  ! ### ###H\n"
-    + "H######             !  #        ###H\n"
-    + "H##################################H\n"
-    + "HHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHH";
+		"HHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHH\n" +
+		"HHHH###############################H\n" +
+		"HHHH##          !     .......     #H\n" +
+		"HHHH##!    #     ##    #  $       #H\n" +
+		"HH####  $ ###  ####  ###  # #   ###H\n" +
+		"HH##  $   #                 #   ###H\n" +
+		"H###!#    #  #####    ##        ###H\n" +
+		"H#   # ## ######      #   ##### ###H\n" +
+		"H#      ##          ! #       ! ###H\n" +
+		"H###   # #@# $##       $  ####  ###H\n" +
+		"H#####        #     ## #   $    ###H\n" +
+		"H######          $    ##  ! ### ###H\n" +
+		"H######             !  #        ###H\n" +
+		"H##################################H\n" +
+		"HHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHH";
 
     private String level_4 = 
-      "HHHHHHHHHHHHHHHHHHH \n"
-    + "H   ######  !     H \n"
-    + "H $  ##########   H \n"
-    + "H# # #       #### H \n"
-    + "H# #   $#$#@  #   H \n"
-    + "H  #  !   $ #   $ H \n"
-    + "H !###  ######## #H \n"
-    + "H  ##! .....   # #H \n"
-    + "H# ##  .....   # #H \n"
-    + "H $#########  ##$ H \n"
-    + "H  $  !   $    $ !H \n"
-    + "H  #   #  !#   #  H \n"
-    + "HHHHHHHHHHHHHHHHHHH \n";
+		"HHHHHHHHHHHHHHHHHHH \n" +
+		"H   ######  !     H \n" +
+		"H $  ##########   H \n" +
+		"H# # #       #### H \n" +
+		"H# #   $#$#@  #   H \n" +
+		"H  #  !   $ #   $ H \n" +
+		"H !###  ######## #H \n" +
+		"H  ##! .....   # #H \n" +
+		"H# ##  .....   # #H \n" +
+		"H $#########  ##$ H \n" +
+		"H  $  !   $    $ !H \n" +
+		"H  #   #  !#   #  H \n" +
+		"HHHHHHHHHHHHHHHHHHH \n";
 
     private String old_level_4 =
-      "HHHHHHHHHHHHHHHHHHH \n"
-    + "H   ##############H \n"
-    + "H $  #############H \n"
-    + "H# # #       #####H \n"
-    + "H# #   $#$#@  #   H \n"
-    + "H  #      $ #   $ H \n"
-    + "H !### ######### #H \n"
-    + "H  ## ..%..... # #H \n"
-    + "H# ## %.%..%.% # #H \n"
-    + "H $########## ##$ H \n"
-    + "H  $   $  $    $  H \n"
-    + "H  #   #   #   #  H \n"
-    + "HHHHHHHHHHHHHHHHHHH \n";
+		"HHHHHHHHHHHHHHHHHHH \n" +
+		"H   ##############H \n" +
+		"H $  #############H \n" +
+		"H# # #       #####H \n" +
+		"H# #   $#$#@  #   H \n" +
+		"H  #      $ #   $ H \n" +
+		"H !### ######### #H \n" +
+		"H  ## ..%..... # #H \n" +
+		"H# ## %.%..%.% # #H \n" +
+		"H $########## ##$ H \n" +
+		"H  $   $  $    $  H \n" +
+		"H  #   #   #   #  H \n" +
+		"HHHHHHHHHHHHHHHHHHH \n";
 
    
     public String getMap(int selection){
         switch (selection){
-        	case 1:return this.level_1;
-        	case 2:return this.level_3;
-          case 3:return this.level_4; // may change here
-        	default :return "invalid selection";
+        	case 1 : return this.level_1;
+        	case 2 : return this.level_3;
+            case 3 : return this.level_4; // may change here
+        	default : return "invalid selection";
         }
     }
 }

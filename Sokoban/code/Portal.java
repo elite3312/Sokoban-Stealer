@@ -12,7 +12,6 @@ public class Portal extends Actor {
 
 	public Portal(int x, int y) {
 		super(x, y);
-
 		initPortal();
 	}
 
