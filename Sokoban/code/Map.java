@@ -4,11 +4,11 @@ public class Map {
 
     /************************************************************
      # : wall (penetrable) 
-     H : hard wall (impenetrable) (for the boundary of themap)
+     H : hard wall (impenetrable) (for the boundary of the map)
      $ : baggage
      @ : player
      . : goal
-     ~ : police
+     ! : police
      % : goal with baggage
      *************************************************************/
 
@@ -51,10 +51,10 @@ public class Map {
 		"H###  $   #                 #     #H\n" +
 		"H###!#     $ #####$   ###       ###H\n" +
 		"H# $ # ##### ###      #   ##### ###H\n" +
-		"H#      ##          ! #       ! ###H\n" +
-		"H###    ##@##$##       $  ####  ###H\n" +
-		"H#####   ###  #     ####   $    ###H\n" +
-		"H#! ####$             ##  ! ###$###H\n" +
+		"H#      ##            #       ! ###H\n" +
+		"H###    ##@##$##    !  $  ####  ###H\n" +
+		"H#####  ###   #     ####   $    ###H\n" +
+		"H#! ## $      #      ##  ! ###$###H\n" +
 		"H#                  !  #          #H\n" +
 		"H##################################H\n" +
 		"HHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHH\n";

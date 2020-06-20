@@ -6,14 +6,13 @@ import javax.swing.JOptionPane;
 import java.io.FileNotFoundException;
 
 import javazoom.jl.decoder.JavaLayerException;
-import ntou.cs.finalterm.test.game.BackgroundMP3Player;
 import javazoom.jl.player.advanced.AdvancedPlayer;
 import java.util.Timer;
 import java.util.TimerTask;
 
 public class Sokoban extends JFrame {
 	private BackgroundMP3Player music;
-	private final int OFFSET = 30;
+	private final int MARGIN = 40;
 	private int player;
 	private int level;
 
@@ -38,7 +37,7 @@ public class Sokoban extends JFrame {
 		add(board);
 
 		setTitle("Sokoban-Stealer");
-		setSize(board.getBoardWidth() + OFFSET, board.getBoardHeight() + 2 * OFFSET);
+		setSize(board.getBoardWidth() + MARGIN, board.getBoardHeight() + 2 * MARGIN);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setLocationRelativeTo(null);
 		setVisible(true);

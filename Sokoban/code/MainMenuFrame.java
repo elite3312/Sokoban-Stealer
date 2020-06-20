@@ -32,9 +32,6 @@ import javax.swing.JButton;
 
 public class MainMenuFrame extends JFrame implements ActionListener {
 
-	private JTextField textField1;
-	private JTextField textField;
-
 	private JPanel topPanel;
 	private JPanel picPanel;
 	private JPanel bottomPanel;
@@ -99,7 +96,7 @@ public class MainMenuFrame extends JFrame implements ActionListener {
 		add(BorderLayout.NORTH, picPanel);
 		
 		String introduction = "偷東西，是一門學問，更是一門藝術。\n在狹小的場地中躲避警衛，並成功將貨物運送到指定地點，是你的目標\n" +
-							  "你能否越過重重障礙，並且獲得最終的勝利?\n\n玩法說明：遊戲中按空白鍵可以朝前方發射子彈，並擊倒警衛\n" + 
+							  "你能否越過重重障礙，並且獲得最終的勝利?\n\n玩法說明：遊戲中按空白鍵可以朝前方發射子彈，並擊倒警衛(每達成一個貨物可加兩發子彈)\n" + 
 							  "　　　　　按Z鍵，可以設置傳送點或傳送至傳送點(一關限三次)\n　　　　　按X鍵，可以穿牆(一關限一次，三秒)";
 
 		JTextArea intro = new JTextArea(introduction);

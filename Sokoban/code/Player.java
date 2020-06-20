@@ -12,10 +12,10 @@ public class Player extends Actor {
 	private int ammo =3;
 	private int rifleAvailable = 1;
 
-	private final int faceLeft = 1;
-	private final int faceRight = 2;
-	private final int faceUp = 3;
-	private final int faceDown = 4;
+	private final int LEFT = 1;
+	private final int RIGHT = 2;
+	private final int UP = 3;
+	private final int DOWN = 4;
 
 	private final int playerSkinOne = 1;
 	private final int playerSkinTwo = 2;
@@ -82,16 +82,16 @@ public class Player extends Actor {
 	public void setPlayerImage(int direction) {
 
 		switch (direction) {
-			case faceUp:
+			case UP:
 				setImage(upIcon.getImage());
 				break;
-			case faceLeft:
+			case LEFT:
 				setImage(leftIcon.getImage());
 				break;
-			case faceDown:
+			case DOWN:
 				setImage(downIcon.getImage());
 				break;
-			case faceRight:
+			case RIGHT:
 				setImage(rightIcon.getImage());
 				break;
 		}

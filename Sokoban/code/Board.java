@@ -17,45 +17,37 @@ import java.util.Random;
 
 public class Board extends JPanel {
 
-	Random ran = new Random(new Date().getTime());
-
 	// constant
-	private final int OFFSET = 30;
+	private final int MARGIN = 40;
 	private final int SPACE = 40; // actor side length
-	private final int LEFT_COLLISION = 1;
-	private final int RIGHT_COLLISION = 2;
-	private final int TOP_COLLISION = 3;
-	private final int BOTTOM_COLLISION = 4;
+	private final int LEFT = 1;
+	private final int RIGHT = 2;
+	private final int UP = 3;
+	private final int DOWN = 4;
 	private final int selection;
-	private final int faceLeft = 1;
-	private final int faceRight = 2;
-	private final int faceUp = 3;
-	private final int faceDown = 4;
 	private final int playerSkinOne = 1;
 	private final int playerSkinTwo = 2;
 
 	//int variable
-	private int currentlyFacing = 3;
+	private int currentlyFacing = DOWN;
 	public int executetime = 0; // repaint time
 	public static int forbutton = 0;
 	private int width = 0; // board width
 	private int height = 0; // board height
 	private int policePeriod;
-	private int policeStep = 2; // police step
-	private int stepsNow = policeStep;
-	private int toward = (ran.nextInt(40) % 4) + 1;
-	private int bagaccu = 1;
+	private int toward = 1;
+	private int Achived = 1;
 	private int playerSkin;
 	private long collisionIgnoreTime;
 
 	private ArrayList<Police> cops;
 	private ArrayList<Wall> walls;
-	private ArrayList<Baggage> baggs;
-	private ArrayList<Goal> areas;
+	private ArrayList<Treasure> money;
+	private ArrayList<Goal> goals;
 	private ArrayList<HardWall> hardWalls;
 
 	// private Police cop;
-	private Player soko;
+	private Player stealer;
 	private Portal portal;
 	private CheatManager cheater = new CheatManager();
 
@@ -68,8 +60,6 @@ public class Board extends JPanel {
 		selection = level;
 		if (level == 3) {
 			policePeriod = 4;
-			File temp = new File("");
-			String path = temp.getAbsolutePath();
 		}
 		else if (level == 2)
 			policePeriod = 8;
@@ -101,13 +91,13 @@ public class Board extends JPanel {
 	private void initWorld() {
 
 		walls = new ArrayList<>();
-		baggs = new ArrayList<>();
-		areas = new ArrayList<>();
+		money = new ArrayList<>();
+		goals = new ArrayList<>();
 		hardWalls = new ArrayList<>();
 		cops = new ArrayList<>();
 		String level;
-		int x = OFFSET;
-		int y = OFFSET + 50;
+		int x = MARGIN;
+		int y = MARGIN + 50;
 
 		Map maptest;
 
@@ -126,13 +116,15 @@ public class Board extends JPanel {
 					if (this.width < x) {
 						this.width = x;
 					}
-					x = OFFSET;
+					x = MARGIN;
 					break;
+
 				case '!':
 					cops.add(new Police(x, y));
 					x += SPACE;
 					;
 					break;
+
 				case '#':
 					walls.add(new Wall(x, y)); // create wall at (x,y)
 					x += SPACE;
@@ -144,17 +136,17 @@ public class Board extends JPanel {
 					break;
 
 				case '$':
-					baggs.add(new Baggage(x, y));
+					money.add(new Treasure(x, y));
 					x += SPACE;
 					break;
 
 				case '.':
-					areas.add(new Goal(x, y)); // target area
+					goals.add(new Goal(x, y)); // target area
 					x += SPACE;
 					break;
 
 				case '@':
-					soko = new Player(x, y, playerSkin); // player
+					stealer = new Player(x, y, playerSkin); // player
 					x += SPACE;
 					break;
 
@@ -163,9 +155,10 @@ public class Board extends JPanel {
 					break;
 
 				case '%':
-					areas.add(new Goal(x, y));
-					baggs.add(new Baggage(x, y));
+					goals.add(new Goal(x, y));
+					money.add(new Treasure(x, y));
 					x += SPACE;
+					break;
 
 				default:
 					break;
@@ -180,9 +173,8 @@ public class Board extends JPanel {
 		g.setColor(new Color(230, 230, 230));
 		g.fillRect(0, 0, this.getWidth(), this.getHeight());
 
-		String info = "portals left：" + portal.getAvailability();
-
-		info += "        ammo：" + soko.getAmmo();
+		String info = String.format("portals left：%d", portal.getAvailability());
+		info += String.format("        ammo：%d", stealer.getAmmo());
 
 		if (collisionIgnore) {
 			Long checkCollisonTime = new Date().getTime() - collisionIgnoreTime;
@@ -192,7 +184,7 @@ public class Board extends JPanel {
 			}
 			double temp = checkCollisonTime / 1000.0;
 			if (temp >= 0)
-				info += "        skill time：" + String.format("%.2f", temp);
+				info += String.format("        skill time：%.2f", temp);
 		}
 		else {
 			if (penetrateNotUsed) {
@@ -207,11 +199,11 @@ public class Board extends JPanel {
 			info = "portals left：∞        ammo：∞        ghost skill：∞";
 			penetrateNotUsed = true;
 			collisionIgnore = true;
-			soko.setAmmo(9999);
+			stealer.setAmmo(9999);
 			portal.setAvailability(9999);;
 		}
 
-		String info2 = "bagAchivement " + (bagaccu - 1);
+		String info2 = "bagAchivement " + (Achived - 1);
 
 		g.setColor(new Color(0, 0, 0));
 		g.setFont(new Font("default", Font.PLAIN, 25));
@@ -221,20 +213,20 @@ public class Board extends JPanel {
 
 		ArrayList<Actor> world = new ArrayList<>();
 
-		world.addAll(areas);
+		world.addAll(goals);
 
-		if (soko.getBullet() != null)
-			world.add(soko.getBullet());
+		if (stealer.getBullet() != null)
+			world.add(stealer.getBullet());
 		world.addAll(walls);
 		world.addAll(hardWalls);
-		world.addAll(baggs);
+		world.addAll(money);
 
 		if (cops.isEmpty() != true) {
 
 			world.addAll(cops);
 		}
 
-		world.add(soko);
+		world.add(stealer);
 		world.add(portal);
 
 		int tempBulletX = -500, tempBulletY = -500;
@@ -252,19 +244,13 @@ public class Board extends JPanel {
 				int accumulate = 0; // avoid police surrounded by bag
 				while (policeCanGo == 0) {
 					if ((accumulate += 1) == 100) {
-						System.out.printf("died surr");
 						world.remove(cop);
 						cops.remove(cop);
 						cop = null;
 						break;
 					}
 					policeCanGo = 1;
-					if (stepsNow == 0) {
-						toward = (ran.nextInt(40) % 4) + 1;
-						stepsNow = policeStep;
-					} else {
-						stepsNow--;
-					}
+					toward = cop.nextStep();
 
 					if (checkHardWallCollision(cop, toward)) {
 						policeCanGo = 0;
@@ -275,7 +261,7 @@ public class Board extends JPanel {
 					else if (checkBagCollisionforPolice(cop, toward)) {
 						policeCanGo = 0;
 					}
-					else if (checkPersonAndPersonCollision(cop, soko, toward)) {
+					else if (checkPersonAndPersonCollision(cop, stealer, toward)) {
 						policeCanGo = 0;
 						// System.out.printf("kill\n");
 						playerLoss();
@@ -292,7 +278,7 @@ public class Board extends JPanel {
 
 					}
 					if (cop.x() == tempBulletX && cop.y() == tempBulletY) {
-						soko.setBullet(null);
+						stealer.setBullet(null);
 						world.remove(cop);
 						cop = null;
 						break;
@@ -314,11 +300,11 @@ public class Board extends JPanel {
 				g.drawImage(item.getImage(), item.x() + 2, item.y() + 2, this);
 
 			}
-			else if (item instanceof Baggage) {
+			else if (item instanceof Treasure) {
 
 				g.drawImage(item.getImage(), item.x(), item.y(), this);
 				if (item.x() == tempBulletX && item.y() == tempBulletY) // bullet collides with wall
-					soko.setBullet(null);
+					stealer.setBullet(null);
 
 			}
 			else if (item instanceof Portal) {
@@ -340,7 +326,7 @@ public class Board extends JPanel {
 						for (int k = 0; k < cops.size(); k++) {
 							Police cop = cops.get(k);
 							if (judge_XandY_Collision(tempBulletX, tempBulletY, cop.getx(), cop.gety())) {
-								soko.setBullet(null);
+								stealer.setBullet(null);
 								cops.remove(k);
 								world.remove(cop);
 								cop = null;
@@ -354,14 +340,14 @@ public class Board extends JPanel {
 						g.drawImage(item.getImage(), item.x() + 2 + SPACE / 2, item.y() + 2 + SPACE / 3, this);
 				}
 				else
-					soko.setBullet(null);
+					stealer.setBullet(null);
 
 			}
 			else if (item instanceof Wall){ // wall
 
 				g.drawImage(item.getImage(), item.x(), item.y(), this);
 				if (item.x() == tempBulletX && item.y() == tempBulletY) // bullet collides with wall
-					soko.setBullet(null);
+					stealer.setBullet(null);
 
 			}
 			else { // area
@@ -397,87 +383,87 @@ public class Board extends JPanel {
 
 			switch (key) {
 				case KeyEvent.VK_LEFT:
-					currentlyFacing = faceLeft;
-					cheater.pushCommand(faceLeft);
-					soko.setPlayerImage(faceLeft);
+					currentlyFacing = LEFT;
+					cheater.pushCommand(LEFT);
+					stealer.setPlayerImage(LEFT);
 
-					if (checkCollisions(soko, LEFT_COLLISION)) {
+					if (checkCollisions(stealer, LEFT)) {
 						return;
 					}
 					if (!cops.isEmpty()) {
 						for (int i = 0; i < cops.size(); i++) {
 							Police cop = cops.get(i);
-							if (checkPersonAndPersonCollision(soko, cop, LEFT_COLLISION)) {
+							if (checkPersonAndPersonCollision(stealer, cop, LEFT)) {
 								playerLoss();
 								return;
 							}
 						}
 
 					}
-					soko.move(-SPACE, 0);
+					stealer.move(-SPACE, 0);
 					break;
 
 				case KeyEvent.VK_RIGHT:
-					currentlyFacing = faceRight;
-					cheater.pushCommand(faceRight);
-					soko.setPlayerImage(faceRight);
+					currentlyFacing = RIGHT;
+					cheater.pushCommand(RIGHT);
+					stealer.setPlayerImage(RIGHT);
 
-					if (checkCollisions(soko, RIGHT_COLLISION)) {
+					if (checkCollisions(stealer, RIGHT)) {
 						return;
 					}
 					if (!cops.isEmpty()) {
 						for (int i = 0; i < cops.size(); i++) {
 							Police cop = cops.get(i);
-							if (checkPersonAndPersonCollision(soko, cop, RIGHT_COLLISION)) {
+							if (checkPersonAndPersonCollision(stealer, cop, RIGHT)) {
 								playerLoss();
 								return;
 							}
 						}
 
 					}
-					soko.move(SPACE, 0);
+					stealer.move(SPACE, 0);
 					break;
 
 				case KeyEvent.VK_UP:
-					currentlyFacing = faceUp;
-					cheater.pushCommand(faceUp);
-					soko.setPlayerImage(faceUp);
+					currentlyFacing = UP;
+					cheater.pushCommand(UP);
+					stealer.setPlayerImage(UP);
 
-					if (checkCollisions(soko, TOP_COLLISION)) {
+					if (checkCollisions(stealer, UP)) {
 						return;
 					}
 					if (!cops.isEmpty()) {
 						for (int i = 0; i < cops.size(); i++) {
 							Police cop = cops.get(i);
-							if (checkPersonAndPersonCollision(soko, cop, TOP_COLLISION)) {
+							if (checkPersonAndPersonCollision(stealer, cop, UP)) {
 								playerLoss();
 								return;
 							}
 						}
 
 					}
-					soko.move(0, -SPACE);
+					stealer.move(0, -SPACE);
 					break;
 
 				case KeyEvent.VK_DOWN:
-					currentlyFacing = faceDown;
-					cheater.pushCommand(faceDown);
-					soko.setPlayerImage(faceDown);
+					currentlyFacing = DOWN;
+					cheater.pushCommand(DOWN);
+					stealer.setPlayerImage(DOWN);
 
-					if (checkCollisions(soko, BOTTOM_COLLISION)) {
+					if (checkCollisions(stealer, DOWN)) {
 						return;
 					}
 					if (!cops.isEmpty()) {
 						for (int i = 0; i < cops.size(); i++) {
 							Police cop = cops.get(i);
-							if (checkPersonAndPersonCollision(soko, cop, BOTTOM_COLLISION)) {
+							if (checkPersonAndPersonCollision(stealer, cop, DOWN)) {
 								playerLoss();
 								return;
 							}
 						}
 
 					}
-					soko.move(0, SPACE);
+					stealer.move(0, SPACE);
 					break;
 
 				case KeyEvent.VK_R: // restart
@@ -487,33 +473,33 @@ public class Board extends JPanel {
 					break;
 				case KeyEvent.VK_Z: // portal
 					if (portal.getIsActive() == 1) {
-						for (int i = 0; i < baggs.size(); i++) {
-							Baggage ref = baggs.get(i);
+						for (int i = 0; i < money.size(); i++) {
+							Treasure ref = money.get(i);
 							if (ref.x() == portal.x() && ref.y() == portal.y()) /* check if portal is blocked by bag */
 								return;
 
 						}
-						soko.setX(portal.x());
-						soko.setY(portal.y());
+						stealer.setX(portal.x());
+						stealer.setY(portal.y());
 						portal.setIsActive(0);
 					}
 					else {
 						if (portal.getAvailability() == 0)
 							return;
 						portal.setAvailability(portal.getAvailability() - 1);
-						portal.setX(soko.x());
-						portal.setY(soko.y());
+						portal.setX(stealer.x());
+						portal.setY(stealer.y());
 						portal.setIsActive(1);
 					}
 					break;
 
 				case KeyEvent.VK_SPACE: // bullet
-					if (soko.getBullet() != null)
+					if (stealer.getBullet() != null)
 						return;
-					else if (soko.getRifleAvailable() == 1 && soko.getAmmo() > 0) {
+					else if (stealer.getRifleAvailable() == 1 && stealer.getAmmo() > 0) {
 
-						soko.setBullet(new Bullet(soko.x(), soko.y(), currentlyFacing));
-						soko.setAmmo(soko.getAmmo() - 1);
+						stealer.setBullet(new Bullet(stealer.x(), stealer.y(), currentlyFacing));
+						stealer.setAmmo(stealer.getAmmo() - 1);
 					}
 					break;
 
@@ -543,7 +529,7 @@ public class Board extends JPanel {
 		int i;
 
 		switch (type) {
-			case LEFT_COLLISION:
+			case LEFT:
 				for (i = 0; i < hardWalls.size(); i++) {
 					HardWall hardWall = hardWalls.get(i);
 					if (actor.isLeftCollision(hardWall)) {
@@ -552,7 +538,7 @@ public class Board extends JPanel {
 				}
 				break;
 
-			case RIGHT_COLLISION:
+			case RIGHT:
 				for (i = 0; i < hardWalls.size(); i++) {
 					HardWall hardWall = hardWalls.get(i);
 					if (actor.isRightCollision(hardWall)) {
@@ -561,7 +547,7 @@ public class Board extends JPanel {
 				}
 				break;
 
-			case TOP_COLLISION:
+			case UP:
 				for (i = 0; i < hardWalls.size(); i++) {
 					HardWall hardWall = hardWalls.get(i);
 					if (actor.isTopCollision(hardWall)) {
@@ -570,7 +556,7 @@ public class Board extends JPanel {
 				}
 				break;
 
-			case BOTTOM_COLLISION:
+			case DOWN:
 				for (i = 0; i < hardWalls.size(); i++) {
 					HardWall hardWall = hardWalls.get(i);
 					if (actor.isBottomCollision(hardWall)) {
@@ -595,7 +581,7 @@ public class Board extends JPanel {
 		}
 
 		switch (type) {
-			case LEFT_COLLISION:
+			case LEFT:
 				for (int i = 0; i < walls.size(); i++) {
 					Wall wall = walls.get(i);
 					if (actor.isLeftCollision(wall)) {
@@ -604,7 +590,7 @@ public class Board extends JPanel {
 				}
 				break;
 
-			case RIGHT_COLLISION:
+			case RIGHT:
 				for (int i = 0; i < walls.size(); i++) {
 					Wall wall = walls.get(i);
 					if (actor.isRightCollision(wall)) {
@@ -613,7 +599,7 @@ public class Board extends JPanel {
 				}
 				break;
 
-			case TOP_COLLISION:
+			case UP:
 				for (int i = 0; i < walls.size(); i++) {
 					Wall wall = walls.get(i);
 					if (actor.isTopCollision(wall)) {
@@ -622,7 +608,7 @@ public class Board extends JPanel {
 				}
 				break;
 
-			case BOTTOM_COLLISION:
+			case DOWN:
 				for (int i = 0; i < walls.size(); i++) {
 					Wall wall = walls.get(i);
 					if (actor.isBottomCollision(wall)) {
@@ -642,19 +628,19 @@ public class Board extends JPanel {
 
 		switch (type) {
 
-			case LEFT_COLLISION:
-				for (int i = 0; i < baggs.size(); i++) {
-					Baggage bag = baggs.get(i);
-					if (soko.isLeftCollision(bag)) {
-						for (int j = 0; j < baggs.size(); j++) {
-							Baggage item = baggs.get(j);
+			case LEFT:
+				for (int i = 0; i < money.size(); i++) {
+					Treasure bag = money.get(i);
+					if (stealer.isLeftCollision(bag)) {
+						for (int j = 0; j < money.size(); j++) {
+							Treasure item = money.get(j);
 							if (!bag.equals(item)) {
 								if (bag.isLeftCollision(item)) {
 									return true;
 								}
 							}
-							if (checkWallCollision(bag, LEFT_COLLISION)
-									|| checkHardWallCollision(bag, LEFT_COLLISION)) {
+							if (checkWallCollision(bag, LEFT)
+									|| checkHardWallCollision(bag, LEFT)) {
 								return true;
 							}
 						}
@@ -672,19 +658,19 @@ public class Board extends JPanel {
 				}
 				return false;
 
-			case RIGHT_COLLISION:
-				for (int i = 0; i < baggs.size(); i++) {
-					Baggage bag = baggs.get(i);
-					if (soko.isRightCollision(bag)) {
-						for (int j = 0; j < baggs.size(); j++) {
-							Baggage item = baggs.get(j);
+			case RIGHT:
+				for (int i = 0; i < money.size(); i++) {
+					Treasure bag = money.get(i);
+					if (stealer.isRightCollision(bag)) {
+						for (int j = 0; j < money.size(); j++) {
+							Treasure item = money.get(j);
 							if (!bag.equals(item)) {
 								if (bag.isRightCollision(item)) {
 									return true;
 								}
 							}
-							if (checkWallCollision(bag, RIGHT_COLLISION)
-									|| checkHardWallCollision(bag, RIGHT_COLLISION)) {
+							if (checkWallCollision(bag, RIGHT)
+									|| checkHardWallCollision(bag, RIGHT)) {
 								return true;
 							}
 						}
@@ -702,19 +688,19 @@ public class Board extends JPanel {
 				}
 				return false;
 
-			case TOP_COLLISION:
-				for (int i = 0; i < baggs.size(); i++) {
-					Baggage bag = baggs.get(i);
-					if (soko.isTopCollision(bag)) {
-						for (int j = 0; j < baggs.size(); j++) {
-							Baggage item = baggs.get(j);
+			case UP:
+				for (int i = 0; i < money.size(); i++) {
+					Treasure bag = money.get(i);
+					if (stealer.isTopCollision(bag)) {
+						for (int j = 0; j < money.size(); j++) {
+							Treasure item = money.get(j);
 							if (!bag.equals(item)) {
 								if (bag.isTopCollision(item)) {
 									return true;
 								}
 							}
 
-							if (checkWallCollision(bag, TOP_COLLISION) || checkHardWallCollision(bag, TOP_COLLISION)) {
+							if (checkWallCollision(bag, UP) || checkHardWallCollision(bag, UP)) {
 								return true;
 							}
 						}
@@ -733,20 +719,20 @@ public class Board extends JPanel {
 				}
 				return false;
 
-			case BOTTOM_COLLISION:
-				for (int i = 0; i < baggs.size(); i++) {
-					Baggage bag = baggs.get(i);
-					if (soko.isBottomCollision(bag)) {
-						for (int j = 0; j < baggs.size(); j++) {
-							Baggage item = baggs.get(j);
+			case DOWN:
+				for (int i = 0; i < money.size(); i++) {
+					Treasure bag = money.get(i);
+					if (stealer.isBottomCollision(bag)) {
+						for (int j = 0; j < money.size(); j++) {
+							Treasure item = money.get(j);
 							if (!bag.equals(item)) {
 								if (bag.isBottomCollision(item)) {
 									return true;
 								}
 							}
 
-							if (checkWallCollision(bag, BOTTOM_COLLISION)
-									|| checkHardWallCollision(bag, BOTTOM_COLLISION)) {
+							if (checkWallCollision(bag, DOWN)
+									|| checkHardWallCollision(bag, DOWN)) {
 								return true;
 							}
 						}
@@ -791,36 +777,36 @@ public class Board extends JPanel {
 	private boolean checkBagCollisionforPolice(Actor actor, int type) {
 
 		switch (type) {
-			case LEFT_COLLISION:
-				for (int i = 0; i < baggs.size(); i++) {
-					Baggage bag = baggs.get(i);
+			case LEFT:
+				for (int i = 0; i < money.size(); i++) {
+					Treasure bag = money.get(i);
 					if (actor.isLeftCollision(bag)) {
 						return true;
 					}
 				}
 				return false;
 
-			case RIGHT_COLLISION:
-				for (int i = 0; i < baggs.size(); i++) {
-					Baggage bag = baggs.get(i);
+			case RIGHT:
+				for (int i = 0; i < money.size(); i++) {
+					Treasure bag = money.get(i);
 					if (actor.isRightCollision(bag)) {
 						return true;
 					}
 				}
 				return false;
 
-			case TOP_COLLISION:
-				for (int i = 0; i < baggs.size(); i++) {
-					Baggage bag = baggs.get(i);
+			case UP:
+				for (int i = 0; i < money.size(); i++) {
+					Treasure bag = money.get(i);
 					if (actor.isTopCollision(bag)) {
 						return true;
 					}
 				}
 				return false;
 
-			case BOTTOM_COLLISION:
-				for (int i = 0; i < baggs.size(); i++) {
-					Baggage bag = baggs.get(i);
+			case DOWN:
+				for (int i = 0; i < money.size(); i++) {
+					Treasure bag = money.get(i);
 					if (actor.isBottomCollision(bag)) {
 						return true;
 					}
@@ -835,22 +821,22 @@ public class Board extends JPanel {
 
 	private Boolean checkPersonAndPersonCollision(Actor actor, Actor actor1, int type) {
 		switch (type) {
-			case TOP_COLLISION:
+			case UP:
 				if (actor.isTopCollision(actor1)) {
 					return true;
 				}
 				return false;
-			case BOTTOM_COLLISION:
+			case DOWN:
 				if (actor.isBottomCollision(actor1)) {
 					return true;
 				}
 				return false;
-			case LEFT_COLLISION:
+			case LEFT:
 				if (actor.isLeftCollision(actor1)) {
 					return true;
 				}
 				return false;
-			case RIGHT_COLLISION:
+			case RIGHT:
 				if (actor.isRightCollision(actor1)) {
 					return true;
 				}
@@ -867,22 +853,22 @@ public class Board extends JPanel {
 	}
 
 	public void isCompleted() {
-		int nOfBags = baggs.size();
+		int nOfBags = money.size();
 		int finishedBags = 0;
 
 		for (int i = 0; i < nOfBags; i++) {
-			Baggage bag = baggs.get(i);
+			Treasure bag = money.get(i);
 
 			for (int j = 0; j < nOfBags; j++) {
-				Goal area = areas.get(j);
+				Goal area = goals.get(j);
 				if (bag.x() == area.x() && bag.y() == area.y()) {
 					finishedBags += 1;
 				}
 			}
 		}
-		if (finishedBags == bagaccu) {
-			bagaccu += 1;
-			soko.setAmmo(soko.getAmmo() + 2);
+		if (finishedBags == Achived) {
+			Achived += 1;
+			stealer.setAmmo(stealer.getAmmo() + 2);
 		}
 		if (finishedBags == nOfBags) {
 			JOptionPane.showMessageDialog(this, "win!");
@@ -893,12 +879,12 @@ public class Board extends JPanel {
 
 	private void restartLevel() {
 
-		areas.clear();
-		baggs.clear();
+		goals.clear();
+		money.clear();
 		walls.clear();
 
 		isCompleted = false;
-		bagaccu = 1;
+		Achived = 1;
 		initWorld();
 	}
 

@@ -8,23 +8,23 @@ public class Goal extends Actor {
 
     public Goal(int x, int y) {
         super(x, y);
-        initArea();
+        initGoal();
     }
 
     @Override
     public String getActorName(){
-        return "area";
+        return "goal";
     }
 
-    private void initArea() {
+    private void initGoal() {
 
         File f = new File("");
         String path = f.getAbsolutePath();
         
         if(!path.contains("code"))
-            path = "pic/area.png";
+            path = "pic/Goal.png";
         else
-            path = path.replaceAll("code", "pic/area.png");
+            path = path.replaceAll("code", "pic/Goal.png");
 
         ImageIcon iicon = new ImageIcon(path);
         Image image = iicon.getImage();

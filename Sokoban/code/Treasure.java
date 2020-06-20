@@ -4,27 +4,27 @@ import java.awt.Image;
 import java.io.File;
 import javax.swing.ImageIcon;
 
-public class Baggage extends Actor {
+public class Treasure extends Actor {
 
-    public Baggage(int x, int y) {
+    public Treasure(int x, int y) {
         super(x, y);
-        initBaggage();
+        initTreasure();
     }
 
     @Override
     public String getActorName(){
-        return "Baggage";
+        return "Treasure";
     }
 
-    private void initBaggage() {
+    private void initTreasure() {
  
         File f = new File("");
         String path = f.getAbsolutePath();
         
         if(!path.contains("code"))
-            path = "pic/baggage.png";
+            path = "pic/Treasure.png";
         else
-            path = path.replaceAll("code", "pic/baggage.png");
+            path = path.replaceAll("code", "pic/Treasure.png");
             
         ImageIcon iicon = new ImageIcon(path);
         Image image = iicon.getImage();

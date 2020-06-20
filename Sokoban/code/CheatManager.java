@@ -8,10 +8,6 @@ public class CheatManager {
     private boolean activate = false;
 
     public CheatManager(){
-        initCheater();
-    }
-
-    private void initCheater(){
         buffer = new int[8];
         pivot = 0;
     }
