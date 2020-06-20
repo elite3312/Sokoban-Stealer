@@ -51,11 +51,11 @@ public class Map {
 		"H###  $   #                 #     #H\n" +
 		"H###!#     $ #####$   ###       ###H\n" +
 		"H# $ # ##### ###      #   ##### ###H\n" +
-		"H#      ##            #       ! ###H\n" +
-		"H###    ##@##$##    !  $  ####  ###H\n" +
+		"H#      ##        #####       ! ###H\n" +
+		"H###   ###@##$##    !  $  ####  ###H\n" +
 		"H#####  ###   #     ####   $    ###H\n" +
-		"H#! ## $      #      ##  ! ###$###H\n" +
-		"H#                  !  #          #H\n" +
+		"H#! ## $  #           ##  ! ###$###H\n" +
+		"H#            ##    !  #          #H\n" +
 		"H##################################H\n" +
 		"HHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHH\n";
 
@@ -88,6 +88,31 @@ public class Map {
 		"H  $   $  $    $  H \n" +
 		"H  #   #   #   #  H \n" +
 		"HHHHHHHHHHHHHHHHHHH \n";
+
+	private String level_5 =
+		"HHHHHHHHHHH\n" +
+		"HHHH...HHHH\n" + 
+		"HHHH   HHHH\n" + 
+		"HHHH$ $HHHH\n" + 
+		"HH$H$  H.HH\n" + 
+		"H$  $$$   H\n" +
+		"H $$$  $$ H\n" + 
+		"HH@ $  $ HH\n" +
+		"HHHHHHHHHHH\n";
+
+
+	private String level_6 =
+		"HHHHHHHHHHHHHHHH\n" +
+		"HH @ HHHH   !! H\n" + 
+		"HH$$$HHHH!     H\n" + 
+		"H    HHHHH    !H\n" + 
+		"HH $  HHHH  !  H\n" +
+		"HH H$$  .HHHHHHH\n" + 
+		"HH  $    HHHHHHH\n" + 
+		"HHHHH $.HHHHHHHH\n" +
+		"HHHHH   .HHHHHHH\n" +
+		"HHHHHHHHHHHHHHHH\n";
+
 
    
     public String getMap(int selection){

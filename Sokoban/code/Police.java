@@ -2,6 +2,7 @@ package java2020.finalProject;
 
 import java.awt.Image;
 import java.io.File;
+import java.security.SecureRandom;
 import java.sql.Time;
 import java.util.ArrayList;
 import java.util.Date;
@@ -15,7 +16,9 @@ public class Police extends Actor {
     private int step = 0;
     private int behaveMode = 1;
 
-    Random random = new Random(new Date().getTime());
+    //Random random = new Random(new Date().getTime());
+    SecureRandom random = new SecureRandom();
+
     private int dx;
     private int dy;
 
@@ -141,9 +144,9 @@ public class Police extends Actor {
 
     private void behavior3(){
         behaveMode = 3;
-        if(step == 3){
+        if(step == 4){
             step = 0;
-            toward = random.nextInt(100) % 3 + 1; // only left, right or up
+            toward = random.nextInt(100) % 4 + 1;
             return;
         }
         step++;
