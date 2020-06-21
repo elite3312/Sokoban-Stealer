@@ -10,7 +10,9 @@ import java.beans.beancontext.BeanContextEvent;
 import java.io.File;
 import java.util.ArrayList;
 import javax.swing.JPanel;
-
+import java.io.FileNotFoundException;
+import javazoom.jl.decoder.JavaLayerException;
+import javazoom.jl.player.advanced.AdvancedPlayer;
 import javax.swing.ImageIcon;
 import java.util.Date;
 import java.awt.Font;
@@ -29,7 +31,7 @@ public class Stage extends JPanel {
 	private final int DOWN = 4;
 	private final int playerSkinOne = 1;
 	private final int playerSkinTwo = 2;
-
+	private BackgroundMP3Player sounds;
 	// int variable
 	private int currentlyFacing = DOWN;
 	public int executetime = 0; // repaint time
@@ -56,7 +58,7 @@ public class Stage extends JPanel {
 	private Player stealer;
 	private Portal portal;
 	private CheatManager cheater = new CheatManager();
-
+	private enum sound {bulletSound,bagSound};
 	private boolean isCompleted = false;
 	private boolean lost = false;
 	private boolean collisionIgnore = false; // penetrate skill
@@ -67,7 +69,7 @@ public class Stage extends JPanel {
 	private boolean nextStage = false;
 
 	private Graphics graphic; // for the global using
-
+	
 	public Stage(int playerSkinChoosen, int level) {
 		selection = level;
 
@@ -467,7 +469,7 @@ public class Stage extends JPanel {
 
 			g.setFont(new Font("default", Font.PLAIN, 20));
 			g.setColor(new Color(0, 0, 0));
-			g.drawString("[R]-RESTART    [PAUSE]-ESC    [X]-GHOST SKILL    [Z]-PORTAL    [SPACE]-GUN", 40, this.height + 20);
+			g.drawString("[R]-RESTART    [ESC]-PAUSE    [X]-GHOST SKILL    [Z]-PORTAL    [SPACE]-GUN", 40, this.height + 20);
 
 		}
 		if (forbutton == 1)
@@ -630,7 +632,14 @@ public class Stage extends JPanel {
 					if (stealer.getBullet() != null)
 						return;
 					else if (stealer.getRifleAvailable() == 1 && stealer.getAmmo() > 0) {
-
+						try {
+							sounds = new BackgroundMP3Player();
+							sounds.setSound(sound.bulletSound.ordinal());
+							sounds.play();
+						} catch (FileNotFoundException | JavaLayerException e1) {
+							System.out.printf("music err");
+						}
+						
 						stealer.setBullet(new Bullet(stealer.x(), stealer.y(), currentlyFacing));
 						stealer.setAmmo(stealer.getAmmo() - 1);
 					}
@@ -768,7 +777,13 @@ public class Stage extends JPanel {
 	}
 
 	private boolean checkBagCollision(int type) {
-
+		try {
+			sounds = new BackgroundMP3Player();
+			sounds.setSound(sound.bagSound.ordinal());
+			
+		} catch (FileNotFoundException | JavaLayerException e1) {
+			System.out.printf("music err");
+		}
 		switch (type) {
 
 			case LEFT:
@@ -789,8 +804,10 @@ public class Stage extends JPanel {
 
 						if (cops != null && !checkBagCollisiontoPolice(bag.getX() - SPACE, bag.getY())) {
 							bag.move(-SPACE, 0);
+							sounds.play();
 						} else if (cops.isEmpty()) { // when police death ,the way can prevent bug
 							bag.move(-SPACE, 0);
+							sounds.play();
 						} else
 							return true;
 						isCompleted();
@@ -815,8 +832,10 @@ public class Stage extends JPanel {
 						}
 						if (cops != null && !checkBagCollisiontoPolice(bag.getX() + SPACE, bag.getY())) {
 							bag.move(SPACE, 0);
+							sounds.play();
 						} else if (cops.isEmpty()) {
 							bag.move(SPACE, 0);
+							sounds.play();
 						} else
 							return true;
 
@@ -844,8 +863,10 @@ public class Stage extends JPanel {
 
 						if (cops != null && !checkBagCollisiontoPolice(bag.getX(), bag.getY() - SPACE)) {
 							bag.move(0, -SPACE);
+							sounds.play();
 						} else if (cops.isEmpty()) {
 							bag.move(0, -SPACE);
+							sounds.play();
 						} else
 							return true;
 
@@ -872,8 +893,10 @@ public class Stage extends JPanel {
 						}
 						if (cops != null && !checkBagCollisiontoPolice(bag.getX(), bag.getY() + SPACE)) {
 							bag.move(0, SPACE);
+							sounds.play();
 						} else if (cops.isEmpty()) {
 							bag.move(0, SPACE);
+							sounds.play();
 						} else
 							return true;
 
@@ -885,7 +908,7 @@ public class Stage extends JPanel {
 			default:
 				break;
 		}
-
+		
 		return false;
 	}
 

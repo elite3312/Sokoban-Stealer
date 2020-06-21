@@ -65,7 +65,30 @@ public class BackgroundMP3Player {
 
 		file = new File(path);
 	}
+	public void setSound(int type){
+		tempfile = new File("");
+		path = tempfile.getAbsolutePath();
 
+		if(!path.contains("code"))
+			path = "BGM/";
+		else
+			path = path.replaceAll("code", "BGM/");
+			
+		switch (type) {
+			case 0:
+				path += "attack1.mp3";
+				break;
+			case 1:
+				path+= "movebag.mp3";
+				break;
+			default:
+				path += "attack1.mp3";
+				break;
+		}
+
+		file = new File(path);
+		
+	}
 	public void circularPlay() {
 		Thread currentThread;
 		// continuously run in new thread to play in background
