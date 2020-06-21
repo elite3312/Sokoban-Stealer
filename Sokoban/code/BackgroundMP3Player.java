@@ -58,6 +58,9 @@ public class BackgroundMP3Player {
 			case 5:
 				//path += "?????????";
 				break;
+			case 99: // gameover thanks music
+				//path += "?????????";
+				break;
 			default:
 				path += "AlanWalkerSpectre.mp3";
 				break;

@@ -23,6 +23,7 @@ import javazoom.jl.player.advanced.AdvancedPlayer;
 import java.util.Date;
 import java.util.Random;
 import java.util.ArrayList;
+import java.awt.Dimension;
 
 public class Stage extends JPanel {
 
@@ -50,6 +51,8 @@ public class Stage extends JPanel {
 	private int playerSkin;
 	private int selection; // map selection
 	private int bufferedFrames = 0; // for arrow image
+	private int pauseSelect = 1; // pause button(manual)
+	private int mapX, mapY;
 
 	private long collisionIgnoreTime;
 	private Long restartTime;
@@ -75,8 +78,11 @@ public class Stage extends JPanel {
 	private boolean restartBuffer = false; // restart buffering(for 0.3sec)
 	private boolean gamePause = false;
 	private boolean nextStage = false;
+	private boolean closeSignal = false;
 
 	private Graphics graphic; // for the global using
+	
+	private Dimension dimension = java.awt.Toolkit.getDefaultToolkit().getScreenSize();
 	
 	public Stage(int playerSkinChoosen, int level) {
 		selection = level;
@@ -87,6 +93,9 @@ public class Stage extends JPanel {
 			playerSkin = playerSkinThree;
 		else
 			playerSkin = playerSkinOne; // default
+
+		this.width = (int)dimension.getWidth();
+		this.height = (int)dimension.getHeight();
 
 		initStage();
 	}
@@ -113,7 +122,7 @@ public class Stage extends JPanel {
 		hardWalls = new ArrayList<>();
 		cops = new ArrayList<>();
 		String level;
-		int x = MARGIN;
+		int x = 0;
 		int y = MARGIN + 50;
 
 		Map maptest;
@@ -134,46 +143,53 @@ public class Stage extends JPanel {
 		collisionIgnore = false; // penetrate init
 		nextStage = false;
 		bufferedFrames = 0;
+		pauseSelect = 1;
+
+		mapX = level.indexOf("\n", 0);
+		mapY = level.length() / mapX;
+
+		mapX = mapX * SPACE;
+		mapY = mapY * SPACE;
+
+		int modifyX = (this.width - mapX) / 2;
+		int modifyY = 20;
 
 		for (int i = 0; i < level.length(); i++) { // set width,height, actors specified by the string
 			char item = level.charAt(i);
 			switch (item) {
 				case '\n':
 					y += SPACE;
-					if (this.width < x) {
-						this.width = x;
-					}
-					x = MARGIN;
+					x = 0;
 					break;
 
 				case '!':
-					cops.add(new Police(x, y));
+					cops.add(new Police(x + modifyX, y + modifyY));
 					x += SPACE;
 					;
 					break;
 
 				case '#':
-					walls.add(new Wall(x, y)); // create wall at (x,y)
+					walls.add(new Wall(x + modifyX, y + modifyY)); // create wall at (x,y)
 					x += SPACE;
 					break;
 
 				case 'H':
-					hardWalls.add(new HardWall(x, y)); // hard wall cannot be penetrated
+					hardWalls.add(new HardWall(x + modifyX, y + modifyY)); // hard wall cannot be penetrated
 					x += SPACE;
 					break;
 
 				case '$':
-					money.add(new Treasure(x, y));
+					money.add(new Treasure(x + modifyX, y + modifyY));
 					x += SPACE;
 					break;
 
 				case '.':
-					goals.add(new Goal(x, y)); // target area
+					goals.add(new Goal(x + modifyX, y + modifyY)); // target area
 					x += SPACE;
 					break;
 
 				case '@':
-					stealer = new Player(x, y, playerSkin); // player
+					stealer = new Player(x + modifyX, y + modifyY, playerSkin); // player
 					x += SPACE;
 					break;
 
@@ -182,16 +198,14 @@ public class Stage extends JPanel {
 					break;
 
 				case '%':
-					goals.add(new Goal(x, y));
-					money.add(new Treasure(x, y));
+					goals.add(new Goal(x + modifyX, y + modifyY));
+					money.add(new Treasure(x + modifyX, y + modifyY));
 					x += SPACE;
 					break;
 
 				default:
 					break;
 			}
-
-			height = y;
 		}
 	}
 
@@ -236,7 +250,7 @@ public class Stage extends JPanel {
 
 			g.setColor(new Color(0, 0, 0));
 			g.setFont(new Font("default", Font.PLAIN, 64));
-			g.drawString("YOU LOSED !!!", this.width / 2 - 180, this.height / 2);
+			g.drawString("YOU  LOSED !!!", this.width / 2 - 210, this.height / 2);
 
 			if(time - lossTime < 1000){
 				return;
@@ -254,7 +268,7 @@ public class Stage extends JPanel {
 			if(time - wonTime < 1000){
 				g.setColor(new Color(0, 0, 0));
 				g.setFont(new Font("default", Font.PLAIN, 64));
-				g.drawString("YOU WON !!!", this.width / 2 - 180, this.height / 2);
+				g.drawString("YOU  WON !!!", this.width / 2 - 210, this.height / 2);
 				return;
 			}
 			else if(time - wonTime > 1000 && time - wonTime < 2000){
@@ -296,12 +310,45 @@ public class Stage extends JPanel {
 		}
 
 		if(gamePause){
-			g.setColor(new Color(0, 0, 0));
+			g.setColor(Color.BLACK);
 			g.setFont(new Font("default", Font.PLAIN, 64));
-			g.drawString("<PAUSED>", this.width / 2 - 120, this.height / 2);
+			g.drawString("< PAUSED >", this.width / 2 - 190, this.height / 2 - 100);
 
-			g.setFont(new Font("default", Font.PLAIN, 32));
-			g.drawString("Press Any Key To Continue...", this.width / 2 - 145, this.height / 2 + 80);
+			String choose1, choose2, choose3;
+
+			choose1 = "Continue";
+			choose2 = "Restart";
+			choose3 = "Main Menu";
+
+			if(pauseSelect == 1){
+				g.setColor(Color.RED);
+				g.setFont(new Font("default", Font.PLAIN, 40));
+			}
+			else{
+				g.setColor(Color.BLACK);
+				g.setFont(new Font("default", Font.PLAIN, 36));
+			}
+			g.drawString(choose1, this.width / 2 - 90, this.height / 2 - 20);
+
+			if(pauseSelect == 2){
+				g.setColor(Color.RED);
+				g.setFont(new Font("default", Font.PLAIN, 40));
+			}
+			else{
+				g.setColor(Color.BLACK);
+				g.setFont(new Font("default", Font.PLAIN, 36));
+			}
+			g.drawString(choose2, this.width / 2 - 90, this.height / 2 + 30);
+
+			if(pauseSelect == 3){
+				g.setColor(Color.RED);
+				g.setFont(new Font("default", Font.PLAIN, 40));
+			}
+			else{
+				g.setColor(Color.BLACK);
+				g.setFont(new Font("default", Font.PLAIN, 36));
+			}
+			g.drawString(choose3, this.width / 2 - 90, this.height / 2 + 80);
 
 			return;
 		}
@@ -341,9 +388,9 @@ public class Stage extends JPanel {
 
 		g.setColor(new Color(0, 0, 0));
 		g.setFont(new Font("default", Font.PLAIN, 25));
-		g.drawString(info, 40, 40);
+		g.drawString(info, this.width * 5 / 16, 60);
 		g.setColor(new Color(100, 20, 200));
-		g.drawString(info2, 40, 70);
+		g.drawString(info2, this.width * 5 / 16, 90);
 
 		ArrayList<Actor> world = new ArrayList<>();
 
@@ -397,7 +444,6 @@ public class Stage extends JPanel {
 						policeCanGo = 0;
 					} else if (checkPersonAndPersonCollision(cop, stealer, toward)) {
 						policeCanGo = 0;
-						// System.out.printf("kill\n");
 						playerLoss();
 						return;
 					}
@@ -447,11 +493,12 @@ public class Stage extends JPanel {
 					g.drawImage(item.getImage(), item.x() + 2, item.y() + 2, this);
 				}
 
-			} else if (item instanceof Bullet && forbutton == 0) {
+			} else if (item instanceof Bullet) {
 
 				Bullet bulletRef = (Bullet) item;
 				if (bulletRef != null && bulletRef.getMaxRange() > 0) {
-					bulletRef.updateXY();
+					if(forbutton == 0)
+						bulletRef.updateXY();
 					tempBulletX = bulletRef.x();
 					tempBulletY = bulletRef.y();
 					int bulletExist = 1;
@@ -470,7 +517,7 @@ public class Stage extends JPanel {
 
 					}
 					if (bulletExist == 1)
-						g.drawImage(item.getImage(), item.x() + 2 + SPACE / 2, item.y() + 2 + SPACE / 3, this);
+						g.drawImage(item.getImage(), item.x() + 2, item.y() + 2, this);
 				} else
 					stealer.setBullet(null);
 
@@ -491,7 +538,7 @@ public class Stage extends JPanel {
 			}
 
 
-			if(bufferedFrames < 50000){
+			if(bufferedFrames < 40000){
 
 				if((bufferedFrames / 2500) % 2 == 0){
 					File f = new File("");
@@ -514,7 +561,7 @@ public class Stage extends JPanel {
 
 			g.setFont(new Font("default", Font.PLAIN, 20));
 			g.setColor(new Color(0, 0, 0));
-			g.drawString("[R]-RESTART    [ESC]-PAUSE    [X]-GHOST SKILL    [Z]-PORTAL    [SPACE]-GUN", 40, this.height + 20);
+			g.drawString("[R]-RESTART    [ESC]-PAUSE    [X]-GHOST SKILL    [Z]-PORTAL    [SPACE]-GUN", this.width / 4, this.height - 40);
 
 		}
 		if (forbutton == 1)
@@ -542,10 +589,6 @@ public class Stage extends JPanel {
 			switch (key) {
 				case KeyEvent.VK_LEFT:
 
-					if(gamePause){
-						gamePause = false;
-						return;
-					}
 					currentlyFacing = LEFT;
 					cheater.pushCommand(LEFT);
 					stealer.setPlayerImage(LEFT);
@@ -568,10 +611,6 @@ public class Stage extends JPanel {
 
 				case KeyEvent.VK_RIGHT:
 
-					if(gamePause){
-						gamePause = false;
-						return;
-					}
 					currentlyFacing = RIGHT;
 					cheater.pushCommand(RIGHT);
 					stealer.setPlayerImage(RIGHT);
@@ -595,7 +634,8 @@ public class Stage extends JPanel {
 				case KeyEvent.VK_UP:
 
 					if(gamePause){
-						gamePause = false;
+						if(pauseSelect != 1)
+							pauseSelect--;
 						return;
 					}
 					currentlyFacing = UP;
@@ -621,7 +661,8 @@ public class Stage extends JPanel {
 				case KeyEvent.VK_DOWN:
 					
 					if(gamePause){
-						gamePause = false;
+						if(pauseSelect != 3)
+							pauseSelect++;
 						return;
 					}
 					currentlyFacing = DOWN;
@@ -645,10 +686,6 @@ public class Stage extends JPanel {
 					break;
 
 				case KeyEvent.VK_R: // restart
-					if(gamePause){
-						gamePause = false;
-						return;
-					}
 					
 					if( !restarted )
 						restartLevel();
@@ -657,10 +694,6 @@ public class Stage extends JPanel {
 
 					break;
 				case KeyEvent.VK_Z: // portal
-					if(gamePause){
-						gamePause = false;
-						return;
-					}
 
 					if (portal.getIsActive() == 1) {
 						for (int i = 0; i < money.size(); i++) {
@@ -681,16 +714,8 @@ public class Stage extends JPanel {
 						portal.setIsActive(1);
 					}
 					break;
-				
-				case KeyEvent.VK_P:
-					gamePause = !gamePause;
-					break;
 
 				case KeyEvent.VK_SPACE: // bullet
-					if(gamePause){
-						gamePause = false;
-						return;
-					}
 
 					if (stealer.getBullet() != null)
 						return;
@@ -710,10 +735,6 @@ public class Stage extends JPanel {
 					break;
 
 				case KeyEvent.VK_X: // penetrate
-					if(gamePause){
-						gamePause = false;
-						return;
-					}
 
 					if (penetrateNotUsed) {
 						collisionIgnore = true;
@@ -723,11 +744,30 @@ public class Stage extends JPanel {
 					break;
 
 				case KeyEvent.VK_ESCAPE:
-					gamePause = !gamePause;
+					gamePause = true;
+					break;
+				
+				case KeyEvent.VK_ENTER:
+					if(gamePause){
+						switch(pauseSelect){
+							case 1:
+								gamePause = false;
+								break;
+							case 2:
+								gamePause = false;
+								restartLevel();
+								break;
+							case 3:
+								gamePause = false;
+								closeSignal = true;
+							default:
+								break;
+						}
+						pauseSelect = 1;
+					}
 					break;
 
 				default:
-					gamePause = false;
 					break;
 			}
 			forbutton = 1;
@@ -1146,5 +1186,9 @@ public class Stage extends JPanel {
 
 	public boolean goNextStage(){
 		return nextStage;
+	}
+
+	public boolean closeAct(){
+		return closeSignal;
 	}
 }

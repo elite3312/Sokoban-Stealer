@@ -64,9 +64,9 @@ public class MainMenuFrame extends JFrame implements ActionListener {
 	public MainMenuFrame() {
 		super("Sokoban Stealer");
 
-		reader=new SavesReader("saves.txt");
+		reader = new SavesReader("saves.txt");
 		reader.openFile();
-		progress=reader.readSaves();
+		progress = reader.readSaves();
 		reader.closeFile();
 
 		Font font = new Font("defalut", Font.PLAIN, 22);
@@ -160,14 +160,14 @@ public class MainMenuFrame extends JFrame implements ActionListener {
 		JLabel label2 = new JLabel("選擇關卡：(目前解鎖進度:第"+progress+"關)");
 		label2.setFont(font);
 
-		
-		levels=new ArrayList<JRadioButton>();
+
+		levels = new ArrayList<JRadioButton>();
 		for (int i = 1; i <= 6; i++) {
 			JRadioButton l1 = new JRadioButton("Level "+i, true);
 			l1.setFont(font);
 			l1.setIcon(new ImageIcon(selectPath));
 			l1.setSelectedIcon(new ImageIcon(selectedPath));
-			if(i>progress)l1.setEnabled(false);
+			if(i > progress) l1.setEnabled(false);
 			level.add(l1);
 			levels.add(l1);
 		}
@@ -210,7 +210,7 @@ public class MainMenuFrame extends JFrame implements ActionListener {
 		progress = reader.readSaves();
 		for (int i = 0; i < 6; i++) {
 				
-			if(i<progress)levels.get(i).setEnabled(true);
+			if(i < progress) levels.get(i).setEnabled(true);
 		
 		}
 		repaint();
@@ -222,6 +222,7 @@ public class MainMenuFrame extends JFrame implements ActionListener {
 		if (event.getSource() == exitBtn) {
 			setVisible(false); // you can't see me!
 			MainMenuFrame.this.dispose();
+			System.exit(0);
 		} else if (event.getSource() == levelSelect) {
 			MainMenuFrame.this.setSize(1280, 820);
 			MainMenuFrame.this.remove(bottomPanel);

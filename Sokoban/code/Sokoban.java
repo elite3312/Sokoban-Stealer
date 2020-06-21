@@ -3,6 +3,9 @@ package java2020.finalProject;
 import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
+import javax.swing.JTextArea;
+import javax.swing.JPanel;
+
 import java.io.FileNotFoundException;
 
 import javazoom.jl.decoder.JavaLayerException;
@@ -10,16 +13,24 @@ import javazoom.jl.player.advanced.AdvancedPlayer;
 import java.util.Timer;
 import java.util.TimerTask;
 
-import java.awt.Dimension;
+import java.awt.Font;
+import java.awt.BorderLayout;
+import java.awt.FlowLayout;
+import java.awt.EventQueue;
 
 public class Sokoban extends JFrame {
 	private BackgroundMP3Player music;
 	private final int MARGIN = 40;
+	private final int LevelCount = 6;
 	private int player;
 	private int level;
 	private SavesWriter writer;
 
+	private JPanel panel;
+
 	public Sokoban(int player, int level) {
+		super();
+
 		this.player = player;
 		this.level = level;
 		writer = new SavesWriter("saves.txt");
@@ -40,49 +51,86 @@ public class Sokoban extends JFrame {
 
 		add(stage);
 
-		Dimension screenSize = java.awt.Toolkit.getDefaultToolkit().getScreenSize();
-
 		setTitle("Sokoban-Stealer");
-		setSize((int)screenSize.getWidth(), (int)screenSize.getHeight());	
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setLocationRelativeTo(null);
+		setExtendedState(JFrame.MAXIMIZED_BOTH); 
+		setUndecorated(true);
 		setVisible(true);
+		setAlwaysOnTop(true);
 
 		Timer timer = new Timer();
 		TimerTask refresh = new TimerTask() {
 			@Override
 			public void run() {
+
 				stage.executetime++;
 				stage.repaint();
-				/*if (stage.isLost()) {
-					music.close();
-					this.cancel();
-					JOptionPane.showMessageDialog(null, "Game_Over");
 
-					for(int i=0;i<10000;i++){
-						int wait;}
-					Sokoban.this.dispose();
-					setVisible(false);
-				}*/
 				if(stage.goNextStage()) {
 					music.close();
-					//this.cancel();
 					writer.openFile();
 					writer.upDate(level+1); //next level becomes available
 					SavesWriter.closeFile();
-					//Sokoban.this.dispose();
-					//setVisible(false);
-					
+
 					if(level < 6)
 						level++;
+					else if(level == 6){
+						gameOverThanks();
+					}
 
 					music.setSong(level);
 					music.circularPlay();
+				}
+				if(stage.closeAct()){
+					music.close();
+					Sokoban.this.dispose();
+					setVisible(false);
 				}
 				
 			}
 		};
 
 		timer.schedule(refresh, 0, 30);
+	}
+
+	private void gameOverThanks(){
+
+		music.setSong(99);
+
+		setLayout(new FlowLayout());
+		panel = new JPanel(new BorderLayout());
+
+		String specialThanks = 	"製作人員:\n"+
+								"吳永璿\n沈彥昭\n李佳勳\n\n\n"+
+								"Musics:\n"+
+								"Spectre - AlanWalker\n"+
+								"Beyond My Beloved Horizon - Pirates of the Caribbean\n"+
+								"SPÏKA 「Rigël Theatre」 - Remilia Scarlet\n\n\n"+
+								"Speical Thanks:\n"+
+								"馬尚彬 教授\n\n\n";
+		
+
+		Font font = new Font("defalut", Font.PLAIN, 22);
+		JTextArea texts = new JTextArea(specialThanks);
+		
+		texts.setOpaque(false);
+		texts.setFont(font);
+		texts.setEditable(false);
+		
+		panel.add(BorderLayout.CENTER, texts);
+		add(BorderLayout.CENTER, panel);
+
+		launch();
+	}
+
+	public void launch() {
+
+		EventQueue.invokeLater(() -> {
+			panel.setVisible(true);
+			Sokoban.this.add(panel);
+			repaint();
+		});
+
 	}
 }
