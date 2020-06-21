@@ -28,7 +28,7 @@ public class Board extends JPanel {
 	private final int playerSkinOne = 1;
 	private final int playerSkinTwo = 2;
 
-	//int variable
+	// int variable
 	private int currentlyFacing = DOWN;
 	public int executetime = 0; // repaint time
 	public static int forbutton = 0;
@@ -60,8 +60,7 @@ public class Board extends JPanel {
 		selection = level;
 		if (level == 3) {
 			policePeriod = 4;
-		}
-		else if (level == 2)
+		} else if (level == 2)
 			policePeriod = 8;
 		else
 			policePeriod = 12;
@@ -185,22 +184,21 @@ public class Board extends JPanel {
 			double temp = checkCollisonTime / 1000.0;
 			if (temp >= 0)
 				info += String.format("        skill time：%.2f", temp);
-		}
-		else {
+		} else {
 			if (penetrateNotUsed) {
 				info += "        ghost skill：avalible";
-			}
-			else {
+			} else {
 				info += "        ghost skill：unavalible";
 			}
 		}
 
-		if(cheater.checkCondition()){
+		if (cheater.checkCondition()) {
 			info = "portals left：∞        ammo：∞        ghost skill：∞";
 			penetrateNotUsed = true;
 			collisionIgnore = true;
 			stealer.setAmmo(9999);
-			portal.setAvailability(9999);;
+			portal.setAvailability(9999);
+			;
 		}
 
 		String info2 = "bagAchivement " + (Achived - 1);
@@ -254,14 +252,11 @@ public class Board extends JPanel {
 
 					if (checkHardWallCollision(cop, toward)) {
 						policeCanGo = 0;
-					}
-					else if (checkWallCollision(cop, toward)) {
+					} else if (checkWallCollision(cop, toward)) {
 						policeCanGo = 0;
-					}
-					else if (checkBagCollisionforPolice(cop, toward)) {
+					} else if (checkBagCollisionforPolice(cop, toward)) {
 						policeCanGo = 0;
-					}
-					else if (checkPersonAndPersonCollision(cop, stealer, toward)) {
+					} else if (checkPersonAndPersonCollision(cop, stealer, toward)) {
 						policeCanGo = 0;
 						// System.out.printf("kill\n");
 						playerLoss();
@@ -283,9 +278,13 @@ public class Board extends JPanel {
 						cop = null;
 						break;
 					}
-					/*
-					 * else break;
-					 */
+					if (stealer.getBullet() != null && cop.x() == stealer.getBullet().x()
+							&& cop.y() == stealer.getBullet().y()) {
+						stealer.setBullet(null);
+						world.remove(cop);
+						cop = null;
+						break;
+					}
 				}
 				if (cop == null) {
 					continue;
@@ -299,22 +298,19 @@ public class Board extends JPanel {
 
 				g.drawImage(item.getImage(), item.x() + 2, item.y() + 2, this);
 
-			}
-			else if (item instanceof Treasure) {
+			} else if (item instanceof Treasure) {
 
 				g.drawImage(item.getImage(), item.x(), item.y(), this);
 				if (item.x() == tempBulletX && item.y() == tempBulletY) // bullet collides with wall
 					stealer.setBullet(null);
 
-			}
-			else if (item instanceof Portal) {
+			} else if (item instanceof Portal) {
 
 				Portal portalRef = (Portal) item;
 				if (portalRef.getIsActive() == 1)
 					g.drawImage(item.getImage(), item.x() + 2, item.y() + 2, this);
 
-			}
-			else if (item instanceof Bullet && forbutton == 0) {
+			} else if (item instanceof Bullet && forbutton == 0) {
 
 				Bullet bulletRef = (Bullet) item;
 				if (bulletRef != null && bulletRef.getMaxRange() > 0) {
@@ -325,7 +321,7 @@ public class Board extends JPanel {
 					if (!cops.isEmpty()) {
 						for (int k = 0; k < cops.size(); k++) {
 							Police cop = cops.get(k);
-							if (judge_XandY_Collision(tempBulletX, tempBulletY, cop.getx(), cop.gety())) {
+							if (cop.x() == tempBulletX && cop.y() == tempBulletY) {
 								stealer.setBullet(null);
 								cops.remove(k);
 								world.remove(cop);
@@ -338,19 +334,16 @@ public class Board extends JPanel {
 					}
 					if (bulletExist == 1)
 						g.drawImage(item.getImage(), item.x() + 2 + SPACE / 2, item.y() + 2 + SPACE / 3, this);
-				}
-				else
+				} else
 					stealer.setBullet(null);
 
-			}
-			else if (item instanceof Wall){ // wall
+			} else if (item instanceof Wall) { // wall
 
 				g.drawImage(item.getImage(), item.x(), item.y(), this);
 				if (item.x() == tempBulletX && item.y() == tempBulletY) // bullet collides with wall
 					stealer.setBullet(null);
 
-			}
-			else { // area
+			} else { // area
 				g.drawImage(item.getImage(), item.x(), item.y(), this);
 			}
 
@@ -482,8 +475,7 @@ public class Board extends JPanel {
 						stealer.setX(portal.x());
 						stealer.setY(portal.y());
 						portal.setIsActive(0);
-					}
-					else {
+					} else {
 						if (portal.getAvailability() == 0)
 							return;
 						portal.setAvailability(portal.getAvailability() - 1);
@@ -639,19 +631,16 @@ public class Board extends JPanel {
 									return true;
 								}
 							}
-							if (checkWallCollision(bag, LEFT)
-									|| checkHardWallCollision(bag, LEFT)) {
+							if (checkWallCollision(bag, LEFT) || checkHardWallCollision(bag, LEFT)) {
 								return true;
 							}
 						}
 
 						if (cops != null && !checkBagCollisiontoPolice(bag.getX() - SPACE, bag.getY())) {
 							bag.move(-SPACE, 0);
-						}
-						else if (cops.isEmpty()) { // when police death ,the way can prevent bug
+						} else if (cops.isEmpty()) { // when police death ,the way can prevent bug
 							bag.move(-SPACE, 0);
-						}
-						else
+						} else
 							return true;
 						isCompleted();
 					}
@@ -669,18 +658,15 @@ public class Board extends JPanel {
 									return true;
 								}
 							}
-							if (checkWallCollision(bag, RIGHT)
-									|| checkHardWallCollision(bag, RIGHT)) {
+							if (checkWallCollision(bag, RIGHT) || checkHardWallCollision(bag, RIGHT)) {
 								return true;
 							}
 						}
 						if (cops != null && !checkBagCollisiontoPolice(bag.getX() + SPACE, bag.getY())) {
 							bag.move(SPACE, 0);
-						}
-						else if (cops.isEmpty()) {
+						} else if (cops.isEmpty()) {
 							bag.move(SPACE, 0);
-						}
-						else
+						} else
 							return true;
 
 						isCompleted();
@@ -707,11 +693,9 @@ public class Board extends JPanel {
 
 						if (cops != null && !checkBagCollisiontoPolice(bag.getX(), bag.getY() - SPACE)) {
 							bag.move(0, -SPACE);
-						}
-						else if (cops.isEmpty()) {
+						} else if (cops.isEmpty()) {
 							bag.move(0, -SPACE);
-						}
-						else
+						} else
 							return true;
 
 						isCompleted();
@@ -731,18 +715,15 @@ public class Board extends JPanel {
 								}
 							}
 
-							if (checkWallCollision(bag, DOWN)
-									|| checkHardWallCollision(bag, DOWN)) {
+							if (checkWallCollision(bag, DOWN) || checkHardWallCollision(bag, DOWN)) {
 								return true;
 							}
 						}
 						if (cops != null && !checkBagCollisiontoPolice(bag.getX(), bag.getY() + SPACE)) {
 							bag.move(0, SPACE);
-						}
-						else if (cops.isEmpty()) {
+						} else if (cops.isEmpty()) {
 							bag.move(0, SPACE);
-						}
-						else
+						} else
 							return true;
 
 						isCompleted();

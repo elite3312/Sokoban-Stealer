@@ -15,10 +15,11 @@ public class Sokoban extends JFrame {
 	private final int MARGIN = 40;
 	private int player;
 	private int level;
-
+	private SavesWriter writer;
 	public Sokoban(int player, int level) {
 		this.player = player;
 		this.level = level;
+		writer=new SavesWriter("saves.txt");
 		initUI();
 	}
 
@@ -59,7 +60,11 @@ public class Sokoban extends JFrame {
 					setVisible(false);
 				}
 				else if(board.getIsCompleted()) {
+					music.close();
 					this.cancel();
+					writer.openFile();
+					writer.upDate(level+1);//next level becomes available
+					SavesWriter.closeFile();
 					Sokoban.this.dispose();
 					setVisible(false);
 				}

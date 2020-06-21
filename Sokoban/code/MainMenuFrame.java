@@ -1,5 +1,6 @@
 package java2020.finalProject;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import java.io.File;
@@ -35,15 +36,14 @@ public class MainMenuFrame extends JFrame implements ActionListener {
 	private JPanel topPanel;
 	private JPanel picPanel;
 	private JPanel bottomPanel;
-	
+	private JPanel levelPanel;
+
 	private JRadioButton p1;
 	private JRadioButton p2;
 
 	private ButtonGroup character;
 
-	private JRadioButton l1;
-	private JRadioButton l2;
-	private JRadioButton l3;
+	private ArrayList<JRadioButton> levels;
 
 	private ButtonGroup level;
 
@@ -55,11 +55,15 @@ public class MainMenuFrame extends JFrame implements ActionListener {
 	private JButton levelSelect;
 	private JButton exitBtn;
 	private JButton launchBtn;
-	// no-argument constructor
-
+	private JButton back;
+	private SavesReader reader;
+	private int progress;
 	public MainMenuFrame() {
-
 		super("Sokoban Stealer");
+		reader=new SavesReader("saves.txt");
+		reader.openFile();
+		progress=reader.readSaves();
+		reader.closeFile();
 		Font font = new Font("defalut", Font.PLAIN, 22);
 
 		setLayout(new FlowLayout());
@@ -74,14 +78,13 @@ public class MainMenuFrame extends JFrame implements ActionListener {
 		String gameStartPath = path;
 		String exitPath = path;
 
-		if (!path.contains("code")){
+		if (!path.contains("code")) {
 			path = "pic/gameTitle2.png";
 			selectPath = "pic/select.png";
 			selectedPath = "pic/selected.png";
 			gameStartPath = "pic/gameStart.png";
 			exitPath = "pic/exit.png";
-		}
-		else{
+		} else {
 			path = path.replaceAll("code", "pic/gameTitle2.png");
 			selectPath = selectPath.replaceAll("code", "pic/select.png");
 			selectedPath = selectedPath.replaceAll("code", "pic/selected.png");
@@ -94,10 +97,10 @@ public class MainMenuFrame extends JFrame implements ActionListener {
 		mainImage.setIcon(titleImage);
 		picPanel.add(BorderLayout.CENTER, mainImage);
 		add(BorderLayout.NORTH, picPanel);
-		
-		String introduction = "偷東西，是一門學問，更是一門藝術。\n在狹小的場地中躲避警衛，並成功將貨物運送到指定地點，是你的目標\n" +
-							  "你能否越過重重障礙，並且獲得最終的勝利?\n\n玩法說明：遊戲中按空白鍵可以朝前方發射子彈，並擊倒警衛(每達成一個貨物可加兩發子彈)\n" + 
-							  "　　　　　按Z鍵，可以設置傳送點或傳送至傳送點(一關限三次)\n　　　　　按X鍵，可以穿牆(一關限一次，三秒)";
+
+		String introduction = "偷東西，是一門學問，更是一門藝術。\n在狹小的場地中躲避警衛，並成功將貨物運送到指定地點，是你的目標\n"
+				+ "你能否越過重重障礙，並且獲得最終的勝利?\n\n玩法說明：遊戲中按空白鍵可以朝前方發射子彈，並擊倒警衛(每達成一個貨物可加兩發子彈)\n"
+				+ "　　　　　按Z鍵，可以設置傳送點或傳送至傳送點(一關限三次)\n　　　　　按X鍵，可以穿牆(一關限一次，三秒)";
 
 		JTextArea intro = new JTextArea(introduction);
 		Border border = BorderFactory.createLineBorder(Color.BLACK);
@@ -112,7 +115,7 @@ public class MainMenuFrame extends JFrame implements ActionListener {
 		/* character select */
 		JLabel label1 = new JLabel("選擇角色：");
 		label1.setFont(font);
-		bottomPanel = new JPanel(new GridLayout(4, 1));
+		bottomPanel = new JPanel(new GridLayout(3, 1));
 		JPanel radioBtnPanel1 = new JPanel(new FlowLayout());
 
 		p1 = new JRadioButton("一號小偷", true);
@@ -136,43 +139,41 @@ public class MainMenuFrame extends JFrame implements ActionListener {
 		bottomPanel.add(radioBtnPanel1);
 		add(bottomPanel);
 		/* level select */
-		JLabel label2 = new JLabel("選擇關卡：");
-		label2.setFont(font);
-		JPanel radioBtnPanel2 = new JPanel(new FlowLayout());
-
-		l1 = new JRadioButton("男二舍冰箱大盜(簡單)", true);
-		l1.setFont(font);
-		l1.setIcon(new ImageIcon(selectPath));
-		l1.setSelectedIcon(new ImageIcon(selectedPath));
-
-		l2 = new JRadioButton("左右為難的警衛(困難)", false);
-		l2.setFont(font);
-		l2.setIcon(new ImageIcon(selectPath));
-		l2.setSelectedIcon(new ImageIcon(selectedPath));
-
-		l3 = new JRadioButton("西班牙皇家造幣廠(地獄)", false);
-		l3.setFont(font);
-		l3.setIcon(new ImageIcon(selectPath));
-		l3.setSelectedIcon(new ImageIcon(selectedPath));
-
+		levelSelect = new JButton("選擇關卡");
+		levelSelect.addActionListener(this);
+		bottomPanel.add(levelSelect);
+		/* level select panel */
+		levelPanel = new JPanel(new GridLayout(5, 2));
 		level = new ButtonGroup();
-		level.add(l1);
-		level.add(l2);
-		level.add(l3);
+		JLabel label2 = new JLabel("選擇關卡：(目前解鎖進度:第"+progress+"關)");
+		label2.setFont(font);
+		levels=new ArrayList<JRadioButton>();
+		for (int i = 1; i <= 6; i++) {
+			JRadioButton l1 = new JRadioButton("Level "+i, true);
+			l1.setFont(font);
+			l1.setIcon(new ImageIcon(selectPath));
+			l1.setSelectedIcon(new ImageIcon(selectedPath));
+			if(i>progress)l1.setEnabled(false);
+			level.add(l1);
+			levels.add(l1);
+		}
 
-		radioBtnPanel2.add(label2);
-		radioBtnPanel2.add(l1);
-		radioBtnPanel2.add(l2);
-		radioBtnPanel2.add(l3);
-
-		bottomPanel.add(radioBtnPanel2);
-
-		/* launch! */
 		launchBtn = new JButton(new ImageIcon(gameStartPath));
 		launchBtn.setFont(font);
 		launchBtn.addActionListener(this);
-		bottomPanel.add(launchBtn);
-		
+
+		back = new JButton("back to menu");
+		back.addActionListener(this);
+		levelPanel.add(label2);
+		levelPanel.add(new JLabel(""));
+		for (int i = 0; i < levels.size(); i++) {
+			levelPanel.add(levels.get(i));
+		}
+
+		levelPanel.add(launchBtn);
+		levelPanel.add(back);
+		levelPanel.setVisible(false);
+
 		/* exit */
 		exitBtn = new JButton(new ImageIcon(exitPath));
 		exitBtn.setFont(font);
@@ -181,15 +182,25 @@ public class MainMenuFrame extends JFrame implements ActionListener {
 	}
 
 	public void launch() {
-		
+
 		EventQueue.invokeLater(() -> {
 			Sokoban game = new Sokoban(characterChosen, levelChosen);
-			// game.setVisible(true);
+			updateProgress();
 		});
-		
-		//music.close();
-	}
 
+		// music.close();
+	}
+	public void updateProgress(){
+		reader=new SavesReader("saves.txt");
+		reader.openFile();
+		progress=reader.readSaves();
+		for (int i = 0; i < 6; i++) {
+				
+			if(i<progress)levels.get(i).setEnabled(true);
+		
+		}
+		repaint();
+	}
 	// handle button events
 	@Override
 	public void actionPerformed(ActionEvent event) {
@@ -197,21 +208,37 @@ public class MainMenuFrame extends JFrame implements ActionListener {
 		if (event.getSource() == exitBtn) {
 			setVisible(false); // you can't see me!
 			MainMenuFrame.this.dispose();
-		} else {
+		} else if (event.getSource() == levelSelect) {
+			MainMenuFrame.this.setSize(1280, 820);
+			MainMenuFrame.this.remove(bottomPanel);
+			MainMenuFrame.this.add(levelPanel);
+			levelPanel.setVisible(true);
+			MainMenuFrame.this.updateProgress();
+			repaint();
+
+		} else if (event.getSource() == back) {
+			MainMenuFrame.this.setSize(1280, 720);
+			MainMenuFrame.this.remove(levelPanel);
+			MainMenuFrame.this.add(bottomPanel);
+			repaint();
+		} else {// launch
 			if (p1.isSelected())
 				characterChosen = playerSkinOne;
 			else
 				characterChosen = playerSkinTwo;
 
-			if (l1.isSelected())
-				levelChosen = 1;
-			else if (l2.isSelected())
-				levelChosen = 2;
-			else
-				levelChosen = 3;
+			for (int i = 0; i < levels.size(); i++) {
+				if (levels.get(i).isSelected())
+					levelChosen = i + 1;
+			}
 
 			launch();
+			MainMenuFrame.this.setSize(1280, 720);
+			MainMenuFrame.this.remove(levelPanel);
+			MainMenuFrame.this.add(bottomPanel);
+			MainMenuFrame.this.updateProgress();
+			repaint();
 		}
 	}
-	
+
 }
