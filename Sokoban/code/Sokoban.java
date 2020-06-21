@@ -10,6 +10,8 @@ import javazoom.jl.player.advanced.AdvancedPlayer;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import java.awt.Dimension;
+
 public class Sokoban extends JFrame {
 	private BackgroundMP3Player music;
 	private final int MARGIN = 40;
@@ -19,13 +21,13 @@ public class Sokoban extends JFrame {
 	public Sokoban(int player, int level) {
 		this.player = player;
 		this.level = level;
-		writer=new SavesWriter("saves.txt");
+		writer = new SavesWriter("saves.txt");
 		initUI();
 	}
 
 	private void initUI() {
 
-		Board board = new Board(player, level);
+		Stage stage = new Stage(player, level);
 
 		try {
 			music = new BackgroundMP3Player();
@@ -35,10 +37,12 @@ public class Sokoban extends JFrame {
 			System.out.printf("music err");
 		}
 
-		add(board);
+		add(stage);
+
+		Dimension screenSize = java.awt.Toolkit.getDefaultToolkit().getScreenSize();
 
 		setTitle("Sokoban-Stealer");
-		setSize(board.getBoardWidth() + MARGIN, board.getBoardHeight() + 2 * MARGIN);
+		setSize((int)screenSize.getWidth(), (int)screenSize.getHeight());
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setLocationRelativeTo(null);
 		setVisible(true);
@@ -47,9 +51,9 @@ public class Sokoban extends JFrame {
 		TimerTask refresh = new TimerTask() {
 			@Override
 			public void run() {
-				board.executetime++;
-				board.repaint();
-				if (board.isLost()) {
+				stage.executetime++;
+				stage.repaint();
+				/*if (stage.isLost()) {
 					music.close();
 					this.cancel();
 					JOptionPane.showMessageDialog(null, "Game_Over");
@@ -58,19 +62,23 @@ public class Sokoban extends JFrame {
 						int wait;}
 					Sokoban.this.dispose();
 					setVisible(false);
-				}
-				else if(board.getIsCompleted()) {
+				}*/
+				if(stage.goNextStage()) {
 					music.close();
-					this.cancel();
+					//this.cancel();
 					writer.openFile();
-					writer.upDate(level+1);//next level becomes available
+					writer.upDate(level+1); //next level becomes available
 					SavesWriter.closeFile();
-					Sokoban.this.dispose();
-					setVisible(false);
+					//Sokoban.this.dispose();
+					//setVisible(false);
+					level++;
+					music.setSong(level);
+					music.circularPlay();
 				}
+				
 			}
 		};
 
-		timer.schedule(refresh, 0, 50);
+		timer.schedule(refresh, 0, 30);
 	}
 }

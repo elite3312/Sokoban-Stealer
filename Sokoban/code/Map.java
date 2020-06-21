@@ -119,7 +119,9 @@ public class Map {
         switch (selection){
         	case 1 : return this.level_1;
         	case 2 : return this.level_3;
-            case 3 : return this.level_4; // may change here
+			case 3 : return this.level_4; // may change here
+			case 4 : return this.level_5;
+			case 5 : return this.level_6;
         	default : return "invalid selection";
         }
     }

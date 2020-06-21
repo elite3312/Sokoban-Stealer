@@ -27,25 +27,39 @@ public class BackgroundMP3Player {
 		path = tempfile.getAbsolutePath();
 
 		if(!path.contains("code"))
-			path = "BGM/rep.mp3";
+			path = "BGM/";
 		else
-			path = path.replaceAll("code", "BGM/rep.mp3");
+			path = path.replaceAll("code", "BGM/");
 	}
 
 	public void setSong(int songSeq){
 
+		tempfile = new File("");
+		path = tempfile.getAbsolutePath();
+
+		if(!path.contains("code"))
+			path = "BGM/";
+		else
+			path = path.replaceAll("code", "BGM/");
+			
 		switch (songSeq) {
 			case 1:
-				path = path.replaceAll("rep", "Beyond_My_Beloved_Horizon");
+				path += "Beyond_My_Beloved_Horizon.mp3";
 				break;
 			case 2:
-				path = path.replaceAll("rep", "Spika");
+				path += "Spika.mp3";
 				break;
 			case 3:
-				path = path.replaceAll("rep", "AlanWalkerSpectre");
+				path += "AlanWalkerSpectre.mp3";
+				break;
+			case 4:
+				//path += "?????????";
+				break;
+			case 5:
+				//path += "?????????";
 				break;
 			default:
-				path = path.replaceAll("rep", "AlanWalkerSpectre");
+				path += "AlanWalkerSpectre.mp3";
 				break;
 		}
 

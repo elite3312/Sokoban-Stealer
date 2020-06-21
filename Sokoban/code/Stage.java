@@ -10,12 +10,15 @@ import java.beans.beancontext.BeanContextEvent;
 import java.io.File;
 import java.util.ArrayList;
 import javax.swing.JPanel;
+
+import javax.swing.ImageIcon;
 import java.util.Date;
 import java.awt.Font;
 import java.awt.Color;
+import java.awt.Image;
 import java.util.Random;
 
-public class Board extends JPanel {
+public class Stage extends JPanel {
 
 	// constant
 	private final int MARGIN = 40;
@@ -24,7 +27,6 @@ public class Board extends JPanel {
 	private final int RIGHT = 2;
 	private final int UP = 3;
 	private final int DOWN = 4;
-	private final int selection;
 	private final int playerSkinOne = 1;
 	private final int playerSkinTwo = 2;
 
@@ -32,13 +34,17 @@ public class Board extends JPanel {
 	private int currentlyFacing = DOWN;
 	public int executetime = 0; // repaint time
 	public static int forbutton = 0;
-	private int width = 0; // board width
-	private int height = 0; // board height
+	private int width = 0; // Stage width
+	private int height = 0; // Stage height
 	private int policePeriod;
 	private int toward = 1;
 	private int Achived = 1;
 	private int playerSkin;
+	private int selection; // map selection
 	private long collisionIgnoreTime;
+	private Long restartTime;
+	private Long lossTime;
+	private Long wonTime;
 
 	private ArrayList<Police> cops;
 	private ArrayList<Wall> walls;
@@ -55,35 +61,35 @@ public class Board extends JPanel {
 	private boolean lost = false;
 	private boolean collisionIgnore = false; // penetrate skill
 	private boolean penetrateNotUsed = true; // penetrate skill
+	private boolean restarted = false; // restart frame
+	private boolean restartBuffer = false; // restart buffering(for 0.3sec)
+	private boolean gamePause = false;
+	private boolean nextStage = false;
 
-	public Board(int playerSkinChoosen, int level) {
+	private Graphics graphic; // for the global using
+
+	public Stage(int playerSkinChoosen, int level) {
 		selection = level;
-		if (level == 3) {
-			policePeriod = 4;
-		} else if (level == 2)
-			policePeriod = 8;
-		else
-			policePeriod = 12;
 
 		if (playerSkinChoosen == playerSkinTwo)
 			playerSkin = playerSkinTwo;
 		else // playerSkinChoosen == playerSkinOne, become default
 			playerSkin = playerSkinOne;
 
-		initBoard();
+		initStage();
 	}
 
-	private void initBoard() {
+	private void initStage() {
 		addKeyListener(new TAdapter());
 		setFocusable(true);
 		initWorld();
 	}
 
-	public int getBoardWidth() {
+	public int getStageWidth() {
 		return this.width;
 	}
 
-	public int getBoardHeight() {
+	public int getStageHeight() {
 		return this.height;
 	}
 
@@ -100,12 +106,21 @@ public class Board extends JPanel {
 
 		Map maptest;
 
+		if (selection == 3) {
+			policePeriod = 4;
+		} else if (selection == 2)
+			policePeriod = 8;
+		else
+			policePeriod = 12;
+
 		maptest = new Map();
 		level = (String) (maptest.getMap(selection));
 		portal = new Portal(0, 0);
+		Achived = 1;
 
 		penetrateNotUsed = true; // penetrate init
 		collisionIgnore = false; // penetrate init
+		nextStage = false;
 
 		for (int i = 0; i < level.length(); i++) { // set width,height, actors specified by the string
 			char item = level.charAt(i);
@@ -169,6 +184,110 @@ public class Board extends JPanel {
 
 	private void buildWorld(Graphics g) {
 
+		if(restarted){
+			Long time = new Date().getTime();
+			String stateNow = "";
+
+			if(time - restartTime < 200){
+				stateNow += "[Loading    ]";
+			}
+			else if(time - restartTime >= 200 &&time - restartTime < 400){
+				stateNow += "[Loading.   ]";
+			}
+			else if(time - restartTime >= 400 &&time - restartTime < 600){
+				stateNow += "[Loading..  ]";
+			}
+			else if(time - restartTime >= 600 &&time - restartTime < 800){
+				stateNow += "[Loading... ]";
+			}
+			else if(time - restartTime >= 800 &&time - restartTime < 1000){
+				stateNow += "[Loading....]";
+			}
+
+			g.setColor(new Color(0, 0, 0));
+			g.setFont(new Font("default", Font.PLAIN, 64));
+			g.drawString(stateNow, this.width / 2 - 170, this.height / 2);
+			
+			if(time - restartTime < 1000){
+				return;
+			}
+			else{
+				restarted = false;
+			}
+		}
+
+		if(lost){
+			Long time = new Date().getTime();
+
+			g.setColor(new Color(0, 0, 0));
+			g.setFont(new Font("default", Font.PLAIN, 64));
+			g.drawString("YOU LOSE !!!", this.width / 2 - 180, this.height / 2);
+
+			if(time - lossTime < 1000){
+				return;
+			}
+			else{
+				lost = false;
+				restartLevel();
+				return;
+			}
+		}
+
+		if(isCompleted){
+			Long time = new Date().getTime();
+
+			if(time - wonTime < 1000){
+				g.setColor(new Color(0, 0, 0));
+				g.setFont(new Font("default", Font.PLAIN, 64));
+				g.drawString("YOU WON !!!", this.width / 2 - 180, this.height / 2);
+				return;
+			}
+			else if(time - wonTime > 1000 && time - wonTime < 2000){
+				String stateNow = "";
+
+				if(time - wonTime < 1200){
+					stateNow += "[Loading    ]";
+				}
+				else if(time - wonTime >= 1200 &&time - wonTime < 1400){
+					stateNow += "[Loading.   ]";
+				}
+				else if(time - wonTime >= 1400 &&time - wonTime < 1600){
+					stateNow += "[Loading..  ]";
+				}
+				else if(time - wonTime >= 1600 &&time - wonTime < 1800){
+					stateNow += "[Loading... ]";
+				}
+				else if(time - wonTime >= 1800 &&time - wonTime < 2000){
+					stateNow += "[Loading....]";
+				}
+
+				g.setColor(new Color(0, 0, 0));
+				g.setFont(new Font("default", Font.PLAIN, 64));
+				g.drawString(stateNow, this.width / 2 - 170, this.height / 2);
+
+				return;
+			}
+			else{
+				isCompleted = false;
+				nextStage = true;
+				selection++;
+				try {
+					Thread.sleep(50);
+				} catch (InterruptedException e) {
+					e.printStackTrace(); 
+				}
+				initWorld();
+			}
+		}
+
+		if(gamePause){
+			g.setColor(new Color(0, 0, 0));
+			g.setFont(new Font("default", Font.PLAIN, 64));
+			g.drawString("PAUSED", this.width / 2 - 120, this.height / 2);
+
+			return;
+		}
+
 		g.setColor(new Color(230, 230, 230));
 		g.fillRect(0, 0, this.getWidth(), this.getHeight());
 
@@ -198,16 +317,15 @@ public class Board extends JPanel {
 			collisionIgnore = true;
 			stealer.setAmmo(9999);
 			portal.setAvailability(9999);
-			;
 		}
 
-		String info2 = "bagAchivement " + (Achived - 1);
+		String info2 = "Achivement " + (Achived - 1);
 
 		g.setColor(new Color(0, 0, 0));
 		g.setFont(new Font("default", Font.PLAIN, 25));
-		g.drawString(info, 25, 20);
+		g.drawString(info, 40, 40);
 		g.setColor(new Color(100, 20, 200));
-		g.drawString(info2, 25, 50);
+		g.drawString(info2, 40, 70);
 
 		ArrayList<Actor> world = new ArrayList<>();
 
@@ -347,10 +465,9 @@ public class Board extends JPanel {
 				g.drawImage(item.getImage(), item.x(), item.y(), this);
 			}
 
-			if (isCompleted) {
-				g.setColor(new Color(0, 0, 0));
-				g.drawString("Completed", 25, 20);
-			}
+			g.setFont(new Font("default", Font.PLAIN, 20));
+			g.setColor(new Color(0, 0, 0));
+			g.drawString("[R]-RESTART    [PAUSE]-ESC    [X]-GHOST SKILL    [Z]-PORTAL    [SPACE]-GUN", 40, this.height + 20);
 
 		}
 		if (forbutton == 1)
@@ -359,6 +476,7 @@ public class Board extends JPanel {
 
 	@Override
 	public void paintComponent(Graphics g) {
+		graphic = g;
 		super.paintComponent(g);
 		buildWorld(g);
 	}
@@ -376,6 +494,11 @@ public class Board extends JPanel {
 
 			switch (key) {
 				case KeyEvent.VK_LEFT:
+
+					if(gamePause){
+						gamePause = false;
+						return;
+					}
 					currentlyFacing = LEFT;
 					cheater.pushCommand(LEFT);
 					stealer.setPlayerImage(LEFT);
@@ -397,6 +520,11 @@ public class Board extends JPanel {
 					break;
 
 				case KeyEvent.VK_RIGHT:
+
+					if(gamePause){
+						gamePause = false;
+						return;
+					}
 					currentlyFacing = RIGHT;
 					cheater.pushCommand(RIGHT);
 					stealer.setPlayerImage(RIGHT);
@@ -418,6 +546,11 @@ public class Board extends JPanel {
 					break;
 
 				case KeyEvent.VK_UP:
+
+					if(gamePause){
+						gamePause = false;
+						return;
+					}
 					currentlyFacing = UP;
 					cheater.pushCommand(UP);
 					stealer.setPlayerImage(UP);
@@ -439,6 +572,11 @@ public class Board extends JPanel {
 					break;
 
 				case KeyEvent.VK_DOWN:
+					
+					if(gamePause){
+						gamePause = false;
+						return;
+					}
 					currentlyFacing = DOWN;
 					cheater.pushCommand(DOWN);
 					stealer.setPlayerImage(DOWN);
@@ -460,8 +598,11 @@ public class Board extends JPanel {
 					break;
 
 				case KeyEvent.VK_R: // restart
-
-					restartLevel();
+					
+					if( !restarted )
+						restartLevel();
+					
+					gamePause = false;
 
 					break;
 				case KeyEvent.VK_Z: // portal
@@ -493,6 +634,7 @@ public class Board extends JPanel {
 						stealer.setBullet(new Bullet(stealer.x(), stealer.y(), currentlyFacing));
 						stealer.setAmmo(stealer.getAmmo() - 1);
 					}
+					gamePause = false;
 					break;
 
 				case KeyEvent.VK_X: // penetrate
@@ -502,6 +644,15 @@ public class Board extends JPanel {
 						penetrateNotUsed = false;
 					}
 					break;
+
+				case KeyEvent.VK_ESCAPE:
+					gamePause = !gamePause;
+					break;
+				
+				case KeyEvent.VK_ENTER:
+					gamePause = false;
+					break;
+
 				default:
 					break;
 			}
@@ -831,6 +982,8 @@ public class Board extends JPanel {
 	public void playerLoss() {
 		// cops = null;
 		lost = true;
+		lossTime = new Date().getTime();
+		cheater.deactivate();
 	}
 
 	public void isCompleted() {
@@ -852,9 +1005,10 @@ public class Board extends JPanel {
 			stealer.setAmmo(stealer.getAmmo() + 2);
 		}
 		if (finishedBags == nOfBags) {
-			JOptionPane.showMessageDialog(this, "win!");
 			isCompleted = true;
-			repaint();
+			wonTime = new Date().getTime();
+			cheater.deactivate();
+			//repaint();
 		}
 	}
 
@@ -863,9 +1017,15 @@ public class Board extends JPanel {
 		goals.clear();
 		money.clear();
 		walls.clear();
+		cops.clear();
+		hardWalls.clear();
 
 		isCompleted = false;
 		Achived = 1;
+		
+		restarted = true;
+		restartTime = new Date().getTime();
+
 		initWorld();
 	}
 
@@ -879,5 +1039,9 @@ public class Board extends JPanel {
 
 	public void setLost(boolean lost) {
 		this.lost = lost;
+	}
+
+	public boolean goNextStage(){
+		return nextStage;
 	}
 }

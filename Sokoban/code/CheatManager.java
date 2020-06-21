@@ -31,4 +31,9 @@ public class CheatManager {
         return activate;
     }
 
+    public void deactivate(){
+        activate = false;
+        pivot = 0;
+    }
+
 }
