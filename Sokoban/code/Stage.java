@@ -725,7 +725,7 @@ public class Stage extends JPanel {
 				case KeyEvent.VK_ESCAPE:
 					gamePause = !gamePause;
 					break;
-					
+
 				default:
 					gamePause = false;
 					break;
@@ -1114,6 +1114,8 @@ public class Stage extends JPanel {
 		} catch (InterruptedException e) {
 			e.printStackTrace(); 
 		}
+
+		cheater.deactivate();
 
 		goals.clear();
 		money.clear();
