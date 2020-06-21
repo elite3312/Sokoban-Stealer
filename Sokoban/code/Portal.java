@@ -6,9 +6,13 @@ import java.io.File;
 import javax.swing.ImageIcon;
 
 public class Portal extends Actor {
+
 	private int isActive = 0;
 	// private long startTime = 0;
 	private int availability = 3;
+	private Image[] images = new Image[16];
+	private int animater = 0;
+	private int imageSeguence = 0;
 
 	public Portal(int x, int y) {
 		super(x, y);
@@ -22,18 +26,28 @@ public class Portal extends Actor {
 
 	private void initPortal() {
 
+		animater = 0;
+		imageSeguence = 0;
+
 		File f = new File("");
 		String path = f.getAbsolutePath();
+		String temp = "";
 
-		if (!path.contains("code"))
-			path = "pic/portal.png";
-		else
-			path = path.replaceAll("code", "pic/portal.png");
+		for(int i = 10; i < 26; i++){
+			temp = path;
 
+			if (!path.contains("code"))
+				temp = String.format("pic/portalAnimation/Portal%d.png", i);
+			else
+				temp = path.replaceAll("code", String.format("pic/portalAnimation/Portal%d.png", i));
+
+			ImageIcon iicon = new ImageIcon(temp);
+			Image image = iicon.getImage();
+			images[i-10] = image;
+		}
 		isActive = 0;
-		ImageIcon iicon = new ImageIcon(path);
-		Image image = iicon.getImage();
-		setImage(image);
+
+		setImage(images[0]);
 	}
 
 	public int getIsActive() {
@@ -57,6 +71,18 @@ public class Portal extends Actor {
 		if (availability < 0)
 			return;
 		this.availability = availability;
+	}
+
+	public void animation(){
+		animater++;
+
+		if(animater > 1){
+			if(imageSeguence == 16){
+				imageSeguence = 0;
+			}
+			animater = 0;
+			setImage(images[imageSeguence++]);
+		}
 	}
 
 }

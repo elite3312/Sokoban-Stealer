@@ -11,10 +11,18 @@ import javax.swing.ImageIcon;
 
 public class Police extends Actor {
 
+    private final int LEFT = 1;
+	private final int RIGHT = 2;
+	private final int UP = 3;
+    private final int DOWN = 4;
+    
     private int toward = 2;
     private int SPACE = 40;
     private int step = 0;
     private int behaveMode = 1;
+    private int currentlyFacing = DOWN;
+
+    private Image[] fourDirection = new Image[4];
 
     //Random random = new Random(new Date().getTime());
     SecureRandom random = new SecureRandom();
@@ -68,17 +76,58 @@ public class Police extends Actor {
 
         File f = new File("");
         String path = f.getAbsolutePath();
+        String temp = path;
         
-        if(!path.contains("code"))
-            path = "pic/police.png";
-        else
-            path = path.replaceAll("code", "pic/police.png");
+        if(!path.contains("code")){
+            temp = "pic/character/policeLeft.png";
+        }
+        else{
+            temp = path.replaceAll("code", "pic/character/policeLeft.png");
+        }
             
-        ImageIcon iicon = new ImageIcon(path);
+        ImageIcon iicon = new ImageIcon(temp);
         Image image = iicon.getImage();
+        fourDirection[0] = image;
+        temp = path;
+
+        if(!path.contains("code")){
+            temp = "pic/character/policeRight.png";
+        }
+        else{
+            temp = path.replaceAll("code", "pic/character/policeRight.png");
+        }
+            
+        iicon = new ImageIcon(temp);
+        image = iicon.getImage();
+        fourDirection[1] = image;
+        temp = path;
+
+        if(!path.contains("code")){
+            temp = "pic/character/policeUp.png";
+        }
+        else{
+            temp = path.replaceAll("code", "pic/character/policeUp.png");
+        }
+            
+        iicon = new ImageIcon(temp);
+        image = iicon.getImage();
+        fourDirection[2] = image;
+        temp = path;
+
+        if(!path.contains("code")){
+            temp = "pic/character/policeDown.png";
+        }
+        else{
+            temp = path.replaceAll("code", "pic/character/policeDown.png");
+        }
+            
+        iicon = new ImageIcon(temp);
+        image = iicon.getImage();
+        fourDirection[3] = image;
+
         setImage(image);
 
-        setBehavior(random.nextInt(100) % 4 + 1);
+        setBehavior(random.nextInt(4) + 1);
     }
 
     public int nextStep(){
@@ -99,41 +148,31 @@ public class Police extends Actor {
                 break;
         }
 
+        setImage(fourDirection[toward-1]);
         return toward;
     }
 
     private void setBehavior(int behave){
         switch (behave){
             case 1:
-                behavior1();
+                behaveMode = 1;
                 break;
             case 2:
-                behavior2();
+                behaveMode = 2;
                 break;
             case 3:
-                behavior3();
+                behaveMode = 3;
                 break;
             case 4:
-                behavior4();
+                behaveMode = 4;
                 break;
             default:
-                behavior1();
+                behaveMode = 1;
                 break;
         }
     }
 
     private void behavior1(){
-        behaveMode = 1;
-        if(step == 2){
-            step = 0;
-            toward = random.nextInt(100) % 4 + 1;
-            return;
-        }
-        step++;
-    }
-
-    private void behavior2(){
-        behaveMode = 2;
         if(step == 3){
             step = 0;
             toward = random.nextInt(100) % 4 + 1;
@@ -142,19 +181,34 @@ public class Police extends Actor {
         step++;
     }
 
-    private void behavior3(){
-        behaveMode = 3;
-        if(step == 4){
+    private void behavior2(){
+        if(step == 3){
             step = 0;
-            toward = random.nextInt(100) % 4 + 1;
+            toward--;
+
+            if(toward < 1)
+                toward = 4;
+                
+            return;
+        }
+        step++;
+    }
+
+    private void behavior3(){
+        if(step == 3){
+            step = 0;
+            toward++;
+
+            if(toward > 4){
+                toward = 1;
+            }
             return;
         }
         step++;
     }
 
     private void behavior4(){
-        behaveMode = 4;
-        toward = random.nextInt(100) % 4 + 1;
+        toward = random.nextInt(4) + 1;
     }
 
 }

@@ -2,9 +2,13 @@ package java2020.finalProject;
 
 import java.awt.Image;
 import java.io.File;
+import java.security.SecureRandom;
+
 import javax.swing.ImageIcon;
 
 public class Treasure extends Actor {
+
+    private Image[] images = new Image[10];
 
     public Treasure(int x, int y) {
         super(x, y);
@@ -20,15 +24,23 @@ public class Treasure extends Actor {
  
         File f = new File("");
         String path = f.getAbsolutePath();
+        String temp;
         
-        if(!path.contains("code"))
-            path = "pic/Treasure.png";
-        else
-            path = path.replaceAll("code", "pic/Treasure.png");
-            
-        ImageIcon iicon = new ImageIcon(path);
-        Image image = iicon.getImage();
-        setImage(image);
+        for(int i = 0; i < 10; i++){
+            if(!path.contains("code"))
+                temp = String.format("pic/treasures/Treasure%d.png", i);
+            else{
+                temp = path.replaceAll("code", String.format("pic/treasures/Treasure%d.png", i));
+            }
+                
+            ImageIcon iicon = new ImageIcon(temp);
+            Image image = iicon.getImage();
+            images[i] = image;
+        }
+
+        SecureRandom random = new SecureRandom();
+        int seq = random.nextInt(10);
+        setImage(images[seq]);
     }
 
     public void move(int x, int y) {

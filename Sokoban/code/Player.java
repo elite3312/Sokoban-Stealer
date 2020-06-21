@@ -39,30 +39,44 @@ public class Player extends Actor {
 
 		if(playerSkinChoosed == playerSkinOne){
 			if (!path.contains("code")){
-				up = "pic/playerOneUp.png";
-				left = "pic/playerOneLeft.png";
-				down = "pic/playerOneDown.png";
-				right = "pic/playerOneRight.png";
+				up = "pic/character/playerOneUp.png";
+				left = "pic/character/playerOneLeft.png";
+				down = "pic/character/playerOneDown.png";
+				right = "pic/character/playerOneRight.png";
 			}
 			else{
-				up = path.replaceAll("code", "pic/playerOneUp.png");
-				left = path.replaceAll("code", "pic/playerOneLeft.png");
-				down = path.replaceAll("code", "pic/playerOneDown.png");
-				right = path.replaceAll("code", "pic/playerOneRight.png");
+				up = path.replaceAll("code", "pic/character/playerOneUp.png");
+				left = path.replaceAll("code", "pic/character/playerOneLeft.png");
+				down = path.replaceAll("code", "pic/character/playerOneDown.png");
+				right = path.replaceAll("code", "pic/character/playerOneRight.png");
+			}
+		}
+		else if(playerSkinChoosed == playerSkinTwo){
+			if (!path.contains("code")){
+				up = "pic/character/playerTwoUp.png";
+				left = "pic/character/playerTwoLeft.png";
+				down = "pic/character/playerTwoDown.png";
+				right = "pic/character/playerTwoRight.png";
+			}
+			else{
+				up = path.replaceAll("code", "pic/character/playerTwoUp.png");
+				left = path.replaceAll("code", "pic/character/playerTwoLeft.png");
+				down = path.replaceAll("code", "pic/character/playerTwoDown.png");
+				right = path.replaceAll("code", "pic/character/playerTwoRight.png");
 			}
 		}
 		else{
 			if (!path.contains("code")){
-				up = "pic/playerTwoUp.png";
-				left = "pic/playerTwoLeft.png";
-				down = "pic/playerTwoDown.png";
-				right = "pic/playerTwoRight.png";
+				up = "pic/character/playerThreeUp.png";
+				left = "pic/character/playerThreeLeft.png";
+				down = "pic/character/playerThreeDown.png";
+				right = "pic/character/playerThreeRight.png";
 			}
 			else{
-				up = path.replaceAll("code", "pic/playerTwoUp.png");
-				left = path.replaceAll("code", "pic/playerTwoLeft.png");
-				down = path.replaceAll("code", "pic/playerTwoDown.png");
-				right = path.replaceAll("code", "pic/playerTwoRight.png");
+				up = path.replaceAll("code", "pic/character/playerThreeUp.png");
+				left = path.replaceAll("code", "pic/character/playerThreeLeft.png");
+				down = path.replaceAll("code", "pic/character/playerThreeDown.png");
+				right = path.replaceAll("code", "pic/character/playerThreeRight.png");
 			}
 		}
 

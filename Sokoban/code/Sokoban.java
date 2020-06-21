@@ -18,6 +18,7 @@ public class Sokoban extends JFrame {
 	private int player;
 	private int level;
 	private SavesWriter writer;
+
 	public Sokoban(int player, int level) {
 		this.player = player;
 		this.level = level;
@@ -42,7 +43,7 @@ public class Sokoban extends JFrame {
 		Dimension screenSize = java.awt.Toolkit.getDefaultToolkit().getScreenSize();
 
 		setTitle("Sokoban-Stealer");
-		setSize((int)screenSize.getWidth(), (int)screenSize.getHeight());
+		setSize((int)screenSize.getWidth(), (int)screenSize.getHeight());	
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setLocationRelativeTo(null);
 		setVisible(true);
@@ -71,7 +72,10 @@ public class Sokoban extends JFrame {
 					SavesWriter.closeFile();
 					//Sokoban.this.dispose();
 					//setVisible(false);
-					level++;
+					
+					if(level < 6)
+						level++;
+
 					music.setSong(level);
 					music.circularPlay();
 				}

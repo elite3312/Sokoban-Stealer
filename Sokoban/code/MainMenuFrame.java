@@ -40,6 +40,7 @@ public class MainMenuFrame extends JFrame implements ActionListener {
 
 	private JRadioButton p1;
 	private JRadioButton p2;
+	private JRadioButton p3;
 
 	private ButtonGroup character;
 
@@ -50,6 +51,7 @@ public class MainMenuFrame extends JFrame implements ActionListener {
 	private int characterChosen;
 	private final int playerSkinOne = 1;
 	private final int playerSkinTwo = 2;
+	private final int playerSkinThree = 3;
 	private int levelChosen;
 
 	private JButton levelSelect;
@@ -58,12 +60,15 @@ public class MainMenuFrame extends JFrame implements ActionListener {
 	private JButton back;
 	private SavesReader reader;
 	private int progress;
+
 	public MainMenuFrame() {
 		super("Sokoban Stealer");
+
 		reader=new SavesReader("saves.txt");
 		reader.openFile();
 		progress=reader.readSaves();
 		reader.closeFile();
+
 		Font font = new Font("defalut", Font.PLAIN, 22);
 
 		setLayout(new FlowLayout());
@@ -128,13 +133,20 @@ public class MainMenuFrame extends JFrame implements ActionListener {
 		p2.setIcon(new ImageIcon(selectPath));
 		p2.setSelectedIcon(new ImageIcon(selectedPath));
 
+		p3 = new JRadioButton("三號小偷", false);
+		p3.setFont(font);
+		p3.setIcon(new ImageIcon(selectPath));
+		p3.setSelectedIcon(new ImageIcon(selectedPath));
+
 		character = new ButtonGroup();
 		character.add(p1);
 		character.add(p2);
+		character.add(p3);
 
 		radioBtnPanel1.add(label1);
 		radioBtnPanel1.add(p1);
 		radioBtnPanel1.add(p2);
+		radioBtnPanel1.add(p3);
 
 		bottomPanel.add(radioBtnPanel1);
 		add(bottomPanel);
@@ -147,6 +159,8 @@ public class MainMenuFrame extends JFrame implements ActionListener {
 		level = new ButtonGroup();
 		JLabel label2 = new JLabel("選擇關卡：(目前解鎖進度:第"+progress+"關)");
 		label2.setFont(font);
+
+		
 		levels=new ArrayList<JRadioButton>();
 		for (int i = 1; i <= 6; i++) {
 			JRadioButton l1 = new JRadioButton("Level "+i, true);
@@ -191,9 +205,9 @@ public class MainMenuFrame extends JFrame implements ActionListener {
 		// music.close();
 	}
 	public void updateProgress(){
-		reader=new SavesReader("saves.txt");
+		reader = new SavesReader("saves.txt");
 		reader.openFile();
-		progress=reader.readSaves();
+		progress = reader.readSaves();
 		for (int i = 0; i < 6; i++) {
 				
 			if(i<progress)levels.get(i).setEnabled(true);
@@ -224,8 +238,10 @@ public class MainMenuFrame extends JFrame implements ActionListener {
 		} else {// launch
 			if (p1.isSelected())
 				characterChosen = playerSkinOne;
-			else
+			else if(p2.isSelected())
 				characterChosen = playerSkinTwo;
+			else
+				characterChosen = playerSkinThree;
 
 			for (int i = 0; i < levels.size(); i++) {
 				if (levels.get(i).isSelected())
