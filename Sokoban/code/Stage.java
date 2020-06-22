@@ -1249,12 +1249,12 @@ public class Stage extends JPanel {
 	}
 
 	private void restartLevel() {
-
+		/*
 		try {
-			Thread.sleep(200);
+			Thread.sleep(50);
 		} catch (InterruptedException e) {
 			e.printStackTrace(); 
-		}
+		}*/
 
 		cheater.deactivate();
 
