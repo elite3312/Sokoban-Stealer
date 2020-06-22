@@ -248,19 +248,22 @@ public class Stage extends JPanel {
 			String stateNow = "";
 
 			if(time - restartTime < 400){
-				stateNow = "[Loading    ]";
+				stateNow = "[Loading     ]";
 			}
 			else if(time - restartTime >= 400 && time - restartTime < 600){
-				stateNow = "[Loading.   ]";
+				stateNow = "[Loading.    ]";
 			}
 			else if(time - restartTime >= 600 && time - restartTime < 800){
-				stateNow = "[Loading..  ]";
+				stateNow = "[Loading..   ]";
 			}
 			else if(time - restartTime >= 800 && time - restartTime < 1000){
-				stateNow = "[Loading... ]";
+				stateNow = "[Loading...  ]";
 			}
 			else if(time - restartTime >= 1000 && time - restartTime < 1200){
-				stateNow = "[Loading....]";
+				stateNow = "[Loading.... ]";
+			}
+			else if(time - restartTime >= 1200 && time - restartTime < 1400){
+				stateNow = "[Loading.....]";
 			}
 
 			g.setColor(new Color(0, 0, 0));
@@ -308,19 +311,22 @@ public class Stage extends JPanel {
 				String stateNow = "";
 
 				if(time - wonTime < 1400){
-					stateNow += "[Loading    ]";
+					stateNow += "[Loading     ]";
 				}
 				else if(time - wonTime >= 1400 &&time - wonTime < 1600){
-					stateNow += "[Loading.   ]";
+					stateNow += "[Loading.    ]";
 				}
 				else if(time - wonTime >= 1600 &&time - wonTime < 1800){
-					stateNow += "[Loading..  ]";
+					stateNow += "[Loading..   ]";
 				}
 				else if(time - wonTime >= 1800 &&time - wonTime < 2000){
-					stateNow += "[Loading... ]";
+					stateNow += "[Loading...  ]";
 				}
 				else if(time - wonTime >= 2000 &&time - wonTime < 2200){
-					stateNow += "[Loading....]";
+					stateNow += "[Loading.... ]";
+				}
+				else if(time - wonTime >= 2200 &&time - wonTime < 2400){
+					stateNow += "[Loading.....]";
 				}
 
 				g.setColor(new Color(0, 0, 0));
@@ -413,11 +419,24 @@ public class Stage extends JPanel {
 		}
 
 		if (cheater.checkCondition()) {
-			info = "portals left：∞        ammo：∞        ghost skill：∞";
+			info = "portals left：∞        ammo：∞";
 			penetrateNotUsed = true;
-			collisionIgnore = true;
 			stealer.setAmmo(9999);
 			portal.setAvailability(9999);
+
+			if(collisionIgnore){
+				Long checkCollisonTime = new Date().getTime() - collisionIgnoreTime;
+				checkCollisonTime = 3000 - checkCollisonTime;
+				if (checkCollisonTime <= 0) {
+					collisionIgnore = false;
+				}
+				double temp = checkCollisonTime / 1000.0;
+				if (temp >= 0)
+					info += String.format("        skill time：%.2f", temp);
+			}
+			else{
+				info += "         ghost skill：∞";
+			}
 		}
 
 		String info2 = "Achivement " + (Achived - 1);
@@ -455,7 +474,7 @@ public class Stage extends JPanel {
 		for (int i = 0; i < world.size(); i++) {
 
 			Actor item = world.get(i);
-			if (item != null && item instanceof Police && forbutton == 0 && executetime % policePeriod == 1) {
+			if (item != null && item instanceof Police && forbutton == 0 && executetime % policePeriod == 1 && !cheater.checkUserCommand()) {
 
 				Police cop = (Police) item;
 				int policeCanGo = 0; // means next direction police can move
@@ -832,6 +851,30 @@ public class Stage extends JPanel {
 						
 						pauseSelect = 1;
 					}
+					break;
+				
+				case KeyEvent.VK_S:
+					cheater.pushChar('s');
+					break;
+				
+				case KeyEvent.VK_O:
+					cheater.pushChar('o');
+					break;
+				
+				case KeyEvent.VK_K:
+					cheater.pushChar('k');
+					break;
+				
+				case KeyEvent.VK_B:
+					cheater.pushChar('b');
+					break;
+				
+				case KeyEvent.VK_A:
+					cheater.pushChar('a');
+					break;
+				
+				case KeyEvent.VK_N:
+					cheater.pushChar('n');
 					break;
 
 				default:

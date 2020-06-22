@@ -90,6 +90,9 @@ public class MainMenuFrame extends JFrame implements ActionListener{
 			System.out.printf("music err");
 		}
 
+		setExtendedState(JFrame.MAXIMIZED_BOTH); 
+		setUndecorated(true);
+
 		reader = new SavesReader("saves.txt");
 		reader.openFile();
 		progress = reader.readSaves();
@@ -135,9 +138,12 @@ public class MainMenuFrame extends JFrame implements ActionListener{
 		
 		add(BorderLayout.NORTH, picPanel);
 
-		String introduction = "偷東西，是一門學問，更是一門藝術。\n在狹小的場地中躲避警衛，並成功將貨物運送到指定地點，是你的目標\n"
-				+ "你能否越過重重障礙，並且獲得最終的勝利?\n\n玩法說明：遊戲中按空白鍵可以朝前方發射子彈，並擊倒警衛(每達成一個貨物可加兩發子彈)\n"
-				+ "　　　　　按Z鍵，可以設置傳送點或傳送至傳送點(一關限三次)\n　　　　　按X鍵，可以穿牆(一關限一次，三秒)";
+		String introduction = "^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^"
+				+ "\n偷東西，是一門學問，更是一門藝術。\n在狹小的場地中躲避警衛，並成功將貨物運送到指定地點，是你的目標\n"
+				+ "你能否越過重重障礙，並且獲得最終的勝利?\n\n玩法說明：遊戲中按空白鍵可以朝人物前方發射子彈，並擊倒警衛(每達成一個貨物可加兩發子彈)\n"
+				+ "　　　　　按Z鍵，可以設置傳送點或傳送至傳送點(一關限三次)\n　　　　　按X鍵，可以穿牆(一關限一次，三秒)\n"
+				+ "                 也許還有神秘的功能？？  試著發掘看看吧！\n"															   
+				+ "^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^";
 
 		JTextArea intro = new JTextArea(introduction);
 		Border border = BorderFactory.createLineBorder(Color.BLACK);
@@ -307,7 +313,7 @@ public class MainMenuFrame extends JFrame implements ActionListener{
 			MainMenuFrame.this.dispose();
 			System.exit(0);
 		} else if (event.getSource() == levelSelect) {
-			MainMenuFrame.this.setSize((int)(1280 * scale), (int)(820 * scale));
+			//MainMenuFrame.this.setSize((int)(1280 * scale), (int)(820 * scale));
 			MainMenuFrame.this.remove(bottomPanel);
 			MainMenuFrame.this.add(levelPanel);
 			levelPanel.setVisible(true);
@@ -315,7 +321,7 @@ public class MainMenuFrame extends JFrame implements ActionListener{
 			repaint();
 
 		} else if (event.getSource() == back) {
-			MainMenuFrame.this.setSize((int)(scale * 1280), (int)(scale * 820));
+			//MainMenuFrame.this.setSize((int)(scale * 1280), (int)(scale * 820));
 			MainMenuFrame.this.remove(levelPanel);
 			MainMenuFrame.this.add(bottomPanel);
 			repaint();
@@ -333,7 +339,7 @@ public class MainMenuFrame extends JFrame implements ActionListener{
 			}
 
 			launch();
-			MainMenuFrame.this.setSize((int)(1280 * scale), (int)(820 * scale));
+			//MainMenuFrame.this.setSize((int)(1280 * scale), (int)(820 * scale));
 			MainMenuFrame.this.remove(levelPanel);
 			MainMenuFrame.this.add(bottomPanel);
 			MainMenuFrame.this.updateProgress();
