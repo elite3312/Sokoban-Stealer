@@ -20,7 +20,7 @@ public class Bullet extends Actor {
 	private final int BOTTOM = 4;
 
 	private final int dir;
-	private int maxRange = 15;
+	private int maxRange = 40;
 
 	private Dimension dimension = java.awt.Toolkit.getDefaultToolkit().getScreenSize();
 	private final double baseWidth = 1536.0;
