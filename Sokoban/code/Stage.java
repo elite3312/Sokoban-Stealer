@@ -226,16 +226,16 @@ public class Stage extends JPanel {
 			if(time - restartTime < 200){
 				stateNow = "[Loading    ]";
 			}
-			else if(time - restartTime >= 200 &&time - restartTime < 400){
+			else if(time - restartTime >= 200 && time - restartTime < 400){
 				stateNow = "[Loading.   ]";
 			}
-			else if(time - restartTime >= 400 &&time - restartTime < 600){
+			else if(time - restartTime >= 400 && time - restartTime < 600){
 				stateNow = "[Loading..  ]";
 			}
-			else if(time - restartTime >= 600 &&time - restartTime < 800){
+			else if(time - restartTime >= 600 && time - restartTime < 800){
 				stateNow = "[Loading... ]";
 			}
-			else if(time - restartTime >= 800 &&time - restartTime < 1000){
+			else if(time - restartTime >= 800 && time - restartTime < 1000){
 				stateNow = "[Loading....]";
 			}
 
@@ -557,7 +557,7 @@ public class Stage extends JPanel {
 			}
 
 
-			if(bufferedFrames < 40000){
+			if(bufferedFrames < 25000){ // arrow image
 
 				if((bufferedFrames / 2500) % 2 == 0){
 					File f = new File("");
@@ -572,7 +572,7 @@ public class Stage extends JPanel {
 
 					ImageIcon arrow = new ImageIcon(path);
 					Image arrowImage = arrow.getImage();
-					g.drawImage(arrowImage, playerX, playerY - SPACE, this);
+					g.drawImage(arrowImage, playerX - 22, playerY - 95, this);
 				}
 
 				bufferedFrames++;
