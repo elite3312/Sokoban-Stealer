@@ -9,8 +9,9 @@ import javax.swing.ImageIcon;
 public class Player extends Actor {
 
 	private Bullet bullet = null;
-	private int ammo =3;
+	private int ammo = 3;
 	private int rifleAvailable = 1;
+	private int explosion = 0;
 
 	private final int LEFT = 1;
 	private final int RIGHT = 2;
@@ -24,6 +25,10 @@ public class Player extends Actor {
 	private ImageIcon leftIcon;
 	private ImageIcon downIcon;
 	private ImageIcon rightIcon;
+	private Image[] explodImages = new Image[10];
+
+	private File f = new File("");
+	private String path = f.getAbsolutePath();
 
 	public Player(int x, int y, int playerSkinChoosed) {
 		super(x, y);
@@ -33,8 +38,6 @@ public class Player extends Actor {
 
 	private void initPlayer(int playerSkinChoosed) {
 
-		File f = new File("");
-		String path = f.getAbsolutePath();
 		String up, down, left, right;
 
 		if(playerSkinChoosed == playerSkinOne){
@@ -86,6 +89,23 @@ public class Player extends Actor {
 		rightIcon = new ImageIcon(right);
 
 		setImage(upIcon.getImage());
+
+		explosion = 0;
+		String explodePath;
+		for(int i = 0; i < 10; i++){
+			explodePath = path;
+			if (!path.contains("code")){
+				explodePath = String.format("pic/explode/explode%d.png", i);
+				
+			}
+			else{
+				explodePath = path.replaceAll("code", String.format("pic/explode/explode%d.png", i));
+			}
+
+			ImageIcon tempImage = new ImageIcon(explodePath);
+			Image store = tempImage.getImage();
+			explodImages[i] = store;
+		}
 	}
 
 	@Override
@@ -145,5 +165,13 @@ public class Player extends Actor {
 
 	public void setAmmo(int ammo) {
 		this.ammo = ammo;
+	}
+
+	public void playerExplode(){
+		setImage(explodImages[explosion / 2]);
+		explosion++;
+
+		if(explosion > 18)
+			explosion = 18;
 	}
 }

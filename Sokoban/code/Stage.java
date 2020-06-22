@@ -53,6 +53,7 @@ public class Stage extends JPanel {
 	private int bufferedFrames = 0; // for arrow image
 	private int pauseSelect = 1; // pause button(manual)
 	private int mapX, mapY;
+	private int lossBuffer = 0; // loss buffer(don't close immediately)
 
 	private long collisionIgnoreTime;
 	private Long restartTime;
@@ -144,6 +145,7 @@ public class Stage extends JPanel {
 		nextStage = false;
 		bufferedFrames = 0;
 		pauseSelect = 1;
+		lossBuffer = 0;
 
 		mapX = level.indexOf("\n", 0);
 		mapY = level.length() / mapX;
@@ -213,24 +215,28 @@ public class Stage extends JPanel {
 
 		int playerX = 0, playerY = 0;
 
+		if(lost){
+			stealer.playerExplode();
+		}
+
 		if(restarted){
 			Long time = new Date().getTime();
 			String stateNow = "";
 
 			if(time - restartTime < 200){
-				stateNow += "[Loading    ]";
+				stateNow = "[Loading    ]";
 			}
 			else if(time - restartTime >= 200 &&time - restartTime < 400){
-				stateNow += "[Loading.   ]";
+				stateNow = "[Loading.   ]";
 			}
 			else if(time - restartTime >= 400 &&time - restartTime < 600){
-				stateNow += "[Loading..  ]";
+				stateNow = "[Loading..  ]";
 			}
 			else if(time - restartTime >= 600 &&time - restartTime < 800){
-				stateNow += "[Loading... ]";
+				stateNow = "[Loading... ]";
 			}
 			else if(time - restartTime >= 800 &&time - restartTime < 1000){
-				stateNow += "[Loading....]";
+				stateNow = "[Loading....]";
 			}
 
 			g.setColor(new Color(0, 0, 0));
@@ -245,20 +251,23 @@ public class Stage extends JPanel {
 			}
 		}
 
-		if(lost){
-			Long time = new Date().getTime();
+		if(lossBuffer > 15){
+			if(lost){
+				
+				Long time = new Date().getTime();
 
-			g.setColor(new Color(0, 0, 0));
-			g.setFont(new Font("default", Font.PLAIN, 64));
-			g.drawString("YOU  LOSED !!!", this.width / 2 - 210, this.height / 2);
+				g.setColor(new Color(0, 0, 0));
+				g.setFont(new Font("default", Font.PLAIN, 64));
+				g.drawString("YOU  LOSED !!!", this.width / 2 - 210, this.height / 2);
 
-			if(time - lossTime < 1000){
-				return;
-			}
-			else{
-				lost = false;
-				restartLevel();
-				return;
+				if(time - lossTime < 1000){
+					return;
+				}
+				else{
+					lost = false;
+					restartLevel();
+					return;
+				}
 			}
 		}
 
@@ -434,7 +443,11 @@ public class Stage extends JPanel {
 					}
 					policeCanGo = 1;
 
+					if(isCompleted)
+						policeCanGo = 0;
+					
 					toward = cop.nextStep();
+
 
 					if (checkHardWallCollision(cop, toward)) {
 						policeCanGo = 0;
@@ -443,7 +456,7 @@ public class Stage extends JPanel {
 					} else if (checkBagCollisionforPolice(cop, toward)) {
 						policeCanGo = 0;
 					} else if (checkPersonAndPersonCollision(cop, stealer, toward)) {
-						policeCanGo = 0;
+						//policeCanGo = 0;
 						playerLoss();
 						return;
 					}
@@ -470,6 +483,7 @@ public class Stage extends JPanel {
 						cop = null;
 						break;
 					}
+					
 				}
 				if (cop == null) {
 					continue;
@@ -531,7 +545,12 @@ public class Stage extends JPanel {
 			} else if (item instanceof Player) {
 				playerX = item.x() + 2;
 				playerY = item.y() + 2;
-				g.drawImage(item.getImage(), item.x() + 2, item.y() + 2, this);
+				
+				int tempX = playerX, tempY = playerY;
+				if(lost)
+					g.drawImage(item.getImage(), tempX - 20, tempY - 20, this);
+				else
+					g.drawImage(item.getImage(), tempX, tempY, this);
 
 			} else { // area
 				g.drawImage(item.getImage(), item.x(), item.y(), this);
@@ -566,6 +585,8 @@ public class Stage extends JPanel {
 		}
 		if (forbutton == 1)
 			forbutton = 0; // prevent repeated execution when bottom is clicked
+		if(lost)
+			lossBuffer++;
 	}
 
 	@Override
@@ -580,7 +601,7 @@ public class Stage extends JPanel {
 		@Override
 		public void keyPressed(KeyEvent e) {
 
-			if (isCompleted) {
+			if (lost || isCompleted) {
 				return;
 			}
 
@@ -596,6 +617,8 @@ public class Stage extends JPanel {
 					if (checkCollisions(stealer, LEFT)) {
 						return;
 					}
+
+					stealer.move(-SPACE, 0);
 					if (!cops.isEmpty()) {
 						for (int i = 0; i < cops.size(); i++) {
 							Police cop = cops.get(i);
@@ -606,7 +629,7 @@ public class Stage extends JPanel {
 						}
 
 					}
-					stealer.move(-SPACE, 0);
+					
 					break;
 
 				case KeyEvent.VK_RIGHT:
@@ -618,6 +641,8 @@ public class Stage extends JPanel {
 					if (checkCollisions(stealer, RIGHT)) {
 						return;
 					}
+
+					stealer.move(SPACE, 0);
 					if (!cops.isEmpty()) {
 						for (int i = 0; i < cops.size(); i++) {
 							Police cop = cops.get(i);
@@ -628,7 +653,7 @@ public class Stage extends JPanel {
 						}
 
 					}
-					stealer.move(SPACE, 0);
+					
 					break;
 
 				case KeyEvent.VK_UP:
@@ -641,10 +666,12 @@ public class Stage extends JPanel {
 					currentlyFacing = UP;
 					cheater.pushCommand(UP);
 					stealer.setPlayerImage(UP);
-
+					
 					if (checkCollisions(stealer, UP)) {
 						return;
 					}
+
+					stealer.move(0, -SPACE);
 					if (!cops.isEmpty()) {
 						for (int i = 0; i < cops.size(); i++) {
 							Police cop = cops.get(i);
@@ -655,7 +682,7 @@ public class Stage extends JPanel {
 						}
 
 					}
-					stealer.move(0, -SPACE);
+					
 					break;
 
 				case KeyEvent.VK_DOWN:
@@ -672,6 +699,8 @@ public class Stage extends JPanel {
 					if (checkCollisions(stealer, DOWN)) {
 						return;
 					}
+
+					stealer.move(0, SPACE);
 					if (!cops.isEmpty()) {
 						for (int i = 0; i < cops.size(); i++) {
 							Police cop = cops.get(i);
@@ -682,7 +711,7 @@ public class Stage extends JPanel {
 						}
 
 					}
-					stealer.move(0, SPACE);
+					
 					break;
 
 				case KeyEvent.VK_R: // restart
@@ -1108,7 +1137,13 @@ public class Stage extends JPanel {
 	}
 
 	public void playerLoss() {
-		// cops = null;
+
+		try {
+			Thread.sleep(50);
+		} catch (InterruptedException e) {
+			e.printStackTrace(); 
+		}
+
 		lost = true;
 		lossTime = new Date().getTime();
 		cheater.deactivate();
@@ -1165,6 +1200,7 @@ public class Stage extends JPanel {
 
 		isCompleted = false;
 		Achived = 1;
+		lossBuffer = 0;
 		
 		restarted = true;
 		restartTime = new Date().getTime();
