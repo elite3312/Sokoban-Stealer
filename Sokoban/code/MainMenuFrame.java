@@ -99,7 +99,7 @@ public class MainMenuFrame extends JFrame implements ActionListener{
 		progress = reader.readSaves();
 		reader.closeFile();
 
-		Font font = new Font("defalut", Font.PLAIN, (int)(22 * scale));
+		Font font = new Font("Microsoft JhengHei", Font.PLAIN, (int)(22 * scale));
 
 		setLayout(new FlowLayout());
 		/* intro */

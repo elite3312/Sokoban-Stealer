@@ -111,7 +111,7 @@ public class Sokoban extends JFrame {
 				+ "Beyond My Beloved Horizon - Pirates of the Caribbean\n"
 				+ "SPÏKA 「Rigël Theatre」 - Remilia Scarlet\n\n\n" + "Special Thanks:\n" + "馬尚彬 教授\n\n\n";
 
-		Font font = new Font("defalut", Font.PLAIN, 22);
+		Font font = new Font("Microsoft JhengHei", Font.PLAIN, 22);
 		JTextArea texts = new JTextArea(specialThanks);
 		texts.setOpaque(false);
 		texts.setFont(font);

@@ -267,10 +267,10 @@ public class Stage extends JPanel {
 			}
 
 			g.setColor(new Color(0, 0, 0));
-			g.setFont(new Font("default", Font.PLAIN, (int)(64 * scale)));
+			g.setFont(new Font("Microsoft JhengHei", Font.PLAIN, (int)(64 * scale)));
 			g.drawString(stateNow, this.width / 2 - 170, this.height / 2);
 			
-			if(time - restartTime < 1000){
+			if(time - restartTime < 1400){
 				return;
 			}
 			else{
@@ -284,7 +284,7 @@ public class Stage extends JPanel {
 				Long time = new Date().getTime();
 
 				g.setColor(new Color(0, 0, 0));
-				g.setFont(new Font("default", Font.PLAIN, (int)(64 * scale)));
+				g.setFont(new Font("Microsoft JhengHei", Font.PLAIN, (int)(64 * scale)));
 				g.drawString("YOU  LOSED !!!", this.width / 2 - 210, this.height / 2);
 
 				if(time - lossTime < 1000){
@@ -303,11 +303,11 @@ public class Stage extends JPanel {
 
 			if(time - wonTime < 1000){
 				g.setColor(new Color(0, 0, 0));
-				g.setFont(new Font("default", Font.PLAIN, (int)(64 * scale)));
+				g.setFont(new Font("Microsoft JhengHei", Font.PLAIN, (int)(64 * scale)));
 				g.drawString("YOU  WON !!!", this.width / 2 - 210, this.height / 2);
 				return;
 			}
-			else if(time - wonTime > 1000 && time - wonTime < 2000){
+			else if(time - wonTime > 1000 && time - wonTime < 2400){
 				String stateNow = "";
 
 				if(time - wonTime < 1400){
@@ -330,7 +330,7 @@ public class Stage extends JPanel {
 				}
 
 				g.setColor(new Color(0, 0, 0));
-				g.setFont(new Font("default", Font.PLAIN, (int)(64 * scale)));
+				g.setFont(new Font("Microsoft JhengHei", Font.PLAIN, (int)(64 * scale)));
 				g.drawString(stateNow, this.width / 2 - 170, this.height / 2);
 
 				return;
@@ -350,7 +350,7 @@ public class Stage extends JPanel {
 
 		if(gamePause){
 			g.setColor(Color.BLACK);
-			g.setFont(new Font("default", Font.PLAIN, (int)(64 * scale)));
+			g.setFont(new Font("Microsoft JhengHei", Font.PLAIN, (int)(64 * scale)));
 			g.drawString("【 PAUSED 】", this.width / 2 - 190, this.height / 2 - 100);
 
 			String choose1, choose2, choose3;
@@ -361,41 +361,41 @@ public class Stage extends JPanel {
 
 			if(pauseSelect == 1){
 				g.setColor(Color.RED);
-				g.setFont(new Font("default", Font.PLAIN, (int)(40 * scale)));
-				g.drawString(">>", this.width / 2 - 150, this.height / 2 - 20);
+				g.setFont(new Font("Microsoft JhengHei", Font.PLAIN, (int)(40 * scale)));
+				g.drawString(">>", this.width / 2 - 135, this.height / 2 - 20);
 			}
 			else{
 				g.setColor(Color.BLACK);
-				g.setFont(new Font("default", Font.PLAIN, (int)(36 * scale)));
+				g.setFont(new Font("Microsoft JhengHei", Font.PLAIN, (int)(36 * scale)));
 			}
-			g.drawString(choose1, this.width / 2 - 90, this.height / 2 - 20);
+			g.drawString(choose1, this.width / 2 - 75, this.height / 2 - 20);
 
 			if(pauseSelect == 2){
 				g.setColor(Color.RED);
-				g.setFont(new Font("default", Font.PLAIN, (int)(40 * scale)));
-				g.drawString(">>", this.width / 2 - 150, this.height / 2 + 30);
+				g.setFont(new Font("Microsoft JhengHei", Font.PLAIN, (int)(40 * scale)));
+				g.drawString(">>", this.width / 2 - 135, this.height / 2 + 30);
 			}
 			else{
 				g.setColor(Color.BLACK);
-				g.setFont(new Font("default", Font.PLAIN, (int)(36 * scale)));
+				g.setFont(new Font("Microsoft JhengHei", Font.PLAIN, (int)(36 * scale)));
 			}
-			g.drawString(choose2, this.width / 2 - 90, this.height / 2 + 30);
+			g.drawString(choose2, this.width / 2 - 75, this.height / 2 + 30);
 
 			if(pauseSelect == 3){
 				g.setColor(Color.RED);
-				g.setFont(new Font("default", Font.PLAIN, (int)(40 * scale)));
-				g.drawString(">>", this.width / 2 - 150, this.height / 2 + 80);
+				g.setFont(new Font("Microsoft JhengHei", Font.PLAIN, (int)(40 * scale)));
+				g.drawString(">>", this.width / 2 - 135, this.height / 2 + 80);
 			}
 			else{
 				g.setColor(Color.BLACK);
-				g.setFont(new Font("default", Font.PLAIN, (int)(36 * scale)));
+				g.setFont(new Font("Microsoft JhengHei", Font.PLAIN, (int)(36 * scale)));
 			}
-			g.drawString(choose3, this.width / 2 - 90, this.height / 2 + 80);
+			g.drawString(choose3, this.width / 2 - 75, this.height / 2 + 80);
 
 			return;
 		}
 
-		g.setColor(new Color(230, 230, 230));
+		g.setColor(new Color(225, 225, 225));
 		g.fillRect(0, 0, this.getWidth(), this.getHeight());
 
 		String info = String.format("portals left：%d", portal.getAvailability());
@@ -442,9 +442,9 @@ public class Stage extends JPanel {
 		String info2 = "Achivement " + (Achived - 1);
 
 		g.setColor(new Color(0, 0, 0));
-		g.setFont(new Font("default", Font.PLAIN, (int)(25 * scale)));
+		g.setFont(new Font("Microsoft JhengHei", Font.BOLD, (int)(25 * scale)));
 		g.drawString(info, this.width * 5 / 16, 60);
-		g.setColor(new Color(100, 20, 200));
+		g.setColor(new Color(225, 0, 225));
 		g.drawString(info2, this.width * 5 / 16, 90);
 
 		ArrayList<Actor> world = new ArrayList<>();
@@ -612,7 +612,7 @@ public class Stage extends JPanel {
 				bufferedFrames++;
 			}
 
-			g.setFont(new Font("default", Font.PLAIN, 20));
+			g.setFont(new Font("Microsoft JhengHei", Font.BOLD, 20));
 			g.setColor(new Color(0, 0, 0));
 			String information = "[ESC or P]-OPTION    [X]-GHOST SKILL    [Z]-PORTAL    [SPACE]-GUN";
 			g.drawString(information, (int)(scale * this.width * 11 / 40), this.height - 40);
