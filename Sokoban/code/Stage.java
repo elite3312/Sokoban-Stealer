@@ -153,7 +153,7 @@ public class Stage extends JPanel {
 		Map maptest;
 
 		if (selection == 3) {
-			policePeriod = 4;
+			policePeriod = 7;
 		} else if (selection == 2)
 			policePeriod = 8;
 		else
