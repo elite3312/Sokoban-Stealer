@@ -247,19 +247,19 @@ public class Stage extends JPanel {
 			Long time = new Date().getTime();
 			String stateNow = "";
 
-			if(time - restartTime < 200){
+			if(time - restartTime < 400){
 				stateNow = "[Loading    ]";
 			}
-			else if(time - restartTime >= 200 && time - restartTime < 400){
+			else if(time - restartTime >= 400 && time - restartTime < 600){
 				stateNow = "[Loading.   ]";
 			}
-			else if(time - restartTime >= 400 && time - restartTime < 600){
+			else if(time - restartTime >= 600 && time - restartTime < 800){
 				stateNow = "[Loading..  ]";
 			}
-			else if(time - restartTime >= 600 && time - restartTime < 800){
+			else if(time - restartTime >= 800 && time - restartTime < 1000){
 				stateNow = "[Loading... ]";
 			}
-			else if(time - restartTime >= 800 && time - restartTime < 1000){
+			else if(time - restartTime >= 1000 && time - restartTime < 1200){
 				stateNow = "[Loading....]";
 			}
 
@@ -307,19 +307,19 @@ public class Stage extends JPanel {
 			else if(time - wonTime > 1000 && time - wonTime < 2000){
 				String stateNow = "";
 
-				if(time - wonTime < 1200){
+				if(time - wonTime < 1400){
 					stateNow += "[Loading    ]";
 				}
-				else if(time - wonTime >= 1200 &&time - wonTime < 1400){
+				else if(time - wonTime >= 1400 &&time - wonTime < 1600){
 					stateNow += "[Loading.   ]";
 				}
-				else if(time - wonTime >= 1400 &&time - wonTime < 1600){
+				else if(time - wonTime >= 1600 &&time - wonTime < 1800){
 					stateNow += "[Loading..  ]";
 				}
-				else if(time - wonTime >= 1600 &&time - wonTime < 1800){
+				else if(time - wonTime >= 1800 &&time - wonTime < 2000){
 					stateNow += "[Loading... ]";
 				}
-				else if(time - wonTime >= 1800 &&time - wonTime < 2000){
+				else if(time - wonTime >= 2000 &&time - wonTime < 2200){
 					stateNow += "[Loading....]";
 				}
 
@@ -674,6 +674,14 @@ public class Stage extends JPanel {
 					if(gamePause){
 						if(pauseSelect != 1)
 							pauseSelect--;
+
+						try {
+							sounds = new BackgroundMP3Player();
+							sounds.setSound(sound.bagSound.ordinal());
+							sounds.play();
+						} catch (FileNotFoundException | JavaLayerException e1) {
+							System.out.printf("music err");
+						}
 						return;
 					}
 					currentlyFacing = UP;
@@ -703,6 +711,14 @@ public class Stage extends JPanel {
 					if(gamePause){
 						if(pauseSelect != 3)
 							pauseSelect++;
+					
+						try {
+							sounds = new BackgroundMP3Player();
+							sounds.setSound(sound.bagSound.ordinal());
+							sounds.play();
+						} catch (FileNotFoundException | JavaLayerException e1) {
+							System.out.printf("music err");
+						}
 						return;
 					}
 					currentlyFacing = DOWN;
@@ -791,6 +807,15 @@ public class Stage extends JPanel {
 				
 				case KeyEvent.VK_ENTER:
 					if(gamePause){
+
+						try {
+							sounds = new BackgroundMP3Player();
+							sounds.setSound(sound.bagSound.ordinal());
+							sounds.play();
+						} catch (FileNotFoundException | JavaLayerException e1) {
+							System.out.printf("music err");
+						}
+
 						switch(pauseSelect){
 							case 1:
 								gamePause = false;
@@ -805,6 +830,7 @@ public class Stage extends JPanel {
 							default:
 								break;
 						}
+						
 						pauseSelect = 1;
 					}
 					break;
