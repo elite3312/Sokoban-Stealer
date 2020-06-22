@@ -345,7 +345,7 @@ public class Stage extends JPanel {
 		if(gamePause){
 			g.setColor(Color.BLACK);
 			g.setFont(new Font("default", Font.PLAIN, (int)(64 * scale)));
-			g.drawString("< PAUSED >", this.width / 2 - 190, this.height / 2 - 100);
+			g.drawString("【 PAUSED 】", this.width / 2 - 190, this.height / 2 - 100);
 
 			String choose1, choose2, choose3;
 
@@ -595,7 +595,7 @@ public class Stage extends JPanel {
 
 			g.setFont(new Font("default", Font.PLAIN, 20));
 			g.setColor(new Color(0, 0, 0));
-			String information = "[ESC or P]-PAUSE    [X]-GHOST SKILL    [Z]-PORTAL    [SPACE]-GUN";
+			String information = "[ESC or P]-OPTION    [X]-GHOST SKILL    [Z]-PORTAL    [SPACE]-GUN";
 			g.drawString(information, (int)(scale * this.width * 11 / 40), this.height - 40);
 
 		}
