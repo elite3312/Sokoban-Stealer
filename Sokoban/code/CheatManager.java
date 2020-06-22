@@ -45,13 +45,13 @@ public class CheatManager {
     }
 
     public void pushChar(char character){
-        if(activate2)
-            return;
 
         if(character == game[pivot2]){
             user[pivot2++] = character;
-            if(pivot2 == 7)
-                activate2 = true;
+            if(pivot2 == 7){
+                activate2 = !activate2;
+                pivot2 = 0;
+            }
         }
         else{
             pivot2 = 0;

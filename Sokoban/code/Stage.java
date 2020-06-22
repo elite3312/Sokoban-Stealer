@@ -1190,29 +1190,8 @@ public class Stage extends JPanel {
 	}
 
 	private Boolean checkPersonAndPersonCollision(Actor actor, Actor actor1, int type) {
-		switch (type) {
-			case UP:
-				if (actor.isTopCollision(actor1)) {
-					return true;
-				}
-				return false;
-			case DOWN:
-				if (actor.isBottomCollision(actor1)) {
-					return true;
-				}
-				return false;
-			case LEFT:
-				if (actor.isLeftCollision(actor1)) {
-					return true;
-				}
-				return false;
-			case RIGHT:
-				if (actor.isRightCollision(actor1)) {
-					return true;
-				}
-				return false;
-			default:
-				break;
+		if (actor.x() == actor1.x() && actor.y() == actor1.y()) {
+			return true;
 		}
 		return false;
 	}
