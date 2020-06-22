@@ -5,11 +5,11 @@ public class Map {
     /************************************************************
      # : wall (penetrable) 
      H : hard wall (impenetrable) (for the boundary of the map)
-     $ : baggage
+     $ : treasure
      @ : player
      . : goal
      ! : police
-     % : goal with baggage
+     % : goal with treasure
      *************************************************************/
 
     private String level_1 = 
@@ -26,7 +26,7 @@ public class Map {
         "H#              #### ####H\n" + 
         "H########################H\n" + 
         "HHHHHHHHHHHHHHHHHHHHHHHHHH\n" ;
-    
+	/*
     private String level_2 =
 		"HHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHH\n" +
 		"HHHH############################HHHHH\n" +
@@ -41,6 +41,7 @@ public class Map {
 		"HHHH##                    ########HHH\n" +
 		"HHHH##############################HHH\n" +
 		"HHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHH\n";
+	*/
 
     private String level_3 =
 		"HHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHH\n" +
@@ -74,6 +75,7 @@ public class Map {
 		"H !#   #  !#   #  H \n" +
 		"HHHHHHHHHHHHHHHHHHH \n";
 
+	/*
     private String old_level_4 =
 		"HHHHHHHHHHHHHHHHHHH \n" +
 		"H   ##############H \n" +
@@ -88,30 +90,42 @@ public class Map {
 		"H  $   $  $    $  H \n" +
 		"H  #   #   #   #  H \n" +
 		"HHHHHHHHHHHHHHHHHHH \n";
+	*/
+	
+	private String level_5 = // author : YC SHEN
+		"HHHHHHHHHHHHHHHHHHHHHHHH\n" +
+		"H###...HHHHHHHH  ######H\n" + 
+		"H###.       $ H $    .HH\n" + 
+		"HHHH$ $HHHHHH!H.......HH\n" + 
+		"HH$H$  H.HH#H H $ $$$ HH\n" + 
+		"H$  $$$   H#H H $  $  HH\n" +
+		"H $$$  $$.H#H H HHHHH HH\n" + 
+		"HH  $  $ HH#H H      $HH\n" +
+		"HH@  HHHHH!  !HHHHHHH HH\n" + 
+		"HH$$$!          !    !HH\n" + 
+		"H    HH !   !     HHH HH\n" + 
+		"HH $ .HHHH!   ! ##HHH$HH\n" +
+		"HH H$$  .HHHHHHHHHH   HH\n" + 
+		"HH. $    HH     $     HH\n" + 
+		"HHHHH $.HHH  $$$    ...H\n" +
+		"H####   .HH $       ...H\n" +
+		"HHHHHHHHHHHHHHHHHHHHHHHH\n";
 
-	private String level_5 =
-		"HHHHHHHHHHH\n" +
-		"HHHH...HHHH\n" + 
-		"HHHH   HHHH\n" + 
-		"HHHH$ $HHHH\n" + 
-		"HH$H$  H.HH\n" + 
-		"H$  $$$   H\n" +
-		"H $$$  $$ H\n" + 
-		"HH@ $  $ HH\n" +
-		"HHHHHHHHHHH\n";
 
-
-	private String level_6 =
-		"HHHHHHHHHHHHHHHH\n" +
-		"HH @ HHHH   !! H\n" + 
-		"HH$$$HHHH!     H\n" + 
-		"H    HHHHH    !H\n" + 
-		"HH $  HHHH  !  H\n" +
-		"HH H$$  .HHHHHHH\n" + 
-		"HH  $    HHHHHHH\n" + 
-		"HHHHH $.HHHHHHHH\n" +
-		"HHHHH   .HHHHHHH\n" +
-		"HHHHHHHHHHHHHHHH\n";
+	private String level_6 =  // author : YC SHEN
+	"HHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHH\n" +
+	"H@     ##   #      #    # # # #     H\n" +
+	"H# $# #  !     ##    ##         ### H\n" +
+	"H#    #    ###     #     # ####     H\n" +
+	"H  ##    ##      #  #  # #  !    # #H\n" +
+	"H    #      # ##    #    #     #    H\n" +
+	"H   #  ### ##  ## #   # #    #  #   H\n" +
+	"H##        ###       #    #   #    #H\n" +
+	"H     #  #  #  # # #    ##  #    # #H\n" +
+	"H ##  ##  #     # # #   ### ##   # #H\n" +
+	"H ###    #  #    !    ## #     ###  H\n" +
+	"H      #      #     #      #   #.   H\n" +
+	"HHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHH\n";
 
 
    
@@ -122,7 +136,8 @@ public class Map {
 			case 3 : return this.level_4; // may change here
 			case 4 : return this.level_5;
 			case 5 : return this.level_6;
-        	default : return "invalid selection";
+			case 6 : return this.level_1;
+        	default : return this.level_1;
         }
     }
 }

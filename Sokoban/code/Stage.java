@@ -356,6 +356,7 @@ public class Stage extends JPanel {
 			if(pauseSelect == 1){
 				g.setColor(Color.RED);
 				g.setFont(new Font("default", Font.PLAIN, (int)(40 * scale)));
+				g.drawString(">>", this.width / 2 - 150, this.height / 2 - 20);
 			}
 			else{
 				g.setColor(Color.BLACK);
@@ -366,6 +367,7 @@ public class Stage extends JPanel {
 			if(pauseSelect == 2){
 				g.setColor(Color.RED);
 				g.setFont(new Font("default", Font.PLAIN, (int)(40 * scale)));
+				g.drawString(">>", this.width / 2 - 150, this.height / 2 + 30);
 			}
 			else{
 				g.setColor(Color.BLACK);
@@ -376,6 +378,7 @@ public class Stage extends JPanel {
 			if(pauseSelect == 3){
 				g.setColor(Color.RED);
 				g.setFont(new Font("default", Font.PLAIN, (int)(40 * scale)));
+				g.drawString(">>", this.width / 2 - 150, this.height / 2 + 80);
 			}
 			else{
 				g.setColor(Color.BLACK);
@@ -592,8 +595,8 @@ public class Stage extends JPanel {
 
 			g.setFont(new Font("default", Font.PLAIN, 20));
 			g.setColor(new Color(0, 0, 0));
-			String information = "[R]-RESTART    [ESC]-PAUSE    [X]-GHOST SKILL    [Z]-PORTAL    [SPACE]-GUN";
-			g.drawString(information, (int)(scale * this.width / 4), this.height - 40);
+			String information = "[ESC or P]-PAUSE    [X]-GHOST SKILL    [Z]-PORTAL    [SPACE]-GUN";
+			g.drawString(information, (int)(scale * this.width * 11 / 40), this.height - 40);
 
 		}
 		if (forbutton == 1)
@@ -743,14 +746,6 @@ public class Stage extends JPanel {
 					
 					break;
 
-				case KeyEvent.VK_R: // restart
-					
-					if( !restarted )
-						restartLevel();
-					
-					gamePause = false;
-
-					break;
 				case KeyEvent.VK_Z: // portal
 
 					if (portal.getIsActive() == 1) {
@@ -801,7 +796,11 @@ public class Stage extends JPanel {
 					}
 					break;
 
-				case KeyEvent.VK_ESCAPE:
+				case KeyEvent.VK_ESCAPE:// pause
+					gamePause = true;
+					break;
+				
+				case KeyEvent.VK_P: // pause
 					gamePause = true;
 					break;
 				
