@@ -63,6 +63,7 @@ public class Stage extends JPanel {
 	private int pauseSelect = 1; // pause button(manual)
 	private int mapX, mapY;
 	private int lossBuffer = 0; // loss buffer(don't close immediately)
+	private int wonBuffer = 0; // don't switch immediately
 
 	private long collisionIgnoreTime;
 	private Long restartTime;
@@ -170,6 +171,7 @@ public class Stage extends JPanel {
 		bufferedFrames = 0;
 		pauseSelect = 1;
 		lossBuffer = 0;
+		wonBuffer = 0;
 
 		mapX = level.indexOf("\n", 0);
 		mapY = level.length() / mapX;
@@ -248,22 +250,22 @@ public class Stage extends JPanel {
 			String stateNow = "";
 
 			if(time - restartTime < 400){
-				stateNow = "[Loading     ]";
+				stateNow = "Loading     ";
 			}
 			else if(time - restartTime >= 400 && time - restartTime < 600){
-				stateNow = "[Loading.    ]";
+				stateNow = "Loading.    ";
 			}
 			else if(time - restartTime >= 600 && time - restartTime < 800){
-				stateNow = "[Loading..   ]";
+				stateNow = "Loading..   ";
 			}
 			else if(time - restartTime >= 800 && time - restartTime < 1000){
-				stateNow = "[Loading...  ]";
+				stateNow = "Loading...  ";
 			}
 			else if(time - restartTime >= 1000 && time - restartTime < 1200){
-				stateNow = "[Loading.... ]";
+				stateNow = "Loading.... ";
 			}
 			else if(time - restartTime >= 1200 && time - restartTime < 1400){
-				stateNow = "[Loading.....]";
+				stateNow = "Loading.....";
 			}
 
 			g.setColor(new Color(0, 0, 0));
@@ -298,53 +300,55 @@ public class Stage extends JPanel {
 			}
 		}
 
-		if(isCompleted){
-			Long time = new Date().getTime();
+		if(wonBuffer > 15){
+			if(isCompleted){
+				Long time = new Date().getTime();
 
-			if(time - wonTime < 1000){
-				g.setColor(new Color(0, 0, 0));
-				g.setFont(new Font("Microsoft JhengHei", Font.PLAIN, (int)(64 * scale)));
-				g.drawString("YOU  WON !!!", this.width / 2 - 210, this.height / 2);
-				return;
-			}
-			else if(time - wonTime > 1000 && time - wonTime < 2400){
-				String stateNow = "";
+				if(time - wonTime < 1000){
+					g.setColor(new Color(0, 0, 0));
+					g.setFont(new Font("Microsoft JhengHei", Font.PLAIN, (int)(64 * scale)));
+					g.drawString("YOU  WON !!!", this.width / 2 - 210, this.height / 2);
+					return;
+				}
+				else if(time - wonTime > 1000 && time - wonTime < 2400){
+					String stateNow = "";
 
-				if(time - wonTime < 1400){
-					stateNow += "[Loading     ]";
-				}
-				else if(time - wonTime >= 1400 &&time - wonTime < 1600){
-					stateNow += "[Loading.    ]";
-				}
-				else if(time - wonTime >= 1600 &&time - wonTime < 1800){
-					stateNow += "[Loading..   ]";
-				}
-				else if(time - wonTime >= 1800 &&time - wonTime < 2000){
-					stateNow += "[Loading...  ]";
-				}
-				else if(time - wonTime >= 2000 &&time - wonTime < 2200){
-					stateNow += "[Loading.... ]";
-				}
-				else if(time - wonTime >= 2200 &&time - wonTime < 2400){
-					stateNow += "[Loading.....]";
-				}
+					if(time - wonTime < 1400){
+						stateNow += "Loading     ";
+					}
+					else if(time - wonTime >= 1400 &&time - wonTime < 1600){
+						stateNow += "Loading.    ";
+					}
+					else if(time - wonTime >= 1600 &&time - wonTime < 1800){
+						stateNow += "Loading..   ";
+					}
+					else if(time - wonTime >= 1800 &&time - wonTime < 2000){
+						stateNow += "Loading...  ";
+					}
+					else if(time - wonTime >= 2000 &&time - wonTime < 2200){
+						stateNow += "Loading.... ";
+					}
+					else if(time - wonTime >= 2200 &&time - wonTime < 2400){
+						stateNow += "Loading.....";
+					}
 
-				g.setColor(new Color(0, 0, 0));
-				g.setFont(new Font("Microsoft JhengHei", Font.PLAIN, (int)(64 * scale)));
-				g.drawString(stateNow, this.width / 2 - 170, this.height / 2);
+					g.setColor(new Color(0, 0, 0));
+					g.setFont(new Font("Microsoft JhengHei", Font.PLAIN, (int)(64 * scale)));
+					g.drawString(stateNow, this.width / 2 - 170, this.height / 2);
 
-				return;
-			}
-			else{
-				isCompleted = false;
-				nextStage = true;
-				selection++;
-				try {
-					Thread.sleep(50);
-				} catch (InterruptedException e) {
-					e.printStackTrace(); 
+					return;
 				}
-				initWorld();
+				else{
+					isCompleted = false;
+					nextStage = true;
+					selection++;
+					try {
+						Thread.sleep(50);
+					} catch (InterruptedException e) {
+						e.printStackTrace(); 
+					}
+					initWorld();
+				}
 			}
 		}
 
@@ -399,7 +403,7 @@ public class Stage extends JPanel {
 		g.fillRect(0, 0, this.getWidth(), this.getHeight());
 
 		String info = String.format("portals left：%d", portal.getAvailability());
-		info += String.format("        ammo：%d", stealer.getAmmo());
+		info += String.format("        ammo：%2d", stealer.getAmmo());
 
 		if (collisionIgnore) {
 			Long checkCollisonTime = new Date().getTime() - collisionIgnoreTime;
@@ -439,12 +443,12 @@ public class Stage extends JPanel {
 			}
 		}
 
-		String info2 = "Achivement " + (Achived - 1);
+		String info2 = "Achivement：" + (Achived - 1);
 
 		g.setColor(new Color(0, 0, 0));
 		g.setFont(new Font("Microsoft JhengHei", Font.BOLD, (int)(25 * scale)));
 		g.drawString(info, this.width * 5 / 16, 60);
-		g.setColor(new Color(225, 0, 225));
+		g.setColor(new Color(0, 204, 0));
 		g.drawString(info2, this.width * 5 / 16, 90);
 
 		ArrayList<Actor> world = new ArrayList<>();
@@ -622,6 +626,8 @@ public class Stage extends JPanel {
 			forbutton = 0; // prevent repeated execution when bottom is clicked
 		if(lost)
 			lossBuffer++;
+		if(isCompleted)
+			wonBuffer++;
 	}
 
 	@Override
