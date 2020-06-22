@@ -1,13 +1,19 @@
 package java2020.finalProject;
 
 import java.awt.Image;
+import java.awt.image.BufferedImage;
 import java.io.File;
+import java.io.IOException;
 
 import javax.swing.ImageIcon;
 
+import net.coobird.thumbnailator.Thumbnails;
+import net.coobird.thumbnailator.geometry.Positions;
+
+import java.awt.Dimension;
+
 public class Bullet extends Actor {
 
-	private final int SPACE = 40; // actor side length
 	private final int LEFT = 1;
 	private final int RIGHT = 2;
 	private final int TOP = 3;
@@ -15,6 +21,11 @@ public class Bullet extends Actor {
 
 	private final int dir;
 	private int maxRange = 15;
+
+	private Dimension dimension = java.awt.Toolkit.getDefaultToolkit().getScreenSize();
+	private final double baseWidth = 1536.0;
+	private final double scale = dimension.getWidth() / baseWidth; // suitable for all screen size
+	private final int SPACE = (int)(40 * scale); // actor side length
 
 	public Bullet(int x, int y, int initDir) {
 		super(x, y);
@@ -36,10 +47,16 @@ public class Bullet extends Actor {
 			path = "pic/bullet.png";
 		else
 			path = path.replaceAll("code", "pic/bullet.png");
+	
+
+		BufferedImage image;
+		try{
+			image = Thumbnails.of(path).scale(scale).asBufferedImage();
+			setImage(image);
+		} catch (IOException e){
+			System.out.println(e);
+		}
 		
-		ImageIcon iicon = new ImageIcon(path);
-		Image image = iicon.getImage();
-		setImage(image);
 	}
 
 	public void updateXY() {

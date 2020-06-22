@@ -4,6 +4,8 @@ import javax.swing.JOptionPane;
 import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 
+import java.io.IOException;
+
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.event.KeyAdapter;
@@ -25,11 +27,18 @@ import java.util.Random;
 import java.util.ArrayList;
 import java.awt.Dimension;
 
+import net.coobird.thumbnailator.Thumbnails;
+import net.coobird.thumbnailator.geometry.Positions;
+
 public class Stage extends JPanel {
 
+	private Dimension dimension = java.awt.Toolkit.getDefaultToolkit().getScreenSize();
+	private final double baseWidth = 1536.0;
+	private final double scale = dimension.getWidth() / baseWidth; // suitable for all screen size
+
 	// constant
-	private final int MARGIN = 40;
-	private final int SPACE = 40; // actor side length
+	private final int MARGIN = (int)(40 * scale);
+	private final int SPACE = (int)(40 * scale); // actor side length
 	private final int LEFT = 1;
 	private final int RIGHT = 2;
 	private final int UP = 3;
@@ -82,8 +91,7 @@ public class Stage extends JPanel {
 	private boolean closeSignal = false;
 
 	private Graphics graphic; // for the global using
-	
-	private Dimension dimension = java.awt.Toolkit.getDefaultToolkit().getScreenSize();
+	private Image arrowImage = new ImageIcon().getImage();
 	
 	public Stage(int playerSkinChoosen, int level) {
 		selection = level;
@@ -116,6 +124,22 @@ public class Stage extends JPanel {
 	}
 
 	private void initWorld() {
+
+		File f = new File("");
+		String path = f.getAbsolutePath();
+
+		if(!path.contains("code")){
+			path = "pic/arrow.png";
+		}
+		else{
+			path = path.replaceAll("code", "pic/arrow.png");
+		}
+		try{
+			arrowImage = Thumbnails.of(path).scale(scale).asBufferedImage();
+		} catch (IOException e){
+			System.out.println(e);
+		}
+					
 
 		walls = new ArrayList<>();
 		money = new ArrayList<>();
@@ -240,7 +264,7 @@ public class Stage extends JPanel {
 			}
 
 			g.setColor(new Color(0, 0, 0));
-			g.setFont(new Font("default", Font.PLAIN, 64));
+			g.setFont(new Font("default", Font.PLAIN, (int)(64 * scale)));
 			g.drawString(stateNow, this.width / 2 - 170, this.height / 2);
 			
 			if(time - restartTime < 1000){
@@ -257,7 +281,7 @@ public class Stage extends JPanel {
 				Long time = new Date().getTime();
 
 				g.setColor(new Color(0, 0, 0));
-				g.setFont(new Font("default", Font.PLAIN, 64));
+				g.setFont(new Font("default", Font.PLAIN, (int)(64 * scale)));
 				g.drawString("YOU  LOSED !!!", this.width / 2 - 210, this.height / 2);
 
 				if(time - lossTime < 1000){
@@ -276,7 +300,7 @@ public class Stage extends JPanel {
 
 			if(time - wonTime < 1000){
 				g.setColor(new Color(0, 0, 0));
-				g.setFont(new Font("default", Font.PLAIN, 64));
+				g.setFont(new Font("default", Font.PLAIN, (int)(64 * scale)));
 				g.drawString("YOU  WON !!!", this.width / 2 - 210, this.height / 2);
 				return;
 			}
@@ -300,7 +324,7 @@ public class Stage extends JPanel {
 				}
 
 				g.setColor(new Color(0, 0, 0));
-				g.setFont(new Font("default", Font.PLAIN, 64));
+				g.setFont(new Font("default", Font.PLAIN, (int)(64 * scale)));
 				g.drawString(stateNow, this.width / 2 - 170, this.height / 2);
 
 				return;
@@ -320,7 +344,7 @@ public class Stage extends JPanel {
 
 		if(gamePause){
 			g.setColor(Color.BLACK);
-			g.setFont(new Font("default", Font.PLAIN, 64));
+			g.setFont(new Font("default", Font.PLAIN, (int)(64 * scale)));
 			g.drawString("< PAUSED >", this.width / 2 - 190, this.height / 2 - 100);
 
 			String choose1, choose2, choose3;
@@ -331,31 +355,31 @@ public class Stage extends JPanel {
 
 			if(pauseSelect == 1){
 				g.setColor(Color.RED);
-				g.setFont(new Font("default", Font.PLAIN, 40));
+				g.setFont(new Font("default", Font.PLAIN, (int)(40 * scale)));
 			}
 			else{
 				g.setColor(Color.BLACK);
-				g.setFont(new Font("default", Font.PLAIN, 36));
+				g.setFont(new Font("default", Font.PLAIN, (int)(36 * scale)));
 			}
 			g.drawString(choose1, this.width / 2 - 90, this.height / 2 - 20);
 
 			if(pauseSelect == 2){
 				g.setColor(Color.RED);
-				g.setFont(new Font("default", Font.PLAIN, 40));
+				g.setFont(new Font("default", Font.PLAIN, (int)(40 * scale)));
 			}
 			else{
 				g.setColor(Color.BLACK);
-				g.setFont(new Font("default", Font.PLAIN, 36));
+				g.setFont(new Font("default", Font.PLAIN, (int)(36 * scale)));
 			}
 			g.drawString(choose2, this.width / 2 - 90, this.height / 2 + 30);
 
 			if(pauseSelect == 3){
 				g.setColor(Color.RED);
-				g.setFont(new Font("default", Font.PLAIN, 40));
+				g.setFont(new Font("default", Font.PLAIN, (int)(40 * scale)));
 			}
 			else{
 				g.setColor(Color.BLACK);
-				g.setFont(new Font("default", Font.PLAIN, 36));
+				g.setFont(new Font("default", Font.PLAIN, (int)(36 * scale)));
 			}
 			g.drawString(choose3, this.width / 2 - 90, this.height / 2 + 80);
 
@@ -396,7 +420,7 @@ public class Stage extends JPanel {
 		String info2 = "Achivement " + (Achived - 1);
 
 		g.setColor(new Color(0, 0, 0));
-		g.setFont(new Font("default", Font.PLAIN, 25));
+		g.setFont(new Font("default", Font.PLAIN, (int)(25 * scale)));
 		g.drawString(info, this.width * 5 / 16, 60);
 		g.setColor(new Color(100, 20, 200));
 		g.drawString(info2, this.width * 5 / 16, 90);
@@ -560,18 +584,6 @@ public class Stage extends JPanel {
 			if(bufferedFrames < 25000){ // arrow image
 
 				if((bufferedFrames / 2500) % 2 == 0){
-					File f = new File("");
-					String path = f.getAbsolutePath();
-
-					if(!path.contains("code")){
-						path = "pic/arrow.png";
-					}
-					else{
-						path = path.replaceAll("code", "pic/arrow.png");
-					}
-
-					ImageIcon arrow = new ImageIcon(path);
-					Image arrowImage = arrow.getImage();
 					g.drawImage(arrowImage, playerX - 22, playerY - 95, this);
 				}
 
@@ -580,7 +592,8 @@ public class Stage extends JPanel {
 
 			g.setFont(new Font("default", Font.PLAIN, 20));
 			g.setColor(new Color(0, 0, 0));
-			g.drawString("[R]-RESTART    [ESC]-PAUSE    [X]-GHOST SKILL    [Z]-PORTAL    [SPACE]-GUN", this.width / 4, this.height - 40);
+			String information = "[R]-RESTART    [ESC]-PAUSE    [X]-GHOST SKILL    [Z]-PORTAL    [SPACE]-GUN";
+			g.drawString(information, (int)(scale * this.width / 4), this.height - 40);
 
 		}
 		if (forbutton == 1)

@@ -9,6 +9,13 @@ import java.util.Date;
 import java.util.Random;
 import javax.swing.ImageIcon;
 
+import java.io.IOException;
+import java.awt.image.BufferedImage;
+import net.coobird.thumbnailator.Thumbnails;
+import net.coobird.thumbnailator.geometry.Positions;
+
+import java.awt.Dimension;
+
 public class Police extends Actor {
 
     private final int LEFT = 1;
@@ -22,6 +29,10 @@ public class Police extends Actor {
     private int behaveMode = 1;
     private int currentlyFacing = DOWN;
 
+    private Dimension dimension = java.awt.Toolkit.getDefaultToolkit().getScreenSize();
+    private final double baseWidth = 1536.0;
+	private final double scale = dimension.getWidth() / baseWidth; // suitable for all screen size
+
     private Image[] fourDirection = new Image[4];
 
     //Random random = new Random(new Date().getTime());
@@ -33,6 +44,7 @@ public class Police extends Actor {
     public Police(int x, int y) {
         super(x, y);
         initPolice();
+        SPACE = (int)(SPACE * scale);
     }
 
     public void setsituation_change(int toward) {
@@ -85,9 +97,14 @@ public class Police extends Actor {
             temp = path.replaceAll("code", "pic/character/policeLeft.png");
         }
             
-        ImageIcon iicon = new ImageIcon(temp);
-        Image image = iicon.getImage();
-        fourDirection[0] = image;
+        BufferedImage image;
+        try{
+            image = Thumbnails.of(temp).scale(scale).asBufferedImage();
+            setImage(image);
+            fourDirection[0] = image;
+        } catch (IOException e){
+            System.out.println(e);
+        }
         temp = path;
 
         if(!path.contains("code")){
@@ -97,9 +114,12 @@ public class Police extends Actor {
             temp = path.replaceAll("code", "pic/character/policeRight.png");
         }
             
-        iicon = new ImageIcon(temp);
-        image = iicon.getImage();
-        fourDirection[1] = image;
+        try{
+            image = Thumbnails.of(temp).scale(scale).asBufferedImage();
+            fourDirection[1] = image;
+        } catch (IOException e){
+            System.out.println(e);
+        }
         temp = path;
 
         if(!path.contains("code")){
@@ -109,9 +129,12 @@ public class Police extends Actor {
             temp = path.replaceAll("code", "pic/character/policeUp.png");
         }
             
-        iicon = new ImageIcon(temp);
-        image = iicon.getImage();
-        fourDirection[2] = image;
+        try{
+            image = Thumbnails.of(temp).scale(scale).asBufferedImage();
+            fourDirection[2] = image;
+        } catch (IOException e){
+            System.out.println(e);
+        }
         temp = path;
 
         if(!path.contains("code")){
@@ -121,11 +144,12 @@ public class Police extends Actor {
             temp = path.replaceAll("code", "pic/character/policeDown.png");
         }
             
-        iicon = new ImageIcon(temp);
-        image = iicon.getImage();
-        fourDirection[3] = image;
-
-        setImage(image);
+        try{
+            image = Thumbnails.of(temp).scale(scale).asBufferedImage();
+            fourDirection[3] = image;
+        } catch (IOException e){
+            System.out.println(e);
+        }
 
         setBehavior(random.nextInt(4) + 1);
     }

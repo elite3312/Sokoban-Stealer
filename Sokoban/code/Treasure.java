@@ -6,9 +6,19 @@ import java.security.SecureRandom;
 
 import javax.swing.ImageIcon;
 
+import java.io.IOException;
+import java.awt.image.BufferedImage;
+import net.coobird.thumbnailator.Thumbnails;
+import net.coobird.thumbnailator.geometry.Positions;
+import java.awt.Dimension;
+
 public class Treasure extends Actor {
 
     private Image[] images = new Image[10];
+
+    private Dimension dimension = java.awt.Toolkit.getDefaultToolkit().getScreenSize();
+    private final double baseWidth = 1536.0;
+	private final double scale = dimension.getWidth() / baseWidth; // suitable for all screen size
 
     public Treasure(int x, int y) {
         super(x, y);
@@ -33,9 +43,13 @@ public class Treasure extends Actor {
                 temp = path.replaceAll("code", String.format("pic/treasures/Treasure%d.png", i));
             }
                 
-            ImageIcon iicon = new ImageIcon(temp);
-            Image image = iicon.getImage();
-            images[i] = image;
+            BufferedImage image;
+            try{
+                image = Thumbnails.of(temp).scale(scale).asBufferedImage();
+                images[i] = image;
+            } catch (IOException e){
+                System.out.println(e);
+            }
         }
 
         SecureRandom random = new SecureRandom();

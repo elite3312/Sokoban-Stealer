@@ -4,9 +4,17 @@ import java.awt.Image;
 import java.io.File;
 import javax.swing.ImageIcon;
 
+import java.io.IOException;
+import java.awt.image.BufferedImage;
+import net.coobird.thumbnailator.Thumbnails;
+import net.coobird.thumbnailator.geometry.Positions;
+import java.awt.Dimension;
+
 public class Wall extends Actor {
 
-    private Image image;
+    private Dimension dimension = java.awt.Toolkit.getDefaultToolkit().getScreenSize();
+    private final double baseWidth = 1536.0;
+	private final double scale = dimension.getWidth() / baseWidth; // suitable for all screen size
 
     @Override
     public String getActorName(){
@@ -28,8 +36,12 @@ public class Wall extends Actor {
 		else
             path = path.replaceAll("code", "pic/wall.png");
             
-        ImageIcon iicon = new ImageIcon(path);
-        image = iicon.getImage();
-        setImage(image);
+        BufferedImage image;
+        try{
+            image = Thumbnails.of(path).scale(scale).asBufferedImage();
+            setImage(image);
+        } catch (IOException e){
+            System.out.println(e);
+        }
     }
 }

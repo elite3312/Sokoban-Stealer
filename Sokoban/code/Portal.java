@@ -5,6 +5,12 @@ import java.io.File;
 
 import javax.swing.ImageIcon;
 
+import java.io.IOException;
+import java.awt.image.BufferedImage;
+import net.coobird.thumbnailator.Thumbnails;
+import net.coobird.thumbnailator.geometry.Positions;
+import java.awt.Dimension;
+
 public class Portal extends Actor {
 
 	private int isActive = 0;
@@ -13,6 +19,10 @@ public class Portal extends Actor {
 	private Image[] images = new Image[16];
 	private int animater = 0;
 	private int imageSeguence = 0;
+
+	private Dimension dimension = java.awt.Toolkit.getDefaultToolkit().getScreenSize();
+	private final double baseWidth = 1536.0;
+	private final double scale = dimension.getWidth() / baseWidth; // suitable for all screen size
 
 	public Portal(int x, int y) {
 		super(x, y);
@@ -41,9 +51,13 @@ public class Portal extends Actor {
 			else
 				temp = path.replaceAll("code", String.format("pic/portalAnimation/Portal%d.png", i));
 
-			ImageIcon iicon = new ImageIcon(temp);
-			Image image = iicon.getImage();
-			images[i-10] = image;
+			BufferedImage image;
+			try{
+				image = Thumbnails.of(temp).scale(scale).asBufferedImage();
+				images[i-10] = image;
+			} catch (IOException e){
+				System.out.println(e);
+			}
 		}
 		isActive = 0;
 

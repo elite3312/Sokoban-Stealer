@@ -10,12 +10,17 @@ import java.io.IOException;
 
 import java.net.URISyntaxException;
 
+import java.awt.image.BufferedImage;
+import net.coobird.thumbnailator.Thumbnails;
+import net.coobird.thumbnailator.geometry.Positions;
+import java.awt.Dimension;
+
 import java.awt.GridLayout;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.EventQueue;
 import java.awt.event.ActionListener;
-
+import java.awt.Image;
 
 import java.awt.FlowLayout;
 import java.awt.Font;
@@ -65,6 +70,14 @@ public class MainMenuFrame extends JFrame implements ActionListener{
 	private SavesReader reader;
 	private int progress;
 	private BackgroundMP3Player music;
+
+	private Dimension dimension = java.awt.Toolkit.getDefaultToolkit().getScreenSize();
+    private final double baseWidth = 1536.0;
+	private final double scale = dimension.getWidth() / baseWidth; // suitable for all screen size
+
+	private BufferedImage bufImage;
+	private Image image;
+
 	public MainMenuFrame() {
 		super("Sokoban Stealer");
 		
@@ -82,7 +95,7 @@ public class MainMenuFrame extends JFrame implements ActionListener{
 		progress = reader.readSaves();
 		reader.closeFile();
 
-		Font font = new Font("defalut", Font.PLAIN, 22);
+		Font font = new Font("defalut", Font.PLAIN, (int)(22 * scale));
 
 		setLayout(new FlowLayout());
 		/* intro */
@@ -110,10 +123,16 @@ public class MainMenuFrame extends JFrame implements ActionListener{
 			exitPath = exitPath.replaceAll("code", "pic/exit.png");
 		}
 
-		ImageIcon titleImage = new ImageIcon(path);
-		JLabel mainImage = new JLabel();
-		mainImage.setIcon(titleImage);
-		picPanel.add(BorderLayout.CENTER, mainImage);
+        try{
+			bufImage = Thumbnails.of(path).scale(scale).asBufferedImage();
+			image = (Image)bufImage;
+			JLabel mainImage = new JLabel();
+			mainImage.setIcon(new ImageIcon(image));
+			picPanel.add(BorderLayout.CENTER, mainImage);
+        } catch (IOException e){
+            System.out.println(e);
+		}
+		
 		add(BorderLayout.NORTH, picPanel);
 
 		String introduction = "偷東西，是一門學問，更是一門藝術。\n在狹小的場地中躲避警衛，並成功將貨物運送到指定地點，是你的目標\n"
@@ -138,18 +157,48 @@ public class MainMenuFrame extends JFrame implements ActionListener{
 
 		p1 = new JRadioButton("一號小偷", true);
 		p1.setFont(font);
-		p1.setIcon(new ImageIcon(selectPath));
-		p1.setSelectedIcon(new ImageIcon(selectedPath));
 
+		try{
+            bufImage = Thumbnails.of(selectPath).scale(scale).asBufferedImage();
+			image = (Image)bufImage;
+			p1.setIcon(new ImageIcon(image));
+
+			bufImage = Thumbnails.of(selectedPath).scale(scale).asBufferedImage();
+			image = (Image)bufImage;
+			p1.setSelectedIcon(new ImageIcon(image));
+        } catch (IOException e){
+            System.out.println(e);
+		}
+		
 		p2 = new JRadioButton("二號小偷", false);
 		p2.setFont(font);
-		p2.setIcon(new ImageIcon(selectPath));
-		p2.setSelectedIcon(new ImageIcon(selectedPath));
+
+		try{
+            bufImage = Thumbnails.of(selectPath).scale(scale).asBufferedImage();
+			image = (Image)bufImage;
+			p2.setIcon(new ImageIcon(image));
+
+			bufImage = Thumbnails.of(selectedPath).scale(scale).asBufferedImage();
+			image = (Image)bufImage;
+			p2.setSelectedIcon(new ImageIcon(image));
+        } catch (IOException e){
+            System.out.println(e);
+		}
 
 		p3 = new JRadioButton("三號小偷", false);
 		p3.setFont(font);
-		p3.setIcon(new ImageIcon(selectPath));
-		p3.setSelectedIcon(new ImageIcon(selectedPath));
+
+		try{
+            bufImage = Thumbnails.of(selectPath).scale(scale).asBufferedImage();
+			image = (Image)bufImage;
+			p3.setIcon(new ImageIcon(image));
+
+			bufImage = Thumbnails.of(selectedPath).scale(scale).asBufferedImage();
+			image = (Image)bufImage;
+			p3.setSelectedIcon(new ImageIcon(image));
+        } catch (IOException e){
+            System.out.println(e);
+		}
 
 		character = new ButtonGroup();
 		character.add(p1);
@@ -178,14 +227,29 @@ public class MainMenuFrame extends JFrame implements ActionListener{
 		for (int i = 1; i <= 6; i++) {
 			JRadioButton l1 = new JRadioButton("Level "+i, true);
 			l1.setFont(font);
-			l1.setIcon(new ImageIcon(selectPath));
-			l1.setSelectedIcon(new ImageIcon(selectedPath));
+			try{
+				bufImage = Thumbnails.of(selectPath).scale(scale).asBufferedImage();
+				image = (Image)bufImage;
+				l1.setIcon(new ImageIcon(image));
+	
+				bufImage = Thumbnails.of(selectedPath).scale(scale).asBufferedImage();
+				image = (Image)bufImage;
+				l1.setSelectedIcon(new ImageIcon(image));
+			} catch (IOException e){
+				System.out.println(e);
+			}
 			if(i > progress) l1.setEnabled(false);
 			level.add(l1);
 			levels.add(l1);
 		}
 
-		launchBtn = new JButton(new ImageIcon(gameStartPath));
+		try{
+            bufImage = Thumbnails.of(gameStartPath).scale(scale).asBufferedImage();
+			image = (Image)bufImage;
+        } catch (IOException e){
+            System.out.println(e);
+		}
+		launchBtn = new JButton(new ImageIcon(image));
 		launchBtn.setFont(font);
 		launchBtn.addActionListener(this);
 
@@ -202,7 +266,13 @@ public class MainMenuFrame extends JFrame implements ActionListener{
 		levelPanel.setVisible(false);
 
 		/* exit */
-		exitBtn = new JButton(new ImageIcon(exitPath));
+		try{
+            bufImage = Thumbnails.of(exitPath).scale(scale).asBufferedImage();
+			image = (Image)bufImage;
+        } catch (IOException e){
+            System.out.println(e);
+		}
+		exitBtn = new JButton(new ImageIcon(image));
 		exitBtn.setFont(font);
 		exitBtn.addActionListener(this);
 		bottomPanel.add(exitBtn);
@@ -214,7 +284,6 @@ public class MainMenuFrame extends JFrame implements ActionListener{
 			Sokoban game = new Sokoban(characterChosen, levelChosen);
 			
 		});
-		
 		
 	}
 	
@@ -238,7 +307,7 @@ public class MainMenuFrame extends JFrame implements ActionListener{
 			MainMenuFrame.this.dispose();
 			System.exit(0);
 		} else if (event.getSource() == levelSelect) {
-			MainMenuFrame.this.setSize(1280, 820);
+			MainMenuFrame.this.setSize((int)(1280 * scale), (int)(820 * scale));
 			MainMenuFrame.this.remove(bottomPanel);
 			MainMenuFrame.this.add(levelPanel);
 			levelPanel.setVisible(true);
@@ -246,7 +315,7 @@ public class MainMenuFrame extends JFrame implements ActionListener{
 			repaint();
 
 		} else if (event.getSource() == back) {
-			MainMenuFrame.this.setSize(1280, 720);
+			MainMenuFrame.this.setSize((int)(scale * 1280), (int)(scale * 820));
 			MainMenuFrame.this.remove(levelPanel);
 			MainMenuFrame.this.add(bottomPanel);
 			repaint();
@@ -264,7 +333,7 @@ public class MainMenuFrame extends JFrame implements ActionListener{
 			}
 
 			launch();
-			MainMenuFrame.this.setSize(1280, 720);
+			MainMenuFrame.this.setSize((int)(1280 * scale), (int)(820 * scale));
 			MainMenuFrame.this.remove(levelPanel);
 			MainMenuFrame.this.add(bottomPanel);
 			MainMenuFrame.this.updateProgress();

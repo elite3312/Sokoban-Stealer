@@ -1,10 +1,15 @@
 package java2020.finalProject;
 
 import java.awt.Image;
+import java.awt.Dimension;
 
 public class Actor {
 
-    private final int SPACE = 40;
+    private Dimension dimension = java.awt.Toolkit.getDefaultToolkit().getScreenSize();
+    private final double baseWidth = 1536.0;
+    private final double scale = dimension.getWidth() / baseWidth; // suitable for all screen size
+    
+    private final int SPACE = (int)(40 * scale);
 
     private int x;
     private int y;

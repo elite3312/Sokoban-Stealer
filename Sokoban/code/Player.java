@@ -1,10 +1,18 @@
 package java2020.finalProject;
 
 import java.awt.Image;
-import java.io.File;
+import java.awt.Dimension;
+import java.awt.image.BufferedImage;
+
 import java.util.ArrayList;
 
 import javax.swing.ImageIcon;
+
+import java.io.File;
+import java.io.IOException;
+
+import net.coobird.thumbnailator.Thumbnails;
+import net.coobird.thumbnailator.geometry.Positions;
 
 public class Player extends Actor {
 
@@ -21,14 +29,18 @@ public class Player extends Actor {
 	private final int playerSkinOne = 1;
 	private final int playerSkinTwo = 2;
 
-	private ImageIcon upIcon;
-	private ImageIcon leftIcon;
-	private ImageIcon downIcon;
-	private ImageIcon rightIcon;
+	private Image upIcon;
+	private Image leftIcon;
+	private Image downIcon;
+	private Image rightIcon;
 	private Image[] explodImages = new Image[10];
 
 	private File f = new File("");
 	private String path = f.getAbsolutePath();
+
+	private Dimension dimension = java.awt.Toolkit.getDefaultToolkit().getScreenSize();
+	private final double baseWidth = 1536.0;
+	private final double scale = dimension.getWidth() / baseWidth; // suitable for all screen size
 
 	public Player(int x, int y, int playerSkinChoosed) {
 		super(x, y);
@@ -83,28 +95,37 @@ public class Player extends Actor {
 			}
 		}
 
-		upIcon = new ImageIcon(up);
-		leftIcon = new ImageIcon(left);
-		downIcon = new ImageIcon(down);
-		rightIcon = new ImageIcon(right);
+        try{
+            upIcon = (Image)Thumbnails.of(up).scale(scale).asBufferedImage();
+			leftIcon = (Image)Thumbnails.of(left).scale(scale).asBufferedImage();
+			downIcon = (Image)Thumbnails.of(down).scale(scale).asBufferedImage();
+			rightIcon = (Image)Thumbnails.of(right).scale(scale).asBufferedImage();
 
-		setImage(upIcon.getImage());
+			setImage(upIcon);
+
+        } catch (IOException e){
+            System.out.println(e);
+		}
 
 		explosion = 0;
 		String explodePath;
 		for(int i = 0; i < 10; i++){
+			Image temp;
+
 			explodePath = path;
 			if (!path.contains("code")){
 				explodePath = String.format("pic/explode/explode%d.png", i);
-				
 			}
 			else{
 				explodePath = path.replaceAll("code", String.format("pic/explode/explode%d.png", i));
 			}
 
-			ImageIcon tempImage = new ImageIcon(explodePath);
-			Image store = tempImage.getImage();
-			explodImages[i] = store;
+			try{
+				temp = (Image)Thumbnails.of(explodePath).scale(scale).asBufferedImage();
+				explodImages[i] = temp;
+			} catch (IOException e){
+				System.out.println(e);
+			}	
 		}
 	}
 
@@ -117,16 +138,16 @@ public class Player extends Actor {
 
 		switch (direction) {
 			case UP:
-				setImage(upIcon.getImage());
+				setImage(upIcon);
 				break;
 			case LEFT:
-				setImage(leftIcon.getImage());
+				setImage(leftIcon);
 				break;
 			case DOWN:
-				setImage(downIcon.getImage());
+				setImage(downIcon);
 				break;
 			case RIGHT:
-				setImage(rightIcon.getImage());
+				setImage(rightIcon);
 				break;
 		}
 
