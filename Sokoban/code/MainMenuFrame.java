@@ -61,6 +61,7 @@ public class MainMenuFrame extends JFrame implements ActionListener{
 	private final int playerSkinOne = 1;
 	private final int playerSkinTwo = 2;
 	private final int playerSkinThree = 3;
+	private final int levelCount = 6;
 	private int levelChosen;
 
 	private JButton levelSelect;
@@ -138,12 +139,11 @@ public class MainMenuFrame extends JFrame implements ActionListener{
 		
 		add(BorderLayout.NORTH, picPanel);
 
-		String introduction = "^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^"
-				+ "\n偷東西，是一門學問，更是一門藝術。\n在狹小的場地中躲避警衛，並成功將貨物運送到指定地點，是你的目標\n"
-				+ "你能否越過重重障礙，並且獲得最終的勝利?\n\n玩法說明：遊戲中按空白鍵可以朝人物前方發射子彈，並擊倒警衛(每達成一個貨物可加兩發子彈)\n"
+		String introduction = "偷東西，是一門學問，更是一門藝術。\n在狹小的場地中躲避警衛，並成功將貨物運送到指定地點，是你的目標\n"
+				+ "你能否越過重重障礙，並且獲得最終的勝利?\n\n玩法說明：按上下左右鍵以移動\n"
+				+ "　　　　　遊戲中按空白鍵可以朝人物前方發射子彈，並擊倒警衛(每達成一個貨物可加兩發子彈)\n"
 				+ "　　　　　按Z鍵，可以設置傳送點或傳送至傳送點(一關限三次)\n　　　　　按X鍵，可以穿牆(一關限一次，三秒)\n"
-				+ "                 也許還有神秘的功能？？  試著發掘看看吧！\n"															   
-				+ "^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^";
+				+ "　　　　　也許還有神秘的功能？？  試著發掘看看吧！";
 
 		JTextArea intro = new JTextArea(introduction);
 		Border border = BorderFactory.createLineBorder(Color.BLACK);
@@ -221,11 +221,17 @@ public class MainMenuFrame extends JFrame implements ActionListener{
 		/* level select */
 		levelSelect = new JButton("選擇關卡");
 		levelSelect.addActionListener(this);
+		levelSelect.setFont(font);
 		bottomPanel.add(levelSelect);
 		/* level select panel */
 		levelPanel = new JPanel(new GridLayout(5, 2));
 		level = new ButtonGroup();
-		JLabel label2 = new JLabel("選擇關卡：(目前解鎖進度:第"+progress+"關)");
+
+		String labelText = "選擇關卡：(目前解鎖進度:第"+progress+"關)";
+		if(progress == levelCount + 1){
+			labelText = "選擇關卡：(目前解鎖進度：全破)";
+		}
+		JLabel label2 = new JLabel(labelText);
 		label2.setFont(font);
 
 
@@ -261,6 +267,7 @@ public class MainMenuFrame extends JFrame implements ActionListener{
 
 		back = new JButton("back to menu");
 		back.addActionListener(this);
+		back.setFont(font);
 		levelPanel.add(label2);
 		levelPanel.add(new JLabel(""));
 		for (int i = 0; i < levels.size(); i++) {
@@ -313,7 +320,6 @@ public class MainMenuFrame extends JFrame implements ActionListener{
 			MainMenuFrame.this.dispose();
 			System.exit(0);
 		} else if (event.getSource() == levelSelect) {
-			//MainMenuFrame.this.setSize((int)(1280 * scale), (int)(820 * scale));
 			MainMenuFrame.this.remove(bottomPanel);
 			MainMenuFrame.this.add(levelPanel);
 			levelPanel.setVisible(true);
@@ -321,11 +327,10 @@ public class MainMenuFrame extends JFrame implements ActionListener{
 			repaint();
 
 		} else if (event.getSource() == back) {
-			//MainMenuFrame.this.setSize((int)(scale * 1280), (int)(scale * 820));
 			MainMenuFrame.this.remove(levelPanel);
 			MainMenuFrame.this.add(bottomPanel);
 			repaint();
-		} else {// launch
+		} else { // launch
 			if (p1.isSelected())
 				characterChosen = playerSkinOne;
 			else if(p2.isSelected())
@@ -339,7 +344,6 @@ public class MainMenuFrame extends JFrame implements ActionListener{
 			}
 
 			launch();
-			//MainMenuFrame.this.setSize((int)(1280 * scale), (int)(820 * scale));
 			MainMenuFrame.this.remove(levelPanel);
 			MainMenuFrame.this.add(bottomPanel);
 			MainMenuFrame.this.updateProgress();

@@ -603,10 +603,10 @@ public class Stage extends JPanel {
 			}
 
 
-			if(bufferedFrames < 25000){ // arrow image
+			if(bufferedFrames < 21000){ // arrow image
 
-				if((bufferedFrames / 2500) % 2 == 0){
-					g.drawImage(arrowImage, playerX - 22, playerY - 95, this);
+				if((bufferedFrames / 3000) % 2 == 0){
+					g.drawImage(arrowImage, playerX - 5, playerY - 60, this);
 				}
 
 				bufferedFrames++;
