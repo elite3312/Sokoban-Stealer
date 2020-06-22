@@ -5,7 +5,7 @@ https://youtu.be/ItoZPud7C1g
 
 # BUGS:
 警衛重合問題 \
-如果把bag推進goal內雖然achivement會增加，但是又把bag推出去的話achivement不會減少 \
+如果把bag推進goal內雖然achivement會增加，但是又把bag推出去的話achivement不會減少
 
 
 # 提案或建議:
@@ -13,17 +13,7 @@ https://youtu.be/ItoZPud7C1g
 角色選擇決定功能物品配置\
 (有空再做)地獄模式特殊結局:達成所有貨物後，不結束遊戲，而是生出6隻警衛，並在地圖另一頭開一個口，目標變成逃出房間\
 每關勝利的話有個win的特效 \
-saves.txt要不要讓玩家看不懂裡面的內容?不然玩家可以直接修改數據 \
-
-
-# Bugs Archive:
-讀不到圖問題:修改資料夾層級\
-傳送門之人物蓋住貨物神奇bug:改成上面有貨不給傳\
-子彈可以穿過地圖:改成不能穿\
-穿牆穿出地圖\
-人物正面碰到警衛後僅把visible設false，遊戲未關閉\
-程式碼出現不雅字眼\
-關卡complete會當掉
+saves.txt要不要讓玩家看不懂裡面的內容?不然玩家可以直接修改數據 
 
 
 # Version History
@@ -61,7 +51,3 @@ v1.8.0 - 對所有解析度進行適配，現在螢幕解析度再低都不會�
 v1.8.1 - 新增兩張地圖，暫停畫面修飾；actionListener微調\
 v1.8.2 - 作弊2，連續按下sokoban的話...?\
 v1.8.3 - 圖片統一管理，不用再重複包裝圖片，增快速度(原本會有些許延遲)
-
-
-# 程式內變數解釋
-forbottom:為了防止當sokoban 裡的timer refresh repaint 時和點按鍵時的repaint 重複
