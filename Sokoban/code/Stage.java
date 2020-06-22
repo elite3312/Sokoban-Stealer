@@ -4,8 +4,6 @@ import javax.swing.JOptionPane;
 import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 
-import java.io.IOException;
-
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.event.KeyAdapter;
@@ -18,6 +16,7 @@ import java.beans.beancontext.BeanContextEvent;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 
 import javazoom.jl.decoder.JavaLayerException;
 import javazoom.jl.player.advanced.AdvancedPlayer;
@@ -79,8 +78,9 @@ public class Stage extends JPanel {
 	// private Police cop;
 	private Player stealer;
 	private Portal portal;
-	private CheatManager cheater = new CheatManager();
+
 	private enum sound {bulletSound, bagSound};
+
 	private boolean isCompleted = false;
 	private boolean lost = false;
 	private boolean collisionIgnore = false; // penetrate skill
@@ -93,6 +93,9 @@ public class Stage extends JPanel {
 
 	private Graphics graphic; // for the global using
 	private Image arrowImage = new ImageIcon().getImage();
+
+	private ImageManager imageManager = new ImageManager();
+	private CheatManager cheater = new CheatManager();
 	
 	public Stage(int playerSkinChoosen, int level) {
 		selection = level;
@@ -126,39 +129,22 @@ public class Stage extends JPanel {
 
 	private void initWorld() {
 
-		File f = new File("");
-		String path = f.getAbsolutePath();
-
-		if(!path.contains("code")){
-			path = "pic/arrow.png";
-		}
-		else{
-			path = path.replaceAll("code", "pic/arrow.png");
-		}
-		try{
-			arrowImage = Thumbnails.of(path).scale(scale).asBufferedImage();
-		} catch (IOException e){
-			System.out.println(e);
-		}
-					
+		arrowImage = imageManager.getArrowImage();					
 
 		walls = new ArrayList<>();
 		money = new ArrayList<>();
 		goals = new ArrayList<>();
 		hardWalls = new ArrayList<>();
 		cops = new ArrayList<>();
+
 		String level;
+
 		int x = 0;
 		int y = MARGIN + 50;
 
 		Map maptest;
 
-		if (selection == 3) {
-			policePeriod = 7;
-		} else if (selection == 2)
-			policePeriod = 8;
-		else
-			policePeriod = 12;
+		policePeriod = 10;
 
 		maptest = new Map();
 		level = (String) (maptest.getMap(selection));
@@ -173,16 +159,16 @@ public class Stage extends JPanel {
 		lossBuffer = 0;
 		wonBuffer = 0;
 
-		mapX = level.indexOf("\n", 0);
-		mapY = level.length() / mapX;
+		mapX = level.indexOf("\n", 0); // len of map width
+		mapY = level.length() / mapX; // len of map height
 
-		mapX = mapX * SPACE;
-		mapY = mapY * SPACE;
+		mapX = mapX * SPACE; // pixel of map width
+		mapY = mapY * SPACE; // pixel of map height
 
 		int modifyX = (this.width - mapX) / 2;
 		int modifyY = 20;
 
-		for (int i = 0; i < level.length(); i++) { // set width,height, actors specified by the string
+		for (int i = 0; i < level.length(); i++) { // set width, height, actors specified by the string
 			char item = level.charAt(i);
 			switch (item) {
 				case '\n':
@@ -191,28 +177,41 @@ public class Stage extends JPanel {
 					break;
 
 				case '!':
-					cops.add(new Police(x + modifyX, y + modifyY));
+					Police newCop = new Police(x + modifyX, y + modifyY);
+					Image[] fourDir = imageManager.getPoliceImages();
+
+					newCop.getFourDirectionImage(fourDir);
+					newCop.setImage(fourDir[3]);
+					cops.add(newCop);
 					x += SPACE;
 					;
 					break;
 
 				case '#':
-					walls.add(new Wall(x + modifyX, y + modifyY)); // create wall at (x,y)
+					Wall newWall = new Wall(x + modifyX, y + modifyY);
+					newWall.setImage(imageManager.getWallImage());
+					walls.add(newWall); // create wall at (x,y)
 					x += SPACE;
 					break;
 
 				case 'H':
-					hardWalls.add(new HardWall(x + modifyX, y + modifyY)); // hard wall cannot be penetrated
+					HardWall newHardWall = new HardWall(x + modifyX, y + modifyY);
+					newHardWall.setImage(imageManager.getHardWallImage());
+					hardWalls.add(newHardWall); // hard wall cannot be penetrated
 					x += SPACE;
 					break;
 
 				case '$':
-					money.add(new Treasure(x + modifyX, y + modifyY));
+					Treasure treasure = new Treasure(x + modifyX, y + modifyY);
+					treasure.setImage(imageManager.getTreasureImage());
+					money.add(treasure);
 					x += SPACE;
 					break;
 
 				case '.':
-					goals.add(new Goal(x + modifyX, y + modifyY)); // target area
+					Goal newGoal = new Goal(x + modifyX, y + modifyY);
+					newGoal.setImage(imageManager.getGoalImage());
+					goals.add(newGoal); // target area
 					x += SPACE;
 					break;
 
@@ -226,8 +225,14 @@ public class Stage extends JPanel {
 					break;
 
 				case '%':
-					goals.add(new Goal(x + modifyX, y + modifyY));
-					money.add(new Treasure(x + modifyX, y + modifyY));
+					Goal newGoal2 = new Goal(x + modifyX, y + modifyY);
+					newGoal2.setImage(imageManager.getGoalImage());
+					goals.add(newGoal2); // target area
+
+					Treasure treasure2 = new Treasure(x + modifyX, y + modifyY);
+					treasure2.setImage(imageManager.getTreasureImage());
+					money.add(treasure2);
+
 					x += SPACE;
 					break;
 
@@ -249,22 +254,22 @@ public class Stage extends JPanel {
 			Long time = new Date().getTime();
 			String stateNow = "";
 
-			if(time - restartTime < 400){
+			if(time - restartTime < 200){
 				stateNow = "Loading     ";
 			}
-			else if(time - restartTime >= 400 && time - restartTime < 600){
+			else if(time - restartTime >= 200 && time - restartTime < 400){
 				stateNow = "Loading.    ";
 			}
-			else if(time - restartTime >= 600 && time - restartTime < 800){
+			else if(time - restartTime >= 400 && time - restartTime < 600){
 				stateNow = "Loading..   ";
 			}
-			else if(time - restartTime >= 800 && time - restartTime < 1000){
+			else if(time - restartTime >= 600 && time - restartTime < 800){
 				stateNow = "Loading...  ";
 			}
-			else if(time - restartTime >= 1000 && time - restartTime < 1200){
+			else if(time - restartTime >= 800 && time - restartTime < 1000){
 				stateNow = "Loading.... ";
 			}
-			else if(time - restartTime >= 1200 && time - restartTime < 1400){
+			else if(time - restartTime >= 1000 && time - restartTime < 1200){
 				stateNow = "Loading.....";
 			}
 
@@ -272,7 +277,7 @@ public class Stage extends JPanel {
 			g.setFont(new Font("Microsoft JhengHei", Font.PLAIN, (int)(64 * scale)));
 			g.drawString(stateNow, this.width / 2 - 170, this.height / 2);
 			
-			if(time - restartTime < 1400){
+			if(time - restartTime < 1200){
 				return;
 			}
 			else{
@@ -310,25 +315,25 @@ public class Stage extends JPanel {
 					g.drawString("YOU  WON !!!", this.width / 2 - 210, this.height / 2);
 					return;
 				}
-				else if(time - wonTime > 1000 && time - wonTime < 2400){
+				else if(time - wonTime > 1000 && time - wonTime < 2200){
 					String stateNow = "";
 
-					if(time - wonTime < 1400){
+					if(time - wonTime < 1200){
 						stateNow += "Loading     ";
 					}
-					else if(time - wonTime >= 1400 &&time - wonTime < 1600){
+					else if(time - wonTime >= 1200 &&time - wonTime < 1400){
 						stateNow += "Loading.    ";
 					}
-					else if(time - wonTime >= 1600 &&time - wonTime < 1800){
+					else if(time - wonTime >= 1400 &&time - wonTime < 1600){
 						stateNow += "Loading..   ";
 					}
-					else if(time - wonTime >= 1800 &&time - wonTime < 2000){
+					else if(time - wonTime >= 1600 &&time - wonTime < 1800){
 						stateNow += "Loading...  ";
 					}
-					else if(time - wonTime >= 2000 &&time - wonTime < 2200){
+					else if(time - wonTime >= 1800 &&time - wonTime < 2000){
 						stateNow += "Loading.... ";
 					}
-					else if(time - wonTime >= 2200 &&time - wonTime < 2400){
+					else if(time - wonTime >= 2000 &&time - wonTime < 2200){
 						stateNow += "Loading.....";
 					}
 
@@ -425,8 +430,8 @@ public class Stage extends JPanel {
 		if (cheater.checkCondition()) {
 			info = "portals left：∞        ammo：∞";
 			penetrateNotUsed = true;
-			stealer.setAmmo(9999);
-			portal.setAvailability(9999);
+			stealer.setAmmo(99997);
+			portal.setAvailability(99999);
 
 			if(collisionIgnore){
 				Long checkCollisonTime = new Date().getTime() - collisionIgnoreTime;
@@ -451,12 +456,14 @@ public class Stage extends JPanel {
 		g.setColor(new Color(0, 204, 0));
 		g.drawString(info2, this.width * 5 / 16, 90);
 
+
 		ArrayList<Actor> world = new ArrayList<>();
 
 		world.addAll(goals);
 
 		if (stealer.getBullet() != null)
 			world.add(stealer.getBullet());
+
 		world.addAll(walls);
 		world.addAll(hardWalls);
 		world.addAll(money);
@@ -506,7 +513,6 @@ public class Stage extends JPanel {
 					} else if (checkBagCollisionforPolice(cop, toward)) {
 						policeCanGo = 0;
 					} else if (checkPersonAndPersonCollision(cop, stealer, toward)) {
-						//policeCanGo = 0;
 						playerLoss();
 						return;
 					}
@@ -602,17 +608,15 @@ public class Stage extends JPanel {
 				else
 					g.drawImage(item.getImage(), tempX, tempY, this);
 
-			} else { // area
+			} else { // goal
 				g.drawImage(item.getImage(), item.x(), item.y(), this);
 			}
 
 
-			if(bufferedFrames < 21000){ // arrow image
-
+			if(bufferedFrames < 21000){ // arrow image(for opening)
 				if((bufferedFrames / 3000) % 2 == 0){
 					g.drawImage(arrowImage, playerX - 5, playerY - 60, this);
 				}
-
 				bufferedFrames++;
 			}
 
@@ -624,7 +628,8 @@ public class Stage extends JPanel {
 		}
 		if (forbutton == 1)
 			forbutton = 0; // prevent repeated execution when bottom is clicked
-		if(lost)
+
+		if(lost) // buffered frames
 			lossBuffer++;
 		if(isCompleted)
 			wonBuffer++;
@@ -642,7 +647,7 @@ public class Stage extends JPanel {
 		@Override
 		public void keyPressed(KeyEvent e) {
 
-			if (lost || isCompleted) {
+			if (lost || isCompleted || restarted) {
 				return;
 			}
 
@@ -806,7 +811,9 @@ public class Stage extends JPanel {
 							System.out.printf("music err");
 						}
 						
-						stealer.setBullet(new Bullet(stealer.x(), stealer.y(), currentlyFacing));
+						Bullet newBullet = new Bullet(stealer.x(), stealer.y(), currentlyFacing);
+						newBullet.setImage(imageManager.getBulletImage());
+						stealer.setBullet(newBullet);
 						stealer.setAmmo(stealer.getAmmo() - 1);
 					}
 					
@@ -1203,23 +1210,15 @@ public class Stage extends JPanel {
 	}
 
 	public void playerLoss() {
-
-		try {
-			Thread.sleep(50);
-		} catch (InterruptedException e) {
-			e.printStackTrace(); 
-		}
-
 		lost = true;
 		lossTime = new Date().getTime();
-		cheater.deactivate();
+		cheater.deactivate(); // deactivate both cheating
 	}
 
 	public void isCompleted() {
-		int nOfBags = money.size();
 		int finishedBags = 0;
 
-		for (int i = 0; i < nOfBags; i++) {
+		for (int i = 0; i < money.size(); i++) {
 			Treasure bag = money.get(i);
 
 			for (int j = 0; j < goals.size(); j++) {
@@ -1234,27 +1233,13 @@ public class Stage extends JPanel {
 			stealer.setAmmo(stealer.getAmmo() + 2);
 		}
 		if (finishedBags == goals.size()) {
-
-			try {
-				Thread.sleep(50);
-			} catch (InterruptedException e) {
-				e.printStackTrace(); 
-			}
-
 			isCompleted = true;
 			wonTime = new Date().getTime();
 			cheater.deactivate();
-			//repaint();
 		}
 	}
 
 	private void restartLevel() {
-		/*
-		try {
-			Thread.sleep(50);
-		} catch (InterruptedException e) {
-			e.printStackTrace(); 
-		}*/
 
 		cheater.deactivate();
 
@@ -1280,10 +1265,6 @@ public class Stage extends JPanel {
 
 	public boolean getIsCompleted() {
 		return isCompleted;
-	}
-
-	public void setLost(boolean lost) {
-		this.lost = lost;
 	}
 
 	public boolean goNextStage(){

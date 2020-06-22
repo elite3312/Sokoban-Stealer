@@ -1,6 +1,5 @@
 package java2020.finalProject;
 
-import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JTextArea;
@@ -10,6 +9,7 @@ import java.io.FileNotFoundException;
 
 import javazoom.jl.decoder.JavaLayerException;
 import javazoom.jl.player.advanced.AdvancedPlayer;
+
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -19,13 +19,18 @@ import java.awt.FlowLayout;
 import java.awt.EventQueue;
 
 public class Sokoban extends JFrame {
+
 	private BackgroundMP3Player music;
+
 	private final int MARGIN = 40;
 	private final int LevelCount = 6;
+
 	private int player;
 	private int level;
+
 	private SavesWriter writer;
 	private SavesReader reader;
+
 	private JPanel panel;
 
 	public Sokoban(int player, int level) {

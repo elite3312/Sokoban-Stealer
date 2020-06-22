@@ -2,30 +2,31 @@ package java2020.finalProject;
 
 import java.util.ArrayList;
 import java.util.List;
+
 import java.io.FileNotFoundException;
-import java.awt.event.WindowStateListener;
-import javazoom.jl.decoder.JavaLayerException;
 import java.io.File;
 import java.io.IOException;
 
+import javazoom.jl.decoder.JavaLayerException;
+
 import java.net.URISyntaxException;
 
-import java.awt.image.BufferedImage;
 import net.coobird.thumbnailator.Thumbnails;
 import net.coobird.thumbnailator.geometry.Positions;
-import java.awt.Dimension;
 
+import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.EventQueue;
 import java.awt.event.ActionListener;
 import java.awt.Image;
-
 import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.Color;
+import java.awt.image.BufferedImage;
 import java.awt.event.ActionEvent;
+import java.awt.event.WindowStateListener;
 
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -40,7 +41,7 @@ import javax.swing.border.Border;
 import javax.swing.JTextArea;
 import javax.swing.JButton;
 
-public class MainMenuFrame extends JFrame implements ActionListener{
+public class MainMenuFrame extends JFrame implements ActionListener {
 
 	private JPanel topPanel;
 	private JPanel picPanel;
@@ -73,7 +74,7 @@ public class MainMenuFrame extends JFrame implements ActionListener{
 	private BackgroundMP3Player music;
 
 	private Dimension dimension = java.awt.Toolkit.getDefaultToolkit().getScreenSize();
-    private final double baseWidth = 1536.0;
+	private final double baseWidth = 1536.0;
 	private final double scale = dimension.getWidth() / baseWidth; // suitable for all screen size
 
 	private BufferedImage bufImage;
@@ -81,17 +82,17 @@ public class MainMenuFrame extends JFrame implements ActionListener{
 
 	public MainMenuFrame() {
 		super("Sokoban Stealer");
-		
+
 		try {
 			music = new BackgroundMP3Player();
 			music.setSong(0);
 			music.circularPlay();
-			
+
 		} catch (FileNotFoundException | JavaLayerException e) {
 			System.out.printf("music err");
 		}
 
-		setExtendedState(JFrame.MAXIMIZED_BOTH); 
+		setExtendedState(JFrame.MAXIMIZED_BOTH);
 		setUndecorated(true);
 
 		reader = new SavesReader("saves.txt");
@@ -99,7 +100,7 @@ public class MainMenuFrame extends JFrame implements ActionListener{
 		progress = reader.readSaves();
 		reader.closeFile();
 
-		Font font = new Font("Microsoft JhengHei", Font.PLAIN, (int)(22 * scale));
+		Font font = new Font("Microsoft JhengHei", Font.PLAIN, (int) (22 * scale));
 
 		setLayout(new FlowLayout());
 		/* intro */
@@ -127,23 +128,22 @@ public class MainMenuFrame extends JFrame implements ActionListener{
 			exitPath = exitPath.replaceAll("code", "pic/exit.png");
 		}
 
-        try{
+		try {
 			bufImage = Thumbnails.of(path).scale(scale).asBufferedImage();
-			image = (Image)bufImage;
+			image = (Image) bufImage;
 			JLabel mainImage = new JLabel();
 			mainImage.setIcon(new ImageIcon(image));
 			picPanel.add(BorderLayout.CENTER, mainImage);
-        } catch (IOException e){
-            System.out.println(e);
+		} catch (IOException e) {
+			System.out.println(e);
 		}
-		
+
 		add(BorderLayout.NORTH, picPanel);
 
 		String introduction = "偷東西，是一門學問，更是一門藝術。\n在狹小的場地中躲避警衛，並成功將貨物運送到指定地點，是你的目標\n"
 				+ "你能否越過重重障礙，並且獲得最終的勝利?\n\n玩法說明：按上下左右鍵以移動(請切換成英文輸入法)\n"
 				+ "　　　　　遊戲中按空白鍵可以朝人物前方發射子彈，並擊倒警衛(每達成一個貨物可加兩發子彈)\n"
-				+ "　　　　　按Z鍵，可以設置傳送點或傳送至傳送點(一關限三次)\n　　　　　按X鍵，可以穿牆(一關限一次，三秒)\n"
-				+ "　　　　　也許還有神秘的功能？？  試著發掘看看吧！";
+				+ "　　　　　按Z鍵，可以設置傳送點或傳送至傳送點(一關限三次)\n　　　　　按X鍵，可以穿牆(一關限一次，三秒)\n" + "　　　　　也許還有神秘的功能？？  試著發掘看看吧！";
 
 		JTextArea intro = new JTextArea(introduction);
 		Border border = BorderFactory.createLineBorder(Color.BLACK);
@@ -164,46 +164,46 @@ public class MainMenuFrame extends JFrame implements ActionListener{
 		p1 = new JRadioButton("一號小偷", true);
 		p1.setFont(font);
 
-		try{
-            bufImage = Thumbnails.of(selectPath).scale(scale).asBufferedImage();
-			image = (Image)bufImage;
+		try {
+			bufImage = Thumbnails.of(selectPath).scale(scale).asBufferedImage();
+			image = (Image) bufImage;
 			p1.setIcon(new ImageIcon(image));
 
 			bufImage = Thumbnails.of(selectedPath).scale(scale).asBufferedImage();
-			image = (Image)bufImage;
+			image = (Image) bufImage;
 			p1.setSelectedIcon(new ImageIcon(image));
-        } catch (IOException e){
-            System.out.println(e);
+		} catch (IOException e) {
+			System.out.println(e);
 		}
-		
+
 		p2 = new JRadioButton("二號小偷", false);
 		p2.setFont(font);
 
-		try{
-            bufImage = Thumbnails.of(selectPath).scale(scale).asBufferedImage();
-			image = (Image)bufImage;
+		try {
+			bufImage = Thumbnails.of(selectPath).scale(scale).asBufferedImage();
+			image = (Image) bufImage;
 			p2.setIcon(new ImageIcon(image));
 
 			bufImage = Thumbnails.of(selectedPath).scale(scale).asBufferedImage();
-			image = (Image)bufImage;
+			image = (Image) bufImage;
 			p2.setSelectedIcon(new ImageIcon(image));
-        } catch (IOException e){
-            System.out.println(e);
+		} catch (IOException e) {
+			System.out.println(e);
 		}
 
 		p3 = new JRadioButton("三號小偷", false);
 		p3.setFont(font);
 
-		try{
-            bufImage = Thumbnails.of(selectPath).scale(scale).asBufferedImage();
-			image = (Image)bufImage;
+		try {
+			bufImage = Thumbnails.of(selectPath).scale(scale).asBufferedImage();
+			image = (Image) bufImage;
 			p3.setIcon(new ImageIcon(image));
 
 			bufImage = Thumbnails.of(selectedPath).scale(scale).asBufferedImage();
-			image = (Image)bufImage;
+			image = (Image) bufImage;
 			p3.setSelectedIcon(new ImageIcon(image));
-        } catch (IOException e){
-            System.out.println(e);
+		} catch (IOException e) {
+			System.out.println(e);
 		}
 
 		character = new ButtonGroup();
@@ -227,42 +227,41 @@ public class MainMenuFrame extends JFrame implements ActionListener{
 		levelPanel = new JPanel(new GridLayout(5, 2));
 		level = new ButtonGroup();
 
-		String labelText = "選擇關卡：(目前解鎖進度:第"+progress+"關)";
-		if(progress == levelCount + 1){
+		String labelText = "選擇關卡：(目前解鎖進度:第" + progress + "關)";
+		if (progress == levelCount + 1) {
 			labelText = "選擇關卡：(目前解鎖進度：全破)";
 		}
 		JLabel label2 = new JLabel(labelText);
 		label2.setFont(font);
 
-
 		levels = new ArrayList<JRadioButton>();
 		for (int i = 1; i <= 6; i++) {
-			JRadioButton l1 = new JRadioButton("Level "+i, true);
+			JRadioButton l1 = new JRadioButton("Level " + i, true);
 			l1.setFont(font);
-			try{
+			try {
 				bufImage = Thumbnails.of(selectPath).scale(scale).asBufferedImage();
-				image = (Image)bufImage;
+				image = (Image) bufImage;
 				l1.setIcon(new ImageIcon(image));
-	
+
 				bufImage = Thumbnails.of(selectedPath).scale(scale).asBufferedImage();
-				image = (Image)bufImage;
+				image = (Image) bufImage;
 				l1.setSelectedIcon(new ImageIcon(image));
-			} catch (IOException e){
+			} catch (IOException e) {
 				System.out.println(e);
 			}
-			if(i > progress) l1.setEnabled(false);
+			if (i > progress)
+				l1.setEnabled(false);
 			level.add(l1);
 			levels.add(l1);
 		}
 
-		try{
-            bufImage = Thumbnails.of(gameStartPath).scale(scale).asBufferedImage();
-			image = (Image)bufImage;
-        } catch (IOException e){
-            System.out.println(e);
+		try {
+			bufImage = Thumbnails.of(gameStartPath).scale(scale).asBufferedImage();
+			image = (Image) bufImage;
+		} catch (IOException e) {
+			System.out.println(e);
 		}
 		launchBtn = new JButton(new ImageIcon(image));
-		launchBtn.setFont(font);
 		launchBtn.addActionListener(this);
 
 		back = new JButton("back to menu");
@@ -279,14 +278,13 @@ public class MainMenuFrame extends JFrame implements ActionListener{
 		levelPanel.setVisible(false);
 
 		/* exit */
-		try{
-            bufImage = Thumbnails.of(exitPath).scale(scale).asBufferedImage();
-			image = (Image)bufImage;
-        } catch (IOException e){
-            System.out.println(e);
+		try {
+			bufImage = Thumbnails.of(exitPath).scale(scale).asBufferedImage();
+			image = (Image) bufImage;
+		} catch (IOException e) {
+			System.out.println(e);
 		}
 		exitBtn = new JButton(new ImageIcon(image));
-		exitBtn.setFont(font);
 		exitBtn.addActionListener(this);
 		bottomPanel.add(exitBtn);
 	}
@@ -295,22 +293,22 @@ public class MainMenuFrame extends JFrame implements ActionListener{
 		music.close();
 		EventQueue.invokeLater(() -> {
 			Sokoban game = new Sokoban(characterChosen, levelChosen);
-			
 		});
-		
 	}
-	
-	public void updateProgress(){
+
+	public void updateProgress() {
 		reader = new SavesReader("saves.txt");
 		reader.openFile();
 		progress = reader.readSaves();
 		for (int i = 0; i < 6; i++) {
-				
-			if(i < progress) levels.get(i).setEnabled(true);
-		
+
+			if (i < progress)
+				levels.get(i).setEnabled(true);
+
 		}
 		repaint();
 	}
+
 	// handle button events
 	@Override
 	public void actionPerformed(ActionEvent event) {
@@ -333,7 +331,7 @@ public class MainMenuFrame extends JFrame implements ActionListener{
 		} else { // launch
 			if (p1.isSelected())
 				characterChosen = playerSkinOne;
-			else if(p2.isSelected())
+			else if (p2.isSelected())
 				characterChosen = playerSkinTwo;
 			else
 				characterChosen = playerSkinThree;

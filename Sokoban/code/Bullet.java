@@ -1,15 +1,5 @@
 package java2020.finalProject;
 
-import java.awt.Image;
-import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
-
-import javax.swing.ImageIcon;
-
-import net.coobird.thumbnailator.Thumbnails;
-import net.coobird.thumbnailator.geometry.Positions;
-
 import java.awt.Dimension;
 
 public class Bullet extends Actor {
@@ -30,34 +20,12 @@ public class Bullet extends Actor {
 	public Bullet(int x, int y, int initDir) {
 		super(x, y);
 		dir = initDir;
-		initBullet();
 	}
 
 	@Override
     public String getActorName(){
         return "Bullet";
     }
-
-	private void initBullet() {
-
-		File f = new File("");
-        String path = f.getAbsolutePath();
-		
-		if(!path.contains("code"))
-			path = "pic/bullet.png";
-		else
-			path = path.replaceAll("code", "pic/bullet.png");
-	
-
-		BufferedImage image;
-		try{
-			image = Thumbnails.of(path).scale(scale).asBufferedImage();
-			setImage(image);
-		} catch (IOException e){
-			System.out.println(e);
-		}
-		
-	}
 
 	public void updateXY() {
 		int dx;

@@ -7,11 +7,6 @@ import java.io.FileNotFoundException;
 
 import javazoom.jl.decoder.JavaLayerException;
 import javazoom.jl.player.advanced.AdvancedPlayer;
-// import javazoom.jl.player.Player;
-/* References:
-	http://www.javazoom.net/javalayer/sources.html
-	https://introcs.cs.princeton.edu/java/15inout/BackgroundMP3.java
-*/
 
 public class BackgroundMP3Player {
 
@@ -61,6 +56,9 @@ public class BackgroundMP3Player {
 				break;
 			case 5:
 				path += "TragedyFlame.mp3";
+				break;
+			case 6:
+				// path += ????????;
 				break;
 			case 99: // gameover thanks music
 				//path += "?????????";

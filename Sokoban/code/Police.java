@@ -1,18 +1,7 @@
 package java2020.finalProject;
 
 import java.awt.Image;
-import java.io.File;
 import java.security.SecureRandom;
-import java.sql.Time;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.Random;
-import javax.swing.ImageIcon;
-
-import java.io.IOException;
-import java.awt.image.BufferedImage;
-import net.coobird.thumbnailator.Thumbnails;
-import net.coobird.thumbnailator.geometry.Positions;
 
 import java.awt.Dimension;
 
@@ -27,7 +16,6 @@ public class Police extends Actor {
     private int SPACE = 40;
     private int step = 0;
     private int behaveMode = 1;
-    private int currentlyFacing = DOWN;
 
     private Dimension dimension = java.awt.Toolkit.getDefaultToolkit().getScreenSize();
     private final double baseWidth = 1536.0;
@@ -84,73 +72,11 @@ public class Police extends Actor {
         return y();
     }
 
+    public void getFourDirectionImage(Image[] images){
+        fourDirection = images;
+    }
+
     private void initPolice() {
-
-        File f = new File("");
-        String path = f.getAbsolutePath();
-        String temp = path;
-        
-        if(!path.contains("code")){
-            temp = "pic/character/policeLeft.png";
-        }
-        else{
-            temp = path.replaceAll("code", "pic/character/policeLeft.png");
-        }
-            
-        BufferedImage image;
-        try{
-            image = Thumbnails.of(temp).scale(scale).asBufferedImage();
-            setImage(image);
-            fourDirection[0] = image;
-        } catch (IOException e){
-            System.out.println(e);
-        }
-        temp = path;
-
-        if(!path.contains("code")){
-            temp = "pic/character/policeRight.png";
-        }
-        else{
-            temp = path.replaceAll("code", "pic/character/policeRight.png");
-        }
-            
-        try{
-            image = Thumbnails.of(temp).scale(scale).asBufferedImage();
-            fourDirection[1] = image;
-        } catch (IOException e){
-            System.out.println(e);
-        }
-        temp = path;
-
-        if(!path.contains("code")){
-            temp = "pic/character/policeUp.png";
-        }
-        else{
-            temp = path.replaceAll("code", "pic/character/policeUp.png");
-        }
-            
-        try{
-            image = Thumbnails.of(temp).scale(scale).asBufferedImage();
-            fourDirection[2] = image;
-        } catch (IOException e){
-            System.out.println(e);
-        }
-        temp = path;
-
-        if(!path.contains("code")){
-            temp = "pic/character/policeDown.png";
-        }
-        else{
-            temp = path.replaceAll("code", "pic/character/policeDown.png");
-        }
-            
-        try{
-            image = Thumbnails.of(temp).scale(scale).asBufferedImage();
-            fourDirection[3] = image;
-        } catch (IOException e){
-            System.out.println(e);
-        }
-
         setBehavior(random.nextInt(4) + 1);
     }
 
