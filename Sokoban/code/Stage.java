@@ -1205,7 +1205,7 @@ public class Stage extends JPanel {
 			Achived += 1;
 			stealer.setAmmo(stealer.getAmmo() + 2);
 		}
-		if (finishedBags == nOfBags) {
+		if (finishedBags == goals.size()) {
 
 			try {
 				Thread.sleep(50);
