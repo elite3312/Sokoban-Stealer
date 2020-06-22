@@ -2,7 +2,9 @@ package java2020.finalProject;
 
 import java.util.ArrayList;
 import java.util.List;
-
+import java.io.FileNotFoundException;
+import java.awt.event.WindowStateListener;
+import javazoom.jl.decoder.JavaLayerException;
 import java.io.File;
 import java.io.IOException;
 
@@ -13,6 +15,8 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.EventQueue;
 import java.awt.event.ActionListener;
+
+
 import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.Color;
@@ -31,7 +35,7 @@ import javax.swing.border.Border;
 import javax.swing.JTextArea;
 import javax.swing.JButton;
 
-public class MainMenuFrame extends JFrame implements ActionListener {
+public class MainMenuFrame extends JFrame implements ActionListener{
 
 	private JPanel topPanel;
 	private JPanel picPanel;
@@ -60,9 +64,18 @@ public class MainMenuFrame extends JFrame implements ActionListener {
 	private JButton back;
 	private SavesReader reader;
 	private int progress;
-
+	private BackgroundMP3Player music;
 	public MainMenuFrame() {
 		super("Sokoban Stealer");
+		
+		try {
+			music = new BackgroundMP3Player();
+			music.setSong(0);
+			music.circularPlay();
+			
+		} catch (FileNotFoundException | JavaLayerException e) {
+			System.out.printf("music err");
+		}
 
 		reader = new SavesReader("saves.txt");
 		reader.openFile();
@@ -196,14 +209,15 @@ public class MainMenuFrame extends JFrame implements ActionListener {
 	}
 
 	public void launch() {
-
+		music.close();
 		EventQueue.invokeLater(() -> {
 			Sokoban game = new Sokoban(characterChosen, levelChosen);
-			updateProgress();
+			
 		});
-
-		// music.close();
+		
+		
 	}
+	
 	public void updateProgress(){
 		reader = new SavesReader("saves.txt");
 		reader.openFile();

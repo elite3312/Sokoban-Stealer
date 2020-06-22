@@ -43,20 +43,24 @@ public class BackgroundMP3Player {
 			path = path.replaceAll("code", "BGM/");
 			
 		switch (songSeq) {
+			case 0:path += "RepeatedTragedy.mp3";
+				break;
 			case 1:
 				path += "Beyond_My_Beloved_Horizon.mp3";
 				break;
 			case 2:
+				
 				path += "Spika.mp3";
 				break;
 			case 3:
+				
 				path += "AlanWalkerSpectre.mp3";
 				break;
 			case 4:
-				//path += "?????????";
+				path += "AllOrNothing.mp3";
 				break;
 			case 5:
-				//path += "?????????";
+				path += "TragedyFlame.mp3";
 				break;
 			case 99: // gameover thanks music
 				//path += "?????????";

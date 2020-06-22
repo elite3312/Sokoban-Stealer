@@ -25,7 +25,7 @@ public class Sokoban extends JFrame {
 	private int player;
 	private int level;
 	private SavesWriter writer;
-
+	private SavesReader reader;
 	private JPanel panel;
 
 	public Sokoban(int player, int level) {
@@ -34,6 +34,8 @@ public class Sokoban extends JFrame {
 		this.player = player;
 		this.level = level;
 		writer = new SavesWriter("saves.txt");
+		reader = new SavesReader("saves.txt");
+		
 		initUI();
 	}
 
@@ -69,10 +71,14 @@ public class Sokoban extends JFrame {
 
 				if(stage.goNextStage()) {
 					music.close();
-					writer.openFile();
-					writer.upDate(level+1); //next level becomes available
-					SavesWriter.closeFile();
-
+					
+					reader.openFile();
+					if(reader.readSaves()==level){
+						writer.openFile();
+						writer.upDate(level+1); //next level becomes available
+						SavesWriter.closeFile();
+					}
+					reader.closeFile();
 					if(level < 6)
 						level++;
 					else if(level == 6){
@@ -94,30 +100,23 @@ public class Sokoban extends JFrame {
 		timer.schedule(refresh, 0, 30);
 	}
 
-	private void gameOverThanks(){
+	private void gameOverThanks() {
 
 		music.setSong(99);
 
 		setLayout(new FlowLayout());
 		panel = new JPanel(new BorderLayout());
 
-		String specialThanks = 	"製作人員:\n"+
-								"吳永璿\n沈彥昭\n李佳勳\n\n\n"+
-								"Musics:\n"+
-								"Spectre - AlanWalker\n"+
-								"Beyond My Beloved Horizon - Pirates of the Caribbean\n"+
-								"SPÏKA 「Rigël Theatre」 - Remilia Scarlet\n\n\n"+
-								"Speical Thanks:\n"+
-								"馬尚彬 教授\n\n\n";
-		
+		String specialThanks = "製作人員:\n" + "吳永璿\n沈彥昭\n李佳勳\n\n\n" + "Musics:\n" + "Spectre - AlanWalker\n"
+				+ "Beyond My Beloved Horizon - Pirates of the Caribbean\n"
+				+ "SPÏKA 「Rigël Theatre」 - Remilia Scarlet\n\n\n" + "Special Thanks:\n" + "馬尚彬 教授\n\n\n";
 
 		Font font = new Font("defalut", Font.PLAIN, 22);
 		JTextArea texts = new JTextArea(specialThanks);
-		
 		texts.setOpaque(false);
 		texts.setFont(font);
 		texts.setEditable(false);
-		
+
 		panel.add(BorderLayout.CENTER, texts);
 		add(BorderLayout.CENTER, panel);
 

@@ -1121,7 +1121,7 @@ public class Stage extends JPanel {
 		for (int i = 0; i < nOfBags; i++) {
 			Treasure bag = money.get(i);
 
-			for (int j = 0; j < nOfBags; j++) {
+			for (int j = 0; j < goals.size(); j++) {
 				Goal area = goals.get(j);
 				if (bag.x() == area.x() && bag.y() == area.y()) {
 					finishedBags += 1;
