@@ -55,21 +55,21 @@ public class BackgroundMP3Player {
 			case 4:
 				path += "AllOrNothing.mp3";
 				break;
-			case 5:
-				path += "minotaur_boss_theme.mp3";
-				break;
-			case 6:
-				path += "Spika.mp3";
-				break;
+			//case 5:
+			//	path += "???????.mp3";
+			//	break;
+			//case 6:
+			//	path += "???????.mp3";
+			//	break;
 			//case 7:
 			//	path += "???????.mp3";
 			//	break;
-			//case 8:
-			//	path += "???????.mp3";
-			//	break;
-			//case 9:
-			//	path += "???????.mp3";
-			//	break;
+			case 8:
+				path += "minotaur_boss_theme.mp3";
+				break;
+			case 9:
+				path += "Spika.mp3";
+				break;
 			case 99: // gameover thanks music
 				path += "APageOfMyStory.mp3";
 				break;
