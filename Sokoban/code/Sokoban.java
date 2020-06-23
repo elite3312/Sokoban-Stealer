@@ -91,16 +91,7 @@ public class Sokoban extends JFrame {
 					}
 					reader.closeFile();
 
-					if(level<=LevelCount)
-						level++;
-
-						if(level == LevelCount + 1) // game fully completed
-						{
-							music.setSong(99);
-							music.play();
-							
-						}
-					else if(level<=LevelCount){
+					if(level<=LevelCount){
 						
 							music.setSong(level);
 							music.circularPlay();
@@ -109,15 +100,15 @@ public class Sokoban extends JFrame {
 					
 				}
 				if(stage.closeAct()){
-					music.close();
 					Sokoban.this.dispose();
+					music.close();
 					setVisible(false);
 				}
 				
 			}
 		};
 
-		timer.schedule(refresh, 0, 25);
+		timer.schedule(refresh, 0, 30);
 	}
 
 }

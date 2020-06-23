@@ -327,12 +327,15 @@ public class MainMenuFrame extends JFrame implements ActionListener {
 		reader.openFile();
 		progress = reader.readSaves();
 
-		playAnimation.setText("播放結尾動畫(未解鎖)");
-		playAnimation.setEnabled(false);
-
 		String labelText = "選擇關卡：(目前解鎖進度:第" + progress + "關)";
 		if (progress > levelCount) {
 			labelText = "選擇關卡：(目前解鎖進度：全破)";
+			playAnimation.setText("播放結尾動畫");
+			playAnimation.setEnabled(true);
+		}
+		else{
+			playAnimation.setText("播放結尾動畫(未解鎖)");
+			playAnimation.setEnabled(false);
 		}
 		label2.setText(labelText);
 
@@ -364,6 +367,7 @@ public class MainMenuFrame extends JFrame implements ActionListener {
 		} else if (event.getSource() == back) {
 			MainMenuFrame.this.remove(levelPanel);
 			MainMenuFrame.this.add(bottomPanel);
+			updateProgress();
 			repaint();
 
 		} else if (event.getSource() == playAnimation){

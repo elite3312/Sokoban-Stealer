@@ -45,6 +45,7 @@ public class Stage extends JPanel {
 	private final int playerSkinTwo = 2;
 	private final int playerSkinThree = 3;
 	private final int LevelCount = 9;
+
 	private BackgroundMP3Player sounds;
 
 	// int variable
@@ -90,6 +91,7 @@ public class Stage extends JPanel {
 	private boolean gamePause = false;
 	private boolean nextStage = false;
 	private boolean closeSignal = false;
+	private boolean ending = false;
 
 	private Graphics graphic; // for the global using
 	private Image arrowImage = new ImageIcon().getImage();
@@ -159,6 +161,7 @@ public class Stage extends JPanel {
 		penetrateNotUsed = true; // penetrate init
 		collisionIgnore = false; // penetrate init
 		nextStage = false;
+		ending = false;
 		bufferedFrames = 0;
 		pauseSelect = 1;
 		lossBuffer = 0;
@@ -254,6 +257,7 @@ public class Stage extends JPanel {
 
 		if(selection == LevelCount + 1){ // all completed
 			nextStage = true;
+			ending = true;
 			endAnimate.ending(g);
 			if(endAnimate.over())
 				closeSignal = true;
@@ -708,7 +712,7 @@ public class Stage extends JPanel {
 		@Override
 		public void keyPressed(KeyEvent e) {
 
-			if (lost || isCompletedBool || restarted || nextStage) {
+			if (lost || isCompletedBool || restarted || ending) {
 				return;
 			}
 

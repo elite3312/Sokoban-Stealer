@@ -44,12 +44,12 @@ public class EndingAnimation {
 
         scale = dimension.getWidth() / baseWidth;
 
-        font = new Font("Microsoft JhengHei", Font.PLAIN, (int) (26 * scale));
-        titleFont = new Font("Microsoft JhengHei", Font.BOLD, (int) (52 * scale));
-        finalFont = new Font("Microsoft JhengHei", Font.BOLD, (int) (68 * scale));
+        font = new Font("Microsoft JhengHei", Font.PLAIN, (int) (27 * scale));
+        titleFont = new Font("Microsoft JhengHei", Font.BOLD, (int) (55 * scale));
+        finalFont = new Font("Microsoft JhengHei", Font.BOLD, (int) (70 * scale));
 
         x = (int)dimension.getWidth();
-        y = (int)dimension.getHeight() + 55;
+        y = (int)dimension.getHeight() + 160;
         finalY = y;
 
         R2 = R = 230;
@@ -76,35 +76,47 @@ public class EndingAnimation {
             "",
             "吳永璿",
             "沈彥昭",
+            "李佳勳", // 5
+            "",
+            "",
+            "",
+            "",
+            "", // 10
+            "",
+            "- Produced By -", // 12
+            "",
+            "",
+            "吳永璿", // 15
+            "沈彥昭",
             "李佳勳",
             "",
             "",
+            "", // 20
             "",
             "",
             "",
             "",
-            "",
-            "- Musics -", // 13
+            "- Musics -", // 25
             "",
             "",
             "Spectre    -    AlanWalker",
             "Repeated Tragedy    -    Raiden II",
-            "Minotaur Boss Theme    -    Toram online",
+            "Minotaur Boss Theme    -    Toram online", // 30
             "A Page Of My Story    -    Princess Pricipal",
             "SPÏKA 「Rigël Theatre」   -    Remilia Scarlet",
             "Beyond My Beloved Horizon    -    Pirates of the Caribbean",
             "preset 1",
-            "preset 2",
+            "preset 2", // 35
             "preset 3",
             "",
             "",
             "",
+            "", // 40
             "",
             "",
             "",
-            "",
-            "- Pictures -", // 32
-            "",
+            "- Pictures -", // 44
+            "", // 45
             "",
             "Player    -    Craftpix.net",
             "Police    -    Craftpix.net",
@@ -126,7 +138,15 @@ public class EndingAnimation {
             "",
             "",
             "",
-            "- Special Thanks -", // 55
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "- Special Thanks -", // 75
             "",
             "",
             "jiPlayer    -    JavaZOOM",
@@ -151,13 +171,15 @@ public class EndingAnimation {
             "",
             "",
             "",
-            "- Special Thanks -", // 80
+            "",
+            "- Special Thanks -", // 101
             "",
             "",
             "陳俊佑 助教",
             "游婉琳 助教",
             "",
             "馬尚彬 教授",
+            "",
             "",
             "",
             "",
@@ -186,8 +208,8 @@ public class EndingAnimation {
             musicPlayed = true;
         }
         
-        try{
-            Thread.sleep(9);
+        try{ // needed
+            Thread.sleep(8);
         } catch (InterruptedException e) {
             System.out.println(e);
         }
@@ -202,7 +224,7 @@ public class EndingAnimation {
             if(tempY < -Line || tempY > finalY + Line) // if not in screen, skip
                 continue;
 
-            if(index == 0 || index == 13 || index == 32 || index == 55 || index == 80){
+            if(index == 0 || index == 12 || index == 25 || index == 44 || index == 75 || index == 101){
                 g.setFont(titleFont);
                 metrics = g.getFontMetrics(titleFont);     
                 strWidth = metrics.stringWidth(text);
@@ -223,7 +245,7 @@ public class EndingAnimation {
 
         }
 
-        if(y + Line * texts.length > (int)dimension.getHeight() / 2)
+        if(y + Line * texts.length > (int)dimension.getHeight() / 2) // the last line disappear from screen
             y -= 1;
         else{
             if(!fadeInOver)
@@ -316,7 +338,7 @@ public class EndingAnimation {
     }
 
     public boolean over(){
-        if(allOver > 10){
+        if(allOver > 25){
             music.close();
             return true;
         }
