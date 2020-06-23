@@ -381,11 +381,6 @@ public class Stage extends JPanel {
 					isCompletedBool = false;
 					nextStage = true;
 					selection++;
-					try {
-						Thread.sleep(50);
-					} catch (InterruptedException e) {
-						e.printStackTrace(); 
-					}
 					initWorld();
 				}
 			}
