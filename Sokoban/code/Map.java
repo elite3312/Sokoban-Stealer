@@ -12,14 +12,14 @@ public class Map {
      % : goal with treasure
      *************************************************************/
 
-    private String level_1 = 
+    private String map1 = 
         "HHHHHHHHHHHHHHHHHHHHHHHHHH\n" + 
         "H########################H\n" + 
         "H#.########  !     $.####H\n" + 
-        "H#$########$  ###### ####H\n" + 
-        "H#   !#####  $######!####H\n" + 
+        "H# ########$  ###### ####H\n" + 
+        "H#!   #####  $######!####H\n" + 
         "H# ######  $ $ ##### ####H\n" + 
-        "H# ###### # ## ##### ####H\n" + 
+        "H#$###### # ## ##### ####H\n" + 
         "H# ####   # ## #####  ..#H\n" + 
         "H# ####    $      $   ..#H\n" + 
         "H# ########!### #@##  ..#H\n" + 
@@ -27,22 +27,15 @@ public class Map {
         "H########################H\n" + 
 		"HHHHHHHHHHHHHHHHHHHHHHHHHH\n" ;
 		
+
 	private String t = 
-        "HHHHHHHHHHHHHHHHHHHHHHHHHH\n" + 
-        "H########################H\n" + 
-        "H# ########  !     $ ####H\n" + 
-        "H#$########$  ###### ####H\n" + 
-        "H#   !#####  $######!####H\n" + 
-        "H# ######  $ $ ##### ####H\n" + 
-        "H# ###### # ## ##### ####H\n" + 
-        "H# ####   # ## #####    #H\n" + 
-        "H# ####    $  .$  $     #H\n" + 
-        "H# ########!### #@##    #H\n" + 
-        "H#              #### ####H\n" + 
-        "H########################H\n" + 
-        "HHHHHHHHHHHHHHHHHHHHHHHHHH\n" ;
+		"HHHHH\n" + 
+		"H@$.H\n" +
+		"HHHHH\n";
+
+
 	/*
-    private String level_2 =
+    private String map2 =
 		"HHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHH\n" +
 		"HHHH############################HHHHH\n" +
 		"HHHH##          !      .......  #HHHH\n" +
@@ -58,7 +51,8 @@ public class Map {
 		"HHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHH\n";
 	*/
 
-    private String level_3 =
+
+    private String map3 =
 		"HHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHH\n" +
 		"H##################################H\n" +
 		"H#####           !     .......... #H\n" +
@@ -76,7 +70,7 @@ public class Map {
 		"HHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHH\n";
 
 
-    private String level_4 = 
+    private String map4 = 
 		"HHHHHHHHHHHHHHHHHHHHH \n" +
 		"H          !#!      H \n" +
 		"H $   ##########    H \n" +
@@ -94,7 +88,7 @@ public class Map {
 		"HHHHHHHHHHHHHHHHHHHHH \n";
 
 	
-	private String level_5 =
+	private String map5 =
 		"HHHHHHHHHHHHHHHHHHHHHHHH\n" +
 		"H###...HHHHHHHH  ######H\n" + 
 		"H###.       $ H $    .HH\n" + 
@@ -114,7 +108,7 @@ public class Map {
 		"HHHHHHHHHHHHHHHHHHHHHHHH\n";
 
 
-	private String level_6 =  // author : YC SHEN
+	private String map6 =  // author : YC SHEN
 	"HHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHH\n" +
 	"H@     ##   #      #    # # # #     H\n" +
 	"H# $# #  !     ##    ##         ### H\n" +
@@ -131,7 +125,7 @@ public class Map {
 
 
 	/* surpass the screen size
-	private String level_7 = 
+	private String map7 = 
 	"             HHHHHH      \n" +
 	"             H   HHHHH   \n" +
 	"         HHHHH # #   H   \n" +
@@ -152,9 +146,8 @@ public class Map {
 	" HH  ###  HH             \n" +
 	"  HHHHHHHHH              \n";
 	*/
-
 	
-	private String level_8 = 
+	private String map8 = 
 	"HHHHHHHHHHHHHHHHHHHHHHH\n" +
 	"H.... #@###    # !   %H\n" +
 	"H....        #$$  #   H\n" +
@@ -173,21 +166,70 @@ public class Map {
 	"HHHHHHHHHHHHHHHHHHHHHHH\n";
 
 
-	private String level_9 = 
-	"";
+	private String map9 = 
+	"HHHHHHHHHHHHHHHHHHHHHHHHH\n" +
+	"H! #####! ##  !        !H\n" +
+	"H      #  #      ###### H\n" +
+	"H    ! #  # $#  $     ! H\n" +
+	"H .#.# # ## @#   # #### H\n" +
+	"H . .    #  $# ##     ! H\n" +
+	"H .#.# # # $    #  #### H\n" +
+	"H . . $  ##  ##       ! H\n" +
+	"H .#.# #  #   ## $ #### H\n" +
+	"H    $  $             $.H\n" +
+	"H  ##!   ######  $   .# H\n" +
+	"H! #######    #      ## H\n" +
+	"H $    #    #  $    ### H\n" +
+	"H    !      ##   !     !H\n" +
+	"HHHHHHHHHHHHHHHHHHHHHHHHH\n";
+
+
+	private String map10 = 
+	"HHHHHHHHHHHHHHHHHHHHHHH\n" +
+	"H!     !      !     !#H\n" +
+	"H  ###   #    #   ...#H\n" +
+	"H  # $ # # ##$   .....H\n" +
+	"H  #  $  #  $    .....H\n" +
+	"H ## # # # !#!   .....H\n" +
+	"H #  # # $  $ #       H\n" +
+	"H  !## ## $## #     #!H\n" +
+	"H #   $  $ #    $   ##H\n" +
+	"H #$ ####  # ### ##   H\n" +
+	"H !   $   $      $ $  H\n" +
+	"H ######## $##$    $  H\n" +
+	"H  $  ! .##      ##   H\n" +
+	"H##########  !   #   @H\n" +
+	"HHHHHHHHHHHHHHHHHHHHHHH\n";
+
+
+	private String map11 = 
+	"HHHHHHHHHHHHHHHHHHHHHHHHH\n" +
+	"H #####! #  ####.$!!!! .H\n" +
+	"H !#!   $   # ! #!!!  !$H\n" +
+	"H  #  ## ## $$# #### !# H\n" +
+	"H ### ##  # #    !  ### H\n" +
+	"H    $  $  $#$ #### ### H\n" +
+	"H !   #  ## #    ... ## H\n" +
+	"H ## ### # @    #... ## H\n" +
+	"H    $  $  ###  #... ## H\n" +
+	"H  !  #    #          ! H\n" +
+	"H  ## #  #    ###     ##H\n"+
+	"H!     !   #   !   #  ! H\n"+
+	"HHHHHHHHHHHHHHHHHHHHHHHHH\n";
+
 
    
     public String getMap(int selection){
         switch (selection){
-        	case 1 : return this.t;//1
-        	case 2 : return this.t;//4
-			case 3 : return this.level_3; // may change here
-			case 4 : return this.level_8;
-			case 5 : return this.level_5;
-			case 6 : return this.level_6;
-			case 7 : return this.t;
-			case 8 : return this.t;
-			case 9 : return this.t;
+        	case 1 : return this.map1; //1
+        	case 2 : return this.map4; //4
+			case 3 : return this.map3; // may change here
+			case 4 : return this.map9;
+			case 5 : return this.map11;
+			case 6 : return this.map10;
+			case 7 : return this.map8;
+			case 8 : return this.map5;
+			case 9 : return this.map6;
 			case 10: return ""; // game end, save the time
         	default : return this.t;
         }

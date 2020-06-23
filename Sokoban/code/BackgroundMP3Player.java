@@ -61,6 +61,15 @@ public class BackgroundMP3Player {
 			case 6:
 				path += "Spika.mp3";
 				break;
+			//case 7:
+			//	path += "???????.mp3";
+			//	break;
+			//case 8:
+			//	path += "???????.mp3";
+			//	break;
+			//case 9:
+			//	path += "???????.mp3";
+			//	break;
 			case 99: // gameover thanks music
 				path += "APageOfMyStory.mp3";
 				break;
