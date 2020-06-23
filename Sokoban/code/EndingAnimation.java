@@ -15,8 +15,9 @@ public class EndingAnimation {
 
     private FontMetrics metrics;
 
-    private final int Line = 30;
+    private final int Line = 40;
     private int x, y;
+    private final int finalY;
 
     private String[] texts;
 
@@ -33,11 +34,12 @@ public class EndingAnimation {
     public EndingAnimation(){
         scale = dimension.getWidth() / baseWidth;
         font = new Font("Microsoft JhengHei", Font.PLAIN, (int) (22 * scale));
-        titleFont = new Font("Microsoft JhengHei", Font.BOLD, (int) (30 * scale));
+        titleFont = new Font("Microsoft JhengHei", Font.BOLD, (int) (40 * scale));
         finalFont = new Font("Microsoft JhengHei", Font.BOLD, (int) (64 * scale));
 
         x = (int)dimension.getWidth();
         y = (int)dimension.getHeight();
+        finalY = y;
 
         System.out.println(y);
 
@@ -164,7 +166,7 @@ public class EndingAnimation {
         }
 
         g.setColor(color);
-        g.drawString(finalWords, x / 2 - finalWordsLen / 2, 432);
+        g.drawString(finalWords, x / 2 - finalWordsLen / 2, finalY / 2);
  
     }
 
@@ -184,7 +186,7 @@ public class EndingAnimation {
             allOver++;
 
         color = new Color(R, G, B);
-        g.drawString(finalWords, x / 2 - finalWordsLen / 2, 432);
+        g.drawString(finalWords, x / 2 - finalWordsLen / 2, finalY / 2);
     }
 
     public boolean over(){

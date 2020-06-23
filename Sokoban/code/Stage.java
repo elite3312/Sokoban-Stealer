@@ -11,6 +11,7 @@ import java.awt.event.KeyEvent;
 import java.awt.Font;
 import java.awt.Color;
 import java.awt.Image;
+import java.awt.FontMetrics;
 
 import java.beans.beancontext.BeanContextEvent;
 
@@ -94,6 +95,7 @@ public class Stage extends JPanel {
 
 	private Graphics graphic; // for the global using
 	private Image arrowImage = new ImageIcon().getImage();
+	private FontMetrics metrics;
 
 	private ImageManager imageManager = new ImageManager();
 	private CheatManager cheater = new CheatManager();
@@ -284,9 +286,14 @@ public class Stage extends JPanel {
 				stateNow = "Loading.....";
 			}
 
+			Font font = new Font("Microsoft JhengHei", Font.BOLD, (int)(64 * scale));
+			metrics = g.getFontMetrics(font);
+			int strWidth = metrics.stringWidth(stateNow);
+
 			g.setColor(new Color(0, 0, 0));
-			g.setFont(new Font("Microsoft JhengHei", Font.BOLD, (int)(64 * scale)));
-			g.drawString(stateNow, this.width / 2 - 170, this.height / 2);
+			g.setFont(font);
+
+			g.drawString(stateNow, this.width / 2 - strWidth / 2, this.height / 2);
 			
 			if(time - restartTime < 1200){
 				return;
@@ -301,9 +308,15 @@ public class Stage extends JPanel {
 				
 				Long time = new Date().getTime();
 
+				String infoShow = "關卡失敗 !!!";
+
+				Font font = new Font("Microsoft JhengHei", Font.BOLD, (int)(64 * scale));
+				metrics = g.getFontMetrics(font);
+				int strWidth = metrics.stringWidth(infoShow);
+
 				g.setColor(new Color(0, 0, 0));
-				g.setFont(new Font("Microsoft JhengHei", Font.BOLD, (int)(64 * scale)));
-				g.drawString("關卡失敗 !!!", this.width / 2 - 180, this.height / 2);
+				g.setFont(font);
+				g.drawString(infoShow, this.width / 2 - strWidth / 2, this.height / 2);
 
 				if(time - lossTime < 1000){
 					return;
@@ -321,9 +334,15 @@ public class Stage extends JPanel {
 				Long time = new Date().getTime();
 
 				if(time - wonTime < 1000){
+
+					String infoShow = "關卡勝利 !!!";
+					Font font = new Font("Microsoft JhengHei", Font.BOLD, (int)(64 * scale));
+					metrics = g.getFontMetrics(font);
+					int strWidth = metrics.stringWidth(infoShow);
+
 					g.setColor(new Color(0, 0, 0));
-					g.setFont(new Font("Microsoft JhengHei", Font.BOLD, (int)(64 * scale)));
-					g.drawString("關卡勝利 !!!", this.width / 2 - 180, this.height / 2);
+					g.setFont(font);
+					g.drawString(infoShow, this.width / 2 - strWidth / 2, this.height / 2);
 					return;
 				}
 				else if(time - wonTime > 1000 && time - wonTime < 2200){
@@ -347,10 +366,14 @@ public class Stage extends JPanel {
 					else if(time - wonTime >= 2000 &&time - wonTime < 2200){
 						stateNow += "Loading.....";
 					}
+					
+					Font font = new Font("Microsoft JhengHei", Font.BOLD, (int)(64 * scale));
+					metrics = g.getFontMetrics(font);
+					int strWidth = metrics.stringWidth(stateNow);
 
 					g.setColor(new Color(0, 0, 0));
-					g.setFont(new Font("Microsoft JhengHei", Font.BOLD, (int)(64 * scale)));
-					g.drawString(stateNow, this.width / 2 - 170, this.height / 2);
+					g.setFont(font);
+					g.drawString(stateNow, this.width / 2 - strWidth / 2, this.height / 2);
 
 					return;
 				}
@@ -369,12 +392,23 @@ public class Stage extends JPanel {
 		}
 
 		if(gamePause){
-			g.setColor(Color.BLACK);
-			g.setFont(new Font("Microsoft JhengHei", Font.BOLD, (int)(80 * scale)));
-			g.drawString(String.format("LEVEL %d", selection), this.width / 2 - 130, this.height / 5);
+			String state = String.format("LEVEL %d", selection);
+			String pau = "【 暫停 】";
 
-			g.setFont(new Font("Microsoft JhengHei", Font.PLAIN, (int)(64 * scale)));
-			g.drawString("【 暫停 】", this.width / 2 - 130, this.height / 2 - 70);
+			Font font = new Font("Microsoft JhengHei", Font.BOLD, (int)(80 * scale));
+			metrics = g.getFontMetrics(font);
+			int strWidth = metrics.stringWidth(state);
+
+			g.setColor(Color.BLACK);
+			g.setFont(font);
+			g.drawString(state, this.width / 2 - strWidth / 2, this.height / 5);
+
+			font = new Font("Microsoft JhengHei", Font.PLAIN, (int)(64 * scale));
+			g.setFont(font);
+
+			metrics = g.getFontMetrics(font);
+			strWidth = metrics.stringWidth(pau);
+			g.drawString(pau, this.width / 2 - strWidth / 2, this.height / 2 - 70);
 
 			String choose1, choose2, choose3;
 
@@ -383,37 +417,49 @@ public class Stage extends JPanel {
 			choose3 = "回到主畫面";
 
 			if(pauseSelect == 1){
+				font = new Font("Microsoft JhengHei", Font.PLAIN, (int)(40 * scale));
 				g.setColor(Color.RED);
-				g.setFont(new Font("Microsoft JhengHei", Font.PLAIN, (int)(40 * scale)));
-				g.drawString(">>", this.width / 2 - 125, this.height / 2 + 10);
+				g.setFont(font);
+				choose1 = ">>" + choose1 + "<<";
 			}
 			else{
+				font = new Font("Microsoft JhengHei", Font.PLAIN, (int)(36 * scale));
 				g.setColor(Color.BLACK);
-				g.setFont(new Font("Microsoft JhengHei", Font.PLAIN, (int)(36 * scale)));
+				g.setFont(font);
 			}
-			g.drawString(choose1, this.width / 2 - 65, this.height / 2 + 10);
+			metrics = g.getFontMetrics(font);
+			strWidth = metrics.stringWidth(choose1);
+			g.drawString(choose1, this.width / 2 - strWidth / 2, this.height / 2 + 40);
 
 			if(pauseSelect == 2){
+				font = new Font("Microsoft JhengHei", Font.PLAIN, (int)(40 * scale));
 				g.setColor(Color.RED);
-				g.setFont(new Font("Microsoft JhengHei", Font.PLAIN, (int)(40 * scale)));
-				g.drawString(">>", this.width / 2 - 125, this.height / 2 + 60);
+				g.setFont(font);
+				choose2 = ">>" + choose2 + "<<";
 			}
 			else{
+				font = new Font("Microsoft JhengHei", Font.PLAIN, (int)(36 * scale));
 				g.setColor(Color.BLACK);
-				g.setFont(new Font("Microsoft JhengHei", Font.PLAIN, (int)(36 * scale)));
+				g.setFont(font);
 			}
-			g.drawString(choose2, this.width / 2 - 65, this.height / 2 + 60);
+			metrics = g.getFontMetrics(font);
+			strWidth = metrics.stringWidth(choose2);
+			g.drawString(choose2, this.width / 2 - strWidth / 2, this.height / 2 + 90);
 
 			if(pauseSelect == 3){
+				font = new Font("Microsoft JhengHei", Font.PLAIN, (int)(40 * scale));
 				g.setColor(Color.RED);
-				g.setFont(new Font("Microsoft JhengHei", Font.PLAIN, (int)(40 * scale)));
-				g.drawString(">>", this.width / 2 - 125, this.height / 2 + 110);
+				g.setFont(font);
+				choose3 = ">>" + choose3 + "<<";
 			}
 			else{
+				font = new Font("Microsoft JhengHei", Font.PLAIN, (int)(36 * scale));
 				g.setColor(Color.BLACK);
-				g.setFont(new Font("Microsoft JhengHei", Font.PLAIN, (int)(36 * scale)));
+				g.setFont(font);
 			}
-			g.drawString(choose3, this.width / 2 - 65, this.height / 2 + 110);
+			metrics = g.getFontMetrics(font);
+			strWidth = metrics.stringWidth(choose3);
+			g.drawString(choose3, this.width / 2 - strWidth / 2, this.height / 2 + 140);
 
 			return;
 		}
