@@ -79,14 +79,14 @@ public class Sokoban extends JFrame {
 					music.close();
 					
 					reader.openFile();
+
 					if(reader.readSaves()==level){
 						
 						if(level <= LevelCount){
 							writer.openFile();
 							writer.upDate(level+1); //next level becomes available
-							SavesWriter.closeFile();
+							writer.notStaticCloseFile();
 						}
-						
 						
 					}
 					reader.closeFile();
@@ -117,7 +117,7 @@ public class Sokoban extends JFrame {
 			}
 		};
 
-		timer.schedule(refresh, 0, 30);
+		timer.schedule(refresh, 0, 25);
 	}
 
 }

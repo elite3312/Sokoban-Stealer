@@ -84,6 +84,8 @@ public class MainMenuFrame extends JFrame implements ActionListener {
 	private BufferedImage bufImage;
 	private Image image;
 
+	private JLabel label2;
+
 	public MainMenuFrame() {
 		super("Sokoban Stealer");
 
@@ -236,19 +238,26 @@ public class MainMenuFrame extends JFrame implements ActionListener {
 		levelPanel = new JPanel(new GridLayout(6, 3));
 		level = new ButtonGroup();
 
+		String tempStr = "播放結尾動畫(未解鎖)";
 		if(progress > levelCount){
-			playAnimation = new JButton("播放結尾動畫");
-			playAnimation.addActionListener(this);
-			playAnimation.setFont(btnFont);
-			bottomPanel.add(playAnimation);
+			tempStr = "播放結尾動畫";
 		}
+		playAnimation = new JButton(tempStr);
+		playAnimation.addActionListener(this);
+		playAnimation.setFont(btnFont);
+		bottomPanel.add(playAnimation);
+
+		if(progress > levelCount)
+			playAnimation.setEnabled(true);
+		else
+			playAnimation.setEnabled(false);
 
 		String labelText = "選擇關卡：(目前解鎖進度:第" + progress + "關)";
 		if (progress > levelCount) {
 			labelText = "選擇關卡：(目前解鎖進度：全破)";
 		}
 		
-		JLabel label2 = new JLabel(labelText);
+		label2 = new JLabel(labelText);
 		label2.setFont(font);
 
 		levels = new ArrayList<JRadioButton>();
@@ -318,7 +327,14 @@ public class MainMenuFrame extends JFrame implements ActionListener {
 		reader.openFile();
 		progress = reader.readSaves();
 
+		playAnimation.setText("播放結尾動畫(未解鎖)");
 		playAnimation.setEnabled(false);
+
+		String labelText = "選擇關卡：(目前解鎖進度:第" + progress + "關)";
+		if (progress > levelCount) {
+			labelText = "選擇關卡：(目前解鎖進度：全破)";
+		}
+		label2.setText(labelText);
 
 		for (int i = 0; i < levelCount; i++) {
 			if (i < progress)
@@ -332,11 +348,12 @@ public class MainMenuFrame extends JFrame implements ActionListener {
 	// handle button events
 	@Override
 	public void actionPerformed(ActionEvent event) {
-
+		
 		if (event.getSource() == exitBtn) {
 			setVisible(false); // you can't see me!
 			MainMenuFrame.this.dispose();
 			System.exit(0);
+			
 		} else if (event.getSource() == levelSelect) {
 			MainMenuFrame.this.remove(bottomPanel);
 			MainMenuFrame.this.add(levelPanel);

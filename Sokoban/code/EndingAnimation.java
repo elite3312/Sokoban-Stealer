@@ -19,19 +19,21 @@ public class EndingAnimation {
 
     private FontMetrics metrics;
 
-    private final int Line = 40;
+    private final int Line = 45;
     private int x, y;
     private final int finalY;
 
     private String[] texts;
 
     private Color color;
-    private int R, G, B;
+    private int R, G, B, R2, G2, B2;
 
-    private String finalWords = "Thanks For Playing";
+    private String finalWords = "Sokoban - Stealer";
+    private String finalWords2 = "Thanks For Playing";
     private int finalWordsLen;
 
     private boolean fadeInOver;
+    private boolean fadeInOver2;
     private boolean musicPlayed;
 
     private int allOver;
@@ -42,21 +44,22 @@ public class EndingAnimation {
 
         scale = dimension.getWidth() / baseWidth;
 
-        font = new Font("Microsoft JhengHei", Font.PLAIN, (int) (24 * scale));
-        titleFont = new Font("Microsoft JhengHei", Font.BOLD, (int) (40 * scale));
-        finalFont = new Font("Microsoft JhengHei", Font.BOLD, (int) (64 * scale));
+        font = new Font("Microsoft JhengHei", Font.PLAIN, (int) (26 * scale));
+        titleFont = new Font("Microsoft JhengHei", Font.BOLD, (int) (52 * scale));
+        finalFont = new Font("Microsoft JhengHei", Font.BOLD, (int) (68 * scale));
 
         x = (int)dimension.getWidth();
-        y = (int)dimension.getHeight() + 30;
+        y = (int)dimension.getHeight() + 55;
         finalY = y;
 
-        R = 230;
-        G = 230;
-        B = 230;
+        R2 = R = 230;
+        G2 = G = 230;
+        B2 = B = 230;
 
         allOver = 0;
 
         fadeInOver = false;
+        fadeInOver2 = false;
         musicPlayed = false;
 
         try {
@@ -70,13 +73,19 @@ public class EndingAnimation {
         texts = new String[]{
             "- Presented By -", // 0
             "",
+            "",
             "吳永璿",
             "沈彥昭",
             "李佳勳",
             "",
             "",
             "",
-            "- Musics -", // 8
+            "",
+            "",
+            "",
+            "",
+            "- Musics -", // 13
+            "",
             "",
             "Spectre    -    AlanWalker",
             "Repeated Tragedy    -    Raiden II",
@@ -84,13 +93,22 @@ public class EndingAnimation {
             "A Page Of My Story    -    Princess Pricipal",
             "SPÏKA 「Rigël Theatre」   -    Remilia Scarlet",
             "Beyond My Beloved Horizon    -    Pirates of the Caribbean",
+            "preset 1",
+            "preset 2",
+            "preset 3",
             "",
             "",
             "",
-            "- Pictures -", // 19
+            "",
+            "",
+            "",
+            "",
+            "- Pictures -", // 32
+            "",
             "",
             "Player    -    Craftpix.net",
             "Police    -    Craftpix.net",
+            "",
             "Wall    -    OpenGameArt.org",
             "Chest    -    OpenGameArt.org",
             "Portal    -    OpenGameArt.org",
@@ -98,14 +116,46 @@ public class EndingAnimation {
             "",
             "",
             "",
-            "- Special Thanks -", // 30
             "",
-            "馬尚彬 教授",
-            "陳俊佑 助教",
-            "游婉琳 助教",
-            "張瑾瑜 助教",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "- Special Thanks -", // 55
+            "",
+            "",
             "jiPlayer    -    JavaZOOM",
             "Thumbnailator    -    coobird",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "- Special Thanks -", // 79
+            "陳俊佑 助教",
+            "游婉琳 助教",
+            "",
+            "馬尚彬 教授",
+            "",
             "",
             "",
             "",
@@ -124,7 +174,7 @@ public class EndingAnimation {
     public void ending(Graphics g){
 
         int tempX = x / 2, tempY = y;
-        int index = 0;
+        int index = -1;
         int strWidth;
 
         if(!musicPlayed){
@@ -133,12 +183,23 @@ public class EndingAnimation {
             musicPlayed = true;
         }
         
+        try{
+            Thread.sleep(9);
+        } catch (InterruptedException e) {
+            System.out.println(e);
+        }
 
         g.setColor(color);
 
         for (String text : texts){
 
-            if(index == 0 || index == 8 || index == 19 || index == 30){
+            tempY += Line;
+            index++;
+
+            if(tempY < -Line || tempY > finalY + Line) // if not in screen, skip
+                continue;
+
+            if(index == 0 || index == 13 || index == 32 || index == 55 || index == 79){
                 g.setFont(titleFont);
                 metrics = g.getFontMetrics(titleFont);     
                 strWidth = metrics.stringWidth(text);
@@ -156,12 +217,11 @@ public class EndingAnimation {
             int realX = tempX - strWidth / 2;
 
             g.drawString(text, realX, tempY);
-            tempY += Line;
-            index++;
+
         }
 
         if(y + Line * texts.length > (int)dimension.getHeight() / 2)
-            y -= 2;
+            y -= 1;
         else{
             if(!fadeInOver)
                 fadeIn(g);
@@ -170,17 +230,17 @@ public class EndingAnimation {
         }
     }
 
-    private void fadeIn(Graphics g){
+    private void fadeIn(Graphics g){ // gradually change the color to make fade effect
 
         metrics = g.getFontMetrics(finalFont);     
         finalWordsLen = metrics.stringWidth(finalWords);
 
         g.setFont(finalFont);
 
-        if(R > 3){
-            R -= 3;
-            G -= 3;
-            B -= 3;
+        if(R > 1){
+            R -= 1;
+            G -= 1;
+            B -= 1;
             color = new Color(R, G, B);
         }
         else{
@@ -200,15 +260,56 @@ public class EndingAnimation {
         g.setFont(finalFont);
 
         if(R <= 238){
-            R += 3;
-            G += 3;
-            B += 3;
+            R += 1;
+            G += 1;
+            B += 1;
+            color = new Color(R, G, B);
+            g.drawString(finalWords, x / 2 - finalWordsLen / 2, finalY / 2);
+        }
+        else{
+            if(!fadeInOver2)
+                fadeIn2(g);
+            else
+                fadeOut2(g);
+        }
+    }
+
+    private void fadeIn2(Graphics g){
+        metrics = g.getFontMetrics(finalFont);     
+        finalWordsLen = metrics.stringWidth(finalWords2);
+
+        g.setFont(finalFont);
+
+        if(R2 > 1){
+            R2 -= 1;
+            G2 -= 1;
+            B2 -= 1;
+            color = new Color(R2, G2, B2);
+        }
+        else{
+            fadeInOver2 = true;
+        }
+
+        g.setColor(color);
+        g.drawString(finalWords2, x / 2 - finalWordsLen / 2, finalY / 2);
+    }
+
+    private void fadeOut2(Graphics g){
+        metrics = g.getFontMetrics(finalFont);     
+        finalWordsLen = metrics.stringWidth(finalWords2);
+        
+        g.setFont(finalFont);
+
+        if(R2 <= 238){
+            R2 += 1;
+            G2 += 1;
+            B2 += 1;
         }
         else
             allOver++;
 
-        color = new Color(R, G, B);
-        g.drawString(finalWords, x / 2 - finalWordsLen / 2, finalY / 2);
+        color = new Color(R2, G2, B2);
+        g.drawString(finalWords2, x / 2 - finalWordsLen / 2, finalY / 2);
     }
 
     public boolean over(){

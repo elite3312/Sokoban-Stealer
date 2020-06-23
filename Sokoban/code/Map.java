@@ -25,6 +25,21 @@ public class Map {
         "H# ########!### #@##  ..#H\n" + 
         "H#              #### ####H\n" + 
         "H########################H\n" + 
+		"HHHHHHHHHHHHHHHHHHHHHHHHHH\n" ;
+		
+	private String t = 
+        "HHHHHHHHHHHHHHHHHHHHHHHHHH\n" + 
+        "H########################H\n" + 
+        "H# ########  !     $ ####H\n" + 
+        "H#$########$  ###### ####H\n" + 
+        "H#   !#####  $######!####H\n" + 
+        "H# ######  $ $ ##### ####H\n" + 
+        "H# ###### # ## ##### ####H\n" + 
+        "H# ####   # ## #####    #H\n" + 
+        "H# ####    $  .$  $     #H\n" + 
+        "H# ########!### #@##    #H\n" + 
+        "H#              #### ####H\n" + 
+        "H########################H\n" + 
         "HHHHHHHHHHHHHHHHHHHHHHHHHH\n" ;
 	/*
     private String level_2 =
@@ -164,13 +179,17 @@ public class Map {
    
     public String getMap(int selection){
         switch (selection){
-        	case 1 : return this.level_1;
-        	case 2 : return this.level_4;
+        	case 1 : return this.t;//1
+        	case 2 : return this.t;//4
 			case 3 : return this.level_3; // may change here
 			case 4 : return this.level_8;
 			case 5 : return this.level_5;
 			case 6 : return this.level_6;
-        	default : return this.level_1;
+			case 7 : return this.t;
+			case 8 : return this.t;
+			case 9 : return this.t;
+			case 10: return ""; // game end, save the time
+        	default : return this.t;
         }
     }
 }

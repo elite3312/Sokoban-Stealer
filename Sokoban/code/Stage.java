@@ -151,6 +151,7 @@ public class Stage extends JPanel {
 
 		maptest = new Map();
 		level = (String) (maptest.getMap(selection));
+
 		portal = new Portal(0, 0);
 
 		Achived = 0;
@@ -162,6 +163,9 @@ public class Stage extends JPanel {
 		pauseSelect = 1;
 		lossBuffer = 0;
 		wonBuffer = 0;
+
+		if(level == "") // if map is none, return
+			return;
 
 		mapX = level.indexOf("\n", 0); // len of map width
 		mapY = level.length() / mapX; // len of map height
@@ -253,6 +257,7 @@ public class Stage extends JPanel {
 			endAnimate.ending(g);
 			if(endAnimate.over())
 				closeSignal = true;
+			repaint();
 			return;
 		}
 
