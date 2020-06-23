@@ -101,6 +101,9 @@ public class Sokoban extends JFrame {
 					Sokoban.this.dispose();
 					setVisible(false);
 				}
+				if(stage.needCloseMusic())
+					if(music.getCurrentMusic() != 99)
+						music.close();
 				
 			}
 		};

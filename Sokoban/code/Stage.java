@@ -92,6 +92,7 @@ public class Stage extends JPanel {
 	private boolean gamePause = false;
 	private boolean nextStage = false;
 	private boolean closeSignal = false;
+	private boolean justCloseTheMusicPls = false;
 
 	private Graphics graphic; // for the global using
 	private Image arrowImage = new ImageIcon().getImage();
@@ -251,6 +252,7 @@ public class Stage extends JPanel {
 	private void buildWorld(Graphics g) {
 
 		if(selection == LevelCount + 1){ // all completed
+			justCloseTheMusicPls = true;
 			endAnimate.ending(g);
 			if(endAnimate.over())
 				closeSignal = true;
@@ -1334,5 +1336,9 @@ public class Stage extends JPanel {
 
 	public boolean closeAct(){
 		return closeSignal;
+	}
+
+	public boolean needCloseMusic(){
+		return justCloseTheMusicPls;
 	}
 }

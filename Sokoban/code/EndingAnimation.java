@@ -65,10 +65,10 @@ public class EndingAnimation {
             "Musics :", // 8
             "",
             "Spectre    -    AlanWalker",
-            "Beyond My Beloved Horizon    -    Pirates of the Caribbean",
-            "SPÏKA 「Rigël Theatre」   -    Remilia Scarlet",
-            "Minotaur Boss Theme    -    Toram online",
             "Repeated Tragedy    -    Raiden II",
+            "Minotaur Boss Theme    -    Toram online",
+            "SPÏKA 「Rigël Theatre」   -    Remilia Scarlet",
+            "Beyond My Beloved Horizon    -    Pirates of the Caribbean",
             "",
             "",
             "",
@@ -77,18 +77,17 @@ public class EndingAnimation {
             "Player    -    Craftpix.net",
             "Police    -    Craftpix.net",
             "Wall    -    OpenGameArt.org",
-            "Portal    -    OpenGameArt.org",
             "Chest    -    OpenGameArt.org",
+            "Portal    -    OpenGameArt.org",
             "Explosion    -    OpenGameArt.org",
             "",
             "",
             "",
             "Special Thanks :", // 29
             "",
+            "馬尚彬 教授",
             "jiPlayer    -    JavaZOOM",
             "Thumbnailator    -    coobird",
-            "馬尚彬 教授",
-            "",
             "",
             "",
             "",
@@ -137,7 +136,7 @@ public class EndingAnimation {
             index++;
         }
 
-        if(y + Line * 49 > (int)dimension.getHeight() / 2)
+        if(y + Line * texts.length > (int)dimension.getHeight() / 2)
             y -= Line / 15;
         else{
             if(!fadeInOver)

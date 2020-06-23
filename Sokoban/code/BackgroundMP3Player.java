@@ -16,6 +16,8 @@ public class BackgroundMP3Player {
 	private File tempfile = new File("");
 	private String path = tempfile.getAbsolutePath();
 
+	private int song = 0;
+
 	public BackgroundMP3Player() throws FileNotFoundException, JavaLayerException {
 
 		tempfile = new File("");
@@ -28,7 +30,7 @@ public class BackgroundMP3Player {
 	}
 
 	public void setSong(int songSeq){
-
+		song = songSeq;
 		tempfile = new File("");
 		path = tempfile.getAbsolutePath();
 
@@ -140,6 +142,10 @@ public class BackgroundMP3Player {
 		loop = false;
 		
 		playerr.close();
+	}
+
+	public int getCurrentMusic(){
+		return song;
 	}
 
 }
