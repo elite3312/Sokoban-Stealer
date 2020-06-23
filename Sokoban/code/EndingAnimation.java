@@ -150,7 +150,10 @@ public class EndingAnimation {
             "",
             "",
             "",
-            "- Special Thanks -", // 79
+            "",
+            "- Special Thanks -", // 80
+            "",
+            "",
             "陳俊佑 助教",
             "游婉琳 助教",
             "",
@@ -199,7 +202,7 @@ public class EndingAnimation {
             if(tempY < -Line || tempY > finalY + Line) // if not in screen, skip
                 continue;
 
-            if(index == 0 || index == 13 || index == 32 || index == 55 || index == 79){
+            if(index == 0 || index == 13 || index == 32 || index == 55 || index == 80){
                 g.setFont(titleFont);
                 metrics = g.getFontMetrics(titleFont);     
                 strWidth = metrics.stringWidth(text);
