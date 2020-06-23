@@ -110,7 +110,7 @@ public class Sokoban extends JFrame {
 							
 						
 					}
-
+					stage.setNextStage(false);
 					
 				}
 				if(stage.closeAct()){

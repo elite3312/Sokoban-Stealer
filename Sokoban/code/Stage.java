@@ -1342,4 +1342,7 @@ public class Stage extends JPanel {
 	public boolean needCloseMusic(){
 		return justCloseTheMusicPls;
 	}
+	public void setNextStage (Boolean b){
+		nextStage=b;
+	}
 }

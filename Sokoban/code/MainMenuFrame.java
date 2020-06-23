@@ -295,7 +295,7 @@ public class MainMenuFrame extends JFrame implements ActionListener {
 
 	public void launch() {
 		music.close();
-		music=null;
+		
 		EventQueue.invokeLater(() -> {
 			Sokoban game = new Sokoban(characterChosen, levelChosen);
 		});
