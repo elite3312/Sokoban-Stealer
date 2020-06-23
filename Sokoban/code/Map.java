@@ -78,7 +78,7 @@ public class Map {
 		"HHHHHHHHHHHHHHHHHHHHH \n";
 
 	
-	private String level_5 = // author : YC SHEN
+	private String level_5 =
 		"HHHHHHHHHHHHHHHHHHHHHHHH\n" +
 		"H###...HHHHHHHH  ######H\n" + 
 		"H###.       $ H $    .HH\n" + 
@@ -111,6 +111,21 @@ public class Map {
 	"H ##  ##  #     # # #   ### ##   # #H\n" +
 	"H ###    #  #    !    ## #     ###  H\n" +
 	"H      #      #     #      #   #.   H\n" +
+	"HHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHH\n";
+
+	private String tempLevel = 
+	"HHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHH\n" +
+	"H      ##   #      #    # # # #     H\n" +
+	"H#  # #  !     ##    ##         ### H\n" +
+	"H#    #    ###     #     # ####     H\n" +
+	"H  ##    ##      #  #  # #  !    # #H\n" +
+	"H    #      # ##    #    #     #    H\n" +
+	"H   #  ### ##  ## #   # #    #  #   H\n" +
+	"H##        ###       #    #   #    #H\n" +
+	"H     #  #  #  # # #    ##  #    # #H\n" +
+	"H ##  ##  #     # # #   ### ##   # #H\n" +
+	"H ###    #  #    !    ## #     ###  H\n" +
+	"H      #      #     #      #   #.$@ H\n" +
 	"HHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHH\n";
 
 	/* surpass the screen size
@@ -166,7 +181,7 @@ public class Map {
 			case 3 : return this.level_3; // may change here
 			case 4 : return this.level_8;
 			case 5 : return this.level_5;
-			case 6 : return this.level_6;
+			case 6 : return this.tempLevel; // this.level_6
         	default : return this.level_1;
         }
     }

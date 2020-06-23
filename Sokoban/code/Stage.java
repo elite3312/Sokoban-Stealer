@@ -13,8 +13,6 @@ import java.awt.Color;
 import java.awt.Image;
 import java.awt.FontMetrics;
 
-import java.beans.beancontext.BeanContextEvent;
-
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -92,7 +90,6 @@ public class Stage extends JPanel {
 	private boolean gamePause = false;
 	private boolean nextStage = false;
 	private boolean closeSignal = false;
-	private boolean justCloseTheMusicPls = false;
 
 	private Graphics graphic; // for the global using
 	private Image arrowImage = new ImageIcon().getImage();
@@ -252,7 +249,6 @@ public class Stage extends JPanel {
 	private void buildWorld(Graphics g) {
 
 		if(selection == LevelCount + 1){ // all completed
-			justCloseTheMusicPls = true;
 			endAnimate.ending(g);
 			if(endAnimate.over())
 				closeSignal = true;
@@ -1339,9 +1335,6 @@ public class Stage extends JPanel {
 		return closeSignal;
 	}
 
-	public boolean needCloseMusic(){
-		return justCloseTheMusicPls;
-	}
 	public void setNextStage (Boolean b){
 		nextStage=b;
 	}

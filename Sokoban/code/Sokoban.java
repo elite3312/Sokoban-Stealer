@@ -96,19 +96,14 @@ public class Sokoban extends JFrame {
 					System.out.print(level);
 					if(level == LevelCount + 1) // game fully completed
 						{
-							if(music.getCurrentMusic()!=99){
-								music.setSong(99);
-								music.play();
-							}
+							music.setSong(99);
+							music.play();
 							
 						}
 					else if(level<=LevelCount){
 						
 							music.setSong(level);
 							music.circularPlay();
-						
-							
-						
 					}
 					stage.setNextStage(false);
 					
@@ -118,9 +113,6 @@ public class Sokoban extends JFrame {
 					Sokoban.this.dispose();
 					setVisible(false);
 				}
-				if(stage.needCloseMusic())
-					if(music.getCurrentMusic() != 99)
-						music.close();
 				
 			}
 		};

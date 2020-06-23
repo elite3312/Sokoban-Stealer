@@ -11,6 +11,7 @@ public class CheatManager {
     private final char[] game = {'s', 'o', 'k', 'o', 'b', 'a', 'n'};
     private char[] user;
 
+
     public CheatManager(){
         buffer = new int[8];
         user = new char[7];

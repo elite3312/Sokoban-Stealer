@@ -52,6 +52,8 @@ public class SavesReader {
 			System.err.println("Error reading from file. Terminating.");
 		}
 
+		if(temp <= 0)
+			temp = 1;
 		return temp;
 	} // end method readRecords
 
