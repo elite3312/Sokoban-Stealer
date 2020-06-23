@@ -75,26 +75,43 @@ public class Sokoban extends JFrame {
 				stage.repaint();
 
 				if(stage.goNextStage()) {
+					
 					music.close();
 					
 					reader.openFile();
 					if(reader.readSaves()==level){
-						writer.openFile();
-						if(level < LevelCount)
+						
+						if(level <= LevelCount){
+							writer.openFile();
 							writer.upDate(level+1); //next level becomes available
-						SavesWriter.closeFile();
+							SavesWriter.closeFile();
+						}
+						
+						
 					}
 					reader.closeFile();
 
-					level++;
-					
+					if(level<=LevelCount)
+						level++;
+					System.out.print(level);
 					if(level == LevelCount + 1) // game fully completed
-						music.setSong(99);
-					else{
-						music.setSong(level);
+						{
+							if(music.getCurrentMusic()!=99){
+								music.setSong(99);
+								music.play();
+							}
+							
+						}
+					else if(level<=LevelCount){
+						
+							music.setSong(level);
+							music.circularPlay();
+						
+							
+						
 					}
 
-					music.circularPlay();
+					
 				}
 				if(stage.closeAct()){
 					music.close();

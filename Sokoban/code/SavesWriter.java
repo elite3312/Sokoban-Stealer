@@ -47,6 +47,7 @@ public class SavesWriter {
 		
 		try {
 			output.format("%d", temp);
+			output.flush();
 		} catch (FormatterClosedException formatterClosedException) {
 			System.err.println("Error writing to file. Terminating.");
 		}

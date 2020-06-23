@@ -1331,6 +1331,7 @@ public class Stage extends JPanel {
 	}
 
 	public boolean goNextStage(){
+		
 		return nextStage;
 	}
 
