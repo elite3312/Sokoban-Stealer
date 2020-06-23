@@ -59,4 +59,11 @@ public class SavesWriter {
 			output.close();
 		
 	}
+
+	public void notStaticCloseFile(){
+		if (output != null)
+			output.close();
+	}
+
+
 }

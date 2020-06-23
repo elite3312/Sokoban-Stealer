@@ -44,7 +44,7 @@ public class Stage extends JPanel {
 	private final int playerSkinOne = 1;
 	private final int playerSkinTwo = 2;
 	private final int playerSkinThree = 3;
-	private final int LevelCount = 6;
+	private final int LevelCount = 9;
 	private BackgroundMP3Player sounds;
 
 	// int variable
@@ -249,6 +249,7 @@ public class Stage extends JPanel {
 	private void buildWorld(Graphics g) {
 
 		if(selection == LevelCount + 1){ // all completed
+			nextStage = true;
 			endAnimate.ending(g);
 			if(endAnimate.over())
 				closeSignal = true;
@@ -702,7 +703,7 @@ public class Stage extends JPanel {
 		@Override
 		public void keyPressed(KeyEvent e) {
 
-			if (lost || isCompletedBool || restarted) {
+			if (lost || isCompletedBool || restarted || nextStage) {
 				return;
 			}
 
@@ -1336,6 +1337,6 @@ public class Stage extends JPanel {
 	}
 
 	public void setNextStage (Boolean b){
-		nextStage=b;
+		nextStage = b;
 	}
 }

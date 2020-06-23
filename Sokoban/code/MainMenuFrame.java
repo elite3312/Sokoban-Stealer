@@ -62,14 +62,18 @@ public class MainMenuFrame extends JFrame implements ActionListener {
 	private final int playerSkinOne = 1;
 	private final int playerSkinTwo = 2;
 	private final int playerSkinThree = 3;
-	private final int levelCount = 6;
+	private final int levelCount = 9;
 	private int levelChosen;
 
 	private JButton levelSelect;
 	private JButton exitBtn;
 	private JButton launchBtn;
+	private JButton clearBtn;
 	private JButton back;
+	private JButton playAnimation;
+
 	private SavesReader reader;
+	private SavesWriter writer;
 	private int progress;
 	private BackgroundMP3Player music;
 
@@ -99,6 +103,8 @@ public class MainMenuFrame extends JFrame implements ActionListener {
 		reader.openFile();
 		progress = reader.readSaves();
 		reader.closeFile();
+
+		writer = new SavesWriter("saves.txt");
 
 		Font font = new Font("Microsoft JhengHei", Font.PLAIN, (int) (22 * scale));
 		Font btnFont = new Font("Microsoft JhengHei", Font.BOLD, (int) (30 * scale));
@@ -144,7 +150,8 @@ public class MainMenuFrame extends JFrame implements ActionListener {
 		String introduction = "偷東西，是一門學問，更是一門藝術。\n在狹小的場地中躲避警衛，並成功將貨物運送到指定地點，是你的目標\n"
 				+ "你能否越過重重障礙，並且獲得最終的勝利?\n\n玩法說明：按上下左右鍵以移動(請切換成英文輸入法)\n"
 				+ "　　　　　遊戲中按空白鍵可以朝人物前方發射子彈，並擊倒警衛(每達成一個貨物可加兩發子彈)\n"
-				+ "　　　　　按Z鍵，可以設置傳送點或傳送至傳送點(一關限三次)\n　　　　　按X鍵，可以穿牆(一關限一次，三秒)\n" + "　　　　　也許還有神秘的功能？？  試著發掘看看吧！";
+				+ "　　　　　按Z鍵，可以設置傳送點或傳送至傳送點(一關限三次)\n　　　　　按X鍵，可以穿牆(一關限一次，三秒)\n"
+				+ "　　　　　也許還有神秘的功能？？  試著發掘看看吧！";
 
 		JTextArea intro = new JTextArea(introduction);
 		Border border = BorderFactory.createLineBorder(Color.BLACK);
@@ -159,7 +166,7 @@ public class MainMenuFrame extends JFrame implements ActionListener {
 		/* character select */
 		JLabel label1 = new JLabel("選擇角色：");
 		label1.setFont(font);
-		bottomPanel = new JPanel(new GridLayout(3, 1));
+		bottomPanel = new JPanel(new GridLayout(4, 1));
 		JPanel radioBtnPanel1 = new JPanel(new FlowLayout());
 
 		p1 = new JRadioButton("一號小偷", true);
@@ -226,18 +233,26 @@ public class MainMenuFrame extends JFrame implements ActionListener {
 		levelSelect.setFont(btnFont);
 		bottomPanel.add(levelSelect);
 		/* level select panel */
-		levelPanel = new JPanel(new GridLayout(5, 2));
+		levelPanel = new JPanel(new GridLayout(6, 3));
 		level = new ButtonGroup();
+
+		if(progress > levelCount){
+			playAnimation = new JButton("播放結尾動畫");
+			playAnimation.addActionListener(this);
+			playAnimation.setFont(btnFont);
+			bottomPanel.add(playAnimation);
+		}
 
 		String labelText = "選擇關卡：(目前解鎖進度:第" + progress + "關)";
 		if (progress > levelCount) {
 			labelText = "選擇關卡：(目前解鎖進度：全破)";
 		}
+		
 		JLabel label2 = new JLabel(labelText);
 		label2.setFont(font);
 
 		levels = new ArrayList<JRadioButton>();
-		for (int i = 1; i <= 6; i++) {
+		for (int i = 1; i <= levelCount; i++) {
 			JRadioButton l1 = new JRadioButton("Level " + i, true);
 			l1.setFont(font);
 			try {
@@ -257,12 +272,6 @@ public class MainMenuFrame extends JFrame implements ActionListener {
 			levels.add(l1);
 		}
 
-		/*try {
-			bufImage = Thumbnails.of(gameStartPath).scale(scale).asBufferedImage();
-			image = (Image) bufImage;
-		} catch (IOException e) {
-			System.out.println(e);
-		}*/
 		launchBtn = new JButton("遊戲開始");
 		launchBtn.setFont(btnFont);
 		launchBtn.addActionListener(this);
@@ -270,23 +279,25 @@ public class MainMenuFrame extends JFrame implements ActionListener {
 		back = new JButton("回到上一步");
 		back.addActionListener(this);
 		back.setFont(btnFont);
+
 		levelPanel.add(label2);
 		levelPanel.add(new JLabel(""));
+		levelPanel.add(new JLabel(""));
+
 		for (int i = 0; i < levels.size(); i++) {
 			levelPanel.add(levels.get(i));
 		}
 
+		clearBtn = new JButton("清除遊戲紀錄");
+		clearBtn.addActionListener(this);
+		clearBtn.setFont(btnFont);
+		
 		levelPanel.add(launchBtn);
 		levelPanel.add(back);
+		levelPanel.add(clearBtn);
+
 		levelPanel.setVisible(false);
 
-		/* exit 
-		try {
-			bufImage = Thumbnails.of(exitPath).scale(scale).asBufferedImage();
-			image = (Image) bufImage;
-		} catch (IOException e) {
-			System.out.println(e);
-		}*/
 		exitBtn = new JButton("離開");
 		exitBtn.setFont(btnFont);
 		exitBtn.addActionListener(this);
@@ -302,14 +313,18 @@ public class MainMenuFrame extends JFrame implements ActionListener {
 	}
 
 	public void updateProgress() {
+
 		reader = new SavesReader("saves.txt");
 		reader.openFile();
 		progress = reader.readSaves();
-		for (int i = 0; i < 6; i++) {
 
+		playAnimation.setEnabled(false);
+
+		for (int i = 0; i < levelCount; i++) {
 			if (i < progress)
 				levels.get(i).setEnabled(true);
-
+			else
+				levels.get(i).setEnabled(false);
 		}
 		repaint();
 	}
@@ -333,6 +348,20 @@ public class MainMenuFrame extends JFrame implements ActionListener {
 			MainMenuFrame.this.remove(levelPanel);
 			MainMenuFrame.this.add(bottomPanel);
 			repaint();
+
+		} else if (event.getSource() == playAnimation){
+			levelChosen = levelCount + 1;
+			launch();
+			repaint();
+
+		} else if(event.getSource() == clearBtn){
+			writer.openFile();
+			writer.upDate(1);
+			writer.notStaticCloseFile();
+
+			updateProgress();
+			repaint();
+
 		} else { // launch
 			if (p1.isSelected())
 				characterChosen = playerSkinOne;

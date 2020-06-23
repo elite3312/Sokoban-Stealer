@@ -6,6 +6,10 @@ import java.awt.Graphics;
 import java.awt.Color;
 import java.awt.FontMetrics;
 
+import javazoom.jl.decoder.JavaLayerException;
+
+import java.io.FileNotFoundException;
+
 public class EndingAnimation {
 
     private Dimension dimension = java.awt.Toolkit.getDefaultToolkit().getScreenSize();
@@ -28,20 +32,23 @@ public class EndingAnimation {
     private int finalWordsLen;
 
     private boolean fadeInOver;
+    private boolean musicPlayed;
 
     private int allOver;
+
+    private BackgroundMP3Player music;
     
     public EndingAnimation(){
+
         scale = dimension.getWidth() / baseWidth;
-        font = new Font("Microsoft JhengHei", Font.PLAIN, (int) (22 * scale));
+
+        font = new Font("Microsoft JhengHei", Font.PLAIN, (int) (24 * scale));
         titleFont = new Font("Microsoft JhengHei", Font.BOLD, (int) (40 * scale));
         finalFont = new Font("Microsoft JhengHei", Font.BOLD, (int) (64 * scale));
 
         x = (int)dimension.getWidth();
-        y = (int)dimension.getHeight();
+        y = (int)dimension.getHeight() + 30;
         finalY = y;
-
-        System.out.println(y);
 
         R = 230;
         G = 230;
@@ -50,11 +57,18 @@ public class EndingAnimation {
         allOver = 0;
 
         fadeInOver = false;
+        musicPlayed = false;
+
+        try {
+            music = new BackgroundMP3Player();
+        } catch (FileNotFoundException | JavaLayerException e) {
+            System.out.printf("music err");
+        }
 
         color = new Color(0, 0, 0);
 
         texts = new String[]{
-            "Made By :", // 0
+            "- Presented By -", // 0
             "",
             "吳永璿",
             "沈彥昭",
@@ -62,17 +76,18 @@ public class EndingAnimation {
             "",
             "",
             "",
-            "Musics :", // 8
+            "- Musics -", // 8
             "",
             "Spectre    -    AlanWalker",
             "Repeated Tragedy    -    Raiden II",
             "Minotaur Boss Theme    -    Toram online",
+            "A Page Of My Story    -    Princess Pricipal",
             "SPÏKA 「Rigël Theatre」   -    Remilia Scarlet",
             "Beyond My Beloved Horizon    -    Pirates of the Caribbean",
             "",
             "",
             "",
-            "Pictures :", // 18
+            "- Pictures -", // 19
             "",
             "Player    -    Craftpix.net",
             "Police    -    Craftpix.net",
@@ -83,13 +98,14 @@ public class EndingAnimation {
             "",
             "",
             "",
-            "Special Thanks :", // 29
+            "- Special Thanks -", // 30
             "",
             "馬尚彬 教授",
+            "陳俊佑 助教",
+            "游婉琳 助教",
+            "張瑾瑜 助教",
             "jiPlayer    -    JavaZOOM",
             "Thumbnailator    -    coobird",
-            "",
-            "",
             "",
             "",
             "",
@@ -106,15 +122,23 @@ public class EndingAnimation {
     }
 
     public void ending(Graphics g){
+
         int tempX = x / 2, tempY = y;
         int index = 0;
         int strWidth;
+
+        if(!musicPlayed){
+            music.setSong(99);
+            music.play();
+            musicPlayed = true;
+        }
+        
 
         g.setColor(color);
 
         for (String text : texts){
 
-            if(index == 0 || index == 8 || index == 18 || index == 29){
+            if(index == 0 || index == 8 || index == 19 || index == 30){
                 g.setFont(titleFont);
                 metrics = g.getFontMetrics(titleFont);     
                 strWidth = metrics.stringWidth(text);
@@ -137,7 +161,7 @@ public class EndingAnimation {
         }
 
         if(y + Line * texts.length > (int)dimension.getHeight() / 2)
-            y -= Line / 15;
+            y -= 2;
         else{
             if(!fadeInOver)
                 fadeIn(g);
@@ -153,10 +177,10 @@ public class EndingAnimation {
 
         g.setFont(finalFont);
 
-        if(R > 2){
-            R -= 2;
-            G -= 2;
-            B -= 2;
+        if(R > 3){
+            R -= 3;
+            G -= 3;
+            B -= 3;
             color = new Color(R, G, B);
         }
         else{
@@ -175,10 +199,10 @@ public class EndingAnimation {
         
         g.setFont(finalFont);
 
-        if(R <= 235){
-            R += 2;
-            G += 2;
-            B += 2;
+        if(R <= 238){
+            R += 3;
+            G += 3;
+            B += 3;
         }
         else
             allOver++;
@@ -188,8 +212,10 @@ public class EndingAnimation {
     }
 
     public boolean over(){
-        if(allOver > 10)
+        if(allOver > 10){
+            music.close();
             return true;
+        }
         return false;
     }
 }

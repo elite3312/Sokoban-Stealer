@@ -23,7 +23,7 @@ public class Sokoban extends JFrame {
 	private BackgroundMP3Player music;
 
 	private final int MARGIN = 40;
-	private final int LevelCount = 6;
+	private final int LevelCount = 9;
 
 	private int player;
 	private int level;
@@ -93,8 +93,8 @@ public class Sokoban extends JFrame {
 
 					if(level<=LevelCount)
 						level++;
-					System.out.print(level);
-					if(level == LevelCount + 1) // game fully completed
+
+						if(level == LevelCount + 1) // game fully completed
 						{
 							music.setSong(99);
 							music.play();
