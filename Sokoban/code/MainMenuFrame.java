@@ -101,6 +101,7 @@ public class MainMenuFrame extends JFrame implements ActionListener {
 		reader.closeFile();
 
 		Font font = new Font("Microsoft JhengHei", Font.PLAIN, (int) (22 * scale));
+		Font btnFont = new Font("Microsoft JhengHei", Font.BOLD, (int) (30 * scale));
 
 		setLayout(new FlowLayout());
 		/* intro */
@@ -218,17 +219,18 @@ public class MainMenuFrame extends JFrame implements ActionListener {
 
 		bottomPanel.add(radioBtnPanel1);
 		add(bottomPanel);
+
 		/* level select */
 		levelSelect = new JButton("選擇關卡");
 		levelSelect.addActionListener(this);
-		levelSelect.setFont(font);
+		levelSelect.setFont(btnFont);
 		bottomPanel.add(levelSelect);
 		/* level select panel */
 		levelPanel = new JPanel(new GridLayout(5, 2));
 		level = new ButtonGroup();
 
 		String labelText = "選擇關卡：(目前解鎖進度:第" + progress + "關)";
-		if (progress == levelCount + 1) {
+		if (progress > levelCount) {
 			labelText = "選擇關卡：(目前解鎖進度：全破)";
 		}
 		JLabel label2 = new JLabel(labelText);
@@ -255,18 +257,19 @@ public class MainMenuFrame extends JFrame implements ActionListener {
 			levels.add(l1);
 		}
 
-		try {
+		/*try {
 			bufImage = Thumbnails.of(gameStartPath).scale(scale).asBufferedImage();
 			image = (Image) bufImage;
 		} catch (IOException e) {
 			System.out.println(e);
-		}
-		launchBtn = new JButton(new ImageIcon(image));
+		}*/
+		launchBtn = new JButton("遊戲開始");
+		launchBtn.setFont(btnFont);
 		launchBtn.addActionListener(this);
 
-		back = new JButton("back to menu");
+		back = new JButton("回到上一步");
 		back.addActionListener(this);
-		back.setFont(font);
+		back.setFont(btnFont);
 		levelPanel.add(label2);
 		levelPanel.add(new JLabel(""));
 		for (int i = 0; i < levels.size(); i++) {
@@ -277,14 +280,15 @@ public class MainMenuFrame extends JFrame implements ActionListener {
 		levelPanel.add(back);
 		levelPanel.setVisible(false);
 
-		/* exit */
+		/* exit 
 		try {
 			bufImage = Thumbnails.of(exitPath).scale(scale).asBufferedImage();
 			image = (Image) bufImage;
 		} catch (IOException e) {
 			System.out.println(e);
-		}
-		exitBtn = new JButton(new ImageIcon(image));
+		}*/
+		exitBtn = new JButton("離開");
+		exitBtn.setFont(btnFont);
 		exitBtn.addActionListener(this);
 		bottomPanel.add(exitBtn);
 	}

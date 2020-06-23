@@ -80,17 +80,20 @@ public class Sokoban extends JFrame {
 					reader.openFile();
 					if(reader.readSaves()==level){
 						writer.openFile();
-						writer.upDate(level+1); //next level becomes available
+						if(level < LevelCount)
+							writer.upDate(level+1); //next level becomes available
 						SavesWriter.closeFile();
 					}
 					reader.closeFile();
-					if(level < 6)
-						level++;
-					else if(level == 6){
-						gameOverThanks();
+
+					level++;
+					
+					if(level == LevelCount + 1) // game fully completed
+						music.setSong(99);
+					else{
+						music.setSong(level);
 					}
 
-					music.setSong(level);
 					music.circularPlay();
 				}
 				if(stage.closeAct()){
@@ -105,36 +108,4 @@ public class Sokoban extends JFrame {
 		timer.schedule(refresh, 0, 30);
 	}
 
-	private void gameOverThanks() {
-
-		music.setSong(99);
-
-		setLayout(new FlowLayout());
-		panel = new JPanel(new BorderLayout());
-
-		String specialThanks = "製作人員:\n" + "吳永璿\n沈彥昭\n李佳勳\n\n\n" + "Musics:\n" + "Spectre - AlanWalker\n"
-				+ "Beyond My Beloved Horizon - Pirates of the Caribbean\n"
-				+ "SPÏKA 「Rigël Theatre」 - Remilia Scarlet\n\n\n" + "Special Thanks:\n" + "馬尚彬 教授\n\n\n";
-
-		Font font = new Font("Microsoft JhengHei", Font.PLAIN, 22);
-		JTextArea texts = new JTextArea(specialThanks);
-		texts.setOpaque(false);
-		texts.setFont(font);
-		texts.setEditable(false);
-
-		panel.add(BorderLayout.CENTER, texts);
-		add(BorderLayout.CENTER, panel);
-
-		launch();
-	}
-
-	public void launch() {
-
-		EventQueue.invokeLater(() -> {
-			panel.setVisible(true);
-			Sokoban.this.add(panel);
-			repaint();
-		});
-
-	}
 }

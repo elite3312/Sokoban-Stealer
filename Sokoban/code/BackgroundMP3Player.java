@@ -38,30 +38,30 @@ public class BackgroundMP3Player {
 			path = path.replaceAll("code", "BGM/");
 			
 		switch (songSeq) {
-			case 0:path += "RepeatedTragedy.mp3";
+			case 0:
+				path += "RepeatedTragedy.mp3";
 				break;
 			case 1:
 				path += "Beyond_My_Beloved_Horizon.mp3";
 				break;
 			case 2:
-				
-				path += "Spika.mp3";
+				path += "AlanWalkerSpectre.mp3";
 				break;
 			case 3:
-				
-				path += "AlanWalkerSpectre.mp3";
+				path += "TragedyFlame.mp3";
 				break;
 			case 4:
 				path += "AllOrNothing.mp3";
 				break;
 			case 5:
-				path += "TragedyFlame.mp3";
+				path += "minotaur_boss_theme.mp3";
 				break;
 			case 6:
-				// path += ????????;
+				path += "Spika.mp3";
 				break;
 			case 99: // gameover thanks music
 				//path += "?????????";
+				path += "Beyond_My_Beloved_Horizon.mp3";
 				break;
 			default:
 				path += "AlanWalkerSpectre.mp3";

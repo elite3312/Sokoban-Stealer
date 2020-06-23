@@ -2,8 +2,11 @@ package java2020.finalProject;
 
 public class Treasure extends Actor {
 
+    private boolean isGetAmmo;
+
     public Treasure(int x, int y) {
         super(x, y);
+        isGetAmmo = false;
     }
 
     @Override
@@ -25,5 +28,13 @@ public class Treasure extends Actor {
 
     public int getY(){
         return y();
-    }   
+    }
+
+    public void getAmmo(){
+        isGetAmmo = true;
+    }
+
+    public boolean canGetAmmo(){
+        return !isGetAmmo;
+    }
 }
