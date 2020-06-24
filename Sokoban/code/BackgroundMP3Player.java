@@ -55,9 +55,9 @@ public class BackgroundMP3Player {
 			case 4:
 				path += "AllOrNothing.mp3";
 				break;
-			//case 5:
-			//	path += "???????.mp3";
-			//	break;
+			case 5:
+				path += "Splyce - Feel The Drums.mp3";
+				break;
 			//case 6:
 			//	path += "???????.mp3";
 			//	break;
