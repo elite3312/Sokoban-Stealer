@@ -49,7 +49,7 @@ public class EndingAnimation {
         finalFont = new Font("Microsoft JhengHei", Font.BOLD, (int) (70 * scale));
 
         x = (int)dimension.getWidth();
-        y = (int)dimension.getHeight() + 160;
+        y = (int)dimension.getHeight() + 120;
         finalY = y;
 
         R2 = R = 230;
@@ -71,52 +71,40 @@ public class EndingAnimation {
         color = new Color(0, 0, 0);
 
         texts = new String[]{
-            "- Presented By -", // 0
+            "- Created By -", // 0
             "",
             "",
-            "吳永璿",
-            "沈彥昭",
-            "李佳勳", // 5
-            "",
-            "",
-            "",
-            "",
-            "", // 10
-            "",
-            "- Produced By -", // 12
-            "",
-            "",
-            "吳永璿", // 15
-            "沈彥昭",
             "李佳勳",
+            "沈彥昭",
+            "吳永璿",
             "",
             "",
-            "", // 20
             "",
             "",
             "",
             "",
-            "- Musics -", // 25
+            "- Musics By -", // 12
             "",
             "",
             "Spectre    -    AlanWalker",
+            "Tragedy Flame    -    Raiden II",
+            "All Or Nothing    -    Raiden II",
             "Repeated Tragedy    -    Raiden II",
-            "Minotaur Boss Theme    -    Toram online", // 30
+            "Minotaur Boss Theme    -    Toram online",
             "A Page Of My Story    -    Princess Pricipal",
             "SPÏKA 「Rigël Theatre」   -    Remilia Scarlet",
             "Beyond My Beloved Horizon    -    Pirates of the Caribbean",
             "preset 1",
-            "preset 2", // 35
+            "preset 2",
             "preset 3",
             "",
             "",
             "",
-            "", // 40
             "",
             "",
             "",
-            "- Pictures -", // 44
-            "", // 45
+            "- Pictures By -", // 32
+            "",
             "",
             "Player    -    Craftpix.net",
             "Police    -    Craftpix.net",
@@ -131,6 +119,32 @@ public class EndingAnimation {
             "",
             "",
             "",
+            "- Game UI -", // 48
+            "",
+            "",
+            "吳永璿",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "- Music Design -", // 58
+            "",
+            "",
+            "李佳勳",
+            "沈彥昭",
+            "吳永璿",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "- Animation Design -", // 70
+            "",
+            "",
+            "沈彥昭",
             "",
             "",
             "",
@@ -146,12 +160,21 @@ public class EndingAnimation {
             "",
             "",
             "",
-            "- Special Thanks -", // 75
             "",
             "",
+            "",
+            "",
+            "",
+            "- Special Thanks -", // 94
+            "",
+            "",
+            "Java    -    Oracle",
             "jiPlayer    -    JavaZOOM",
             "Thumbnailator    -    coobird",
             "",
+            "VSCode",
+            "Eclipse",
+            "Audacity",
             "",
             "",
             "",
@@ -172,7 +195,7 @@ public class EndingAnimation {
             "",
             "",
             "",
-            "- Special Thanks -", // 101
+            "- Special Thanks -", // 124
             "",
             "",
             "陳俊佑 助教",
@@ -209,7 +232,7 @@ public class EndingAnimation {
         }
         
         try{ // needed
-            Thread.sleep(8);
+            Thread.sleep(7);
         } catch (InterruptedException e) {
             System.out.println(e);
         }
@@ -224,7 +247,7 @@ public class EndingAnimation {
             if(tempY < -Line || tempY > finalY + Line) // if not in screen, skip
                 continue;
 
-            if(index == 0 || index == 12 || index == 25 || index == 44 || index == 75 || index == 101){
+            if(index == 0 || index == 12 || index == 32 || index == 48 || index == 58 || index == 70 || index == 94 || index == 124){
                 g.setFont(titleFont);
                 metrics = g.getFontMetrics(titleFont);     
                 strWidth = metrics.stringWidth(text);
