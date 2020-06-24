@@ -16,6 +16,7 @@ import java.awt.FontMetrics;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.sql.Time;
 
 import javazoom.jl.decoder.JavaLayerException;
 import javazoom.jl.player.advanced.AdvancedPlayer;
@@ -47,7 +48,9 @@ public class Stage extends JPanel {
 	private final int LevelCount = 9;
 
 	private BackgroundMP3Player sounds;
-
+	private long timeStart;
+	private long timeMin;
+	private long timeSec;
 	// int variable
 	private int currentlyFacing = DOWN;
 	public int executetime = 0; // repaint time
@@ -103,6 +106,8 @@ public class Stage extends JPanel {
 	private EndingAnimation endAnimate = new EndingAnimation();
 	
 	public Stage(int playerSkinChoosen, int level) {
+		timeStart=System.currentTimeMillis();
+
 		selection = level;
 
 		if (playerSkinChoosen == playerSkinTwo)
@@ -198,9 +203,12 @@ public class Stage extends JPanel {
 					
 					break;
 				case '^':
-					Bomb bomb =new Bomb(x + modifyX, y + modifyY);
-					bomb.setImage(imageManager.getBombImage());
+					bomb =new Bomb(x + modifyX, y + modifyY);
+					Image[] temp=imageManager.getBombImage();
+					//bomb.setImage(temp[1]);
+					bomb.setImageArray(temp);
 					x += SPACE;
+					
 					break;
 				case ' ':
 					x += SPACE;
@@ -277,6 +285,7 @@ public class Stage extends JPanel {
 		}
 
 		if(restarted){
+			timeStart=System.currentTimeMillis();
 			Long time = new Date().getTime();
 			String stateNow = "";
 
@@ -540,9 +549,10 @@ public class Stage extends JPanel {
 
 			world.addAll(cops);
 		}
-		System.out.printf("456");
-		if(bomb!=null)world.add(bomb);
-		System.out.printf("123");
+		
+		if(bomb!=null){world.add(bomb);
+		}
+		
 		world.add(stealer);
 		world.add(portal);
 
@@ -618,8 +628,11 @@ public class Stage extends JPanel {
 
 				g.drawImage(item.getImage(), item.x() + 2, item.y() + 2, this);
 			}else if (item instanceof Bomb){
-				g.drawImage(item.getImage(), item.x(), item.y(), this);
-				System.out.printf("ee");
+				if((executetime/10)%2==1)
+					g.drawImage(item.getImageArray(1), item.x(), item.y(), this);
+				else 
+					g.drawImage(item.getImageArray(0), item.x(), item.y(), this);
+				
 			}else if (item instanceof Treasure) {
 
 				g.drawImage(item.getImage(), item.x(), item.y(), this);
@@ -690,10 +703,16 @@ public class Stage extends JPanel {
 				}
 				bufferedFrames++;
 			}
-
+			g.setFont(new Font("Microsoft JhengHei", Font.BOLD, 50));
+			g.setColor(new Color(255,0,0));
+			int spendingTime=(int)(System.currentTimeMillis()-timeStart)/1000;
+			int remainingTime=selection*10-spendingTime;
+			if(remainingTime==0)playerLoss();
+			String temp=String.format("%d:%02d",remainingTime/60,remainingTime%60);
+			g.drawString(temp,100,100);
 			g.setFont(new Font("Microsoft JhengHei", Font.BOLD, 20));
 			g.setColor(new Color(0, 0, 0));
-			String information = "[ESC or P]-選單    [X]-穿牆技能    [Z]-傳送門    [SPACE]-武器";
+			String information = "[ESC or P]-選單 3   [X]-穿牆技能    [Z]-傳送門    [SPACE]-武器";
 			g.drawString(information, (int)(scale * this.width / 2 - 320), this.height - 40);
 
 		}

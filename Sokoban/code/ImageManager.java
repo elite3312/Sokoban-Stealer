@@ -29,7 +29,7 @@ public class ImageManager {
     private Image[] treasureImages;
     private Image[] policeImages;
     private Image arrowImage;
-    private Image bombImage;
+    private Image[] bombImage;
 
     private SecureRandom random = new SecureRandom();
     
@@ -71,7 +71,7 @@ public class ImageManager {
     public Image getArrowImage(){
         return arrowImage;
     }
-    public Image getBombImage(){
+    public Image[] getBombImage(){
         return bombImage;
     }
     private void bulletInit(){
@@ -93,21 +93,27 @@ public class ImageManager {
         }        
     }
     private void bombInit(){
+        bombImage=new Image[2];
         File f=new File("");
         String path=f.getAbsolutePath();
-        if (!path.contains("code"))
-			path = "pic/bomb1.png";
-		else
-            path = path.replaceAll("code", "pic/select.png");
-            
-        BufferedImage image;
+        String temp;
+        for(int i=0;i<2;i++){
+            System.out.printf("%d ",i);
+            if (!path.contains("code"))
+                temp = String.format("pic/bomb%d.png", i);
+		    else
+                temp = path.replaceAll("code", String.format("pic/bomb%d.png", i));
 
-        try{
-            image = Thumbnails.of(path).scale(scale).asBufferedImage();
-            bombImage = image;
-        } catch (IOException e){
-            System.out.println(e);
+            BufferedImage image;
+
+            try{
+                image = Thumbnails.of(temp).scale(scale).asBufferedImage();
+                bombImage[i] = image;
+            } catch (IOException e){
+                System.out.println(e);
+            }
         }
+        
     }
     private void wallInit(){
         File f = new File("");
@@ -122,7 +128,7 @@ public class ImageManager {
 
         try{
             image = Thumbnails.of(path).scale(scale).asBufferedImage();
-            wallImage = image;
+            wallImage=image;
         } catch (IOException e){
             System.out.println(e);
         }

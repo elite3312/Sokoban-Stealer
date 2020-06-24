@@ -15,7 +15,7 @@ public class Actor {
     private int y;
     
     private Image image;
-
+    private Image[] imageArray;
     public Actor(int x, int y) {
         this.x = x;
         this.y = y;
@@ -24,9 +24,14 @@ public class Actor {
     public Image getImage() {
         return image;
     }
-
+    public Image getImageArray(int index){
+        return imageArray[index];
+    }
     public void setImage(Image img) {
         image = img;
+    }
+    public void setImageArray(Image[] img){
+        imageArray=img;
     }
 
     public int x() {
