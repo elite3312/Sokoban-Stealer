@@ -58,12 +58,12 @@ public class BackgroundMP3Player {
 			case 5:
 				path += "Splyce - Feel The Drums.mp3";
 				break;
-			//case 6:
-			//	path += "???????.mp3";
-			//	break;
-			//case 7:
-			//	path += "???????.mp3";
-			//	break;
+			case 6:
+				path += "Lovable Clown Sit Com.mp3";
+				break;
+			case 7:
+				path += "Jay.mp3";
+				break;
 			case 8:
 				path += "minotaur_boss_theme.mp3";
 				break;

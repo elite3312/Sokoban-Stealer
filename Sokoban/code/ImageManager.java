@@ -29,6 +29,7 @@ public class ImageManager {
     private Image[] treasureImages;
     private Image[] policeImages;
     private Image arrowImage;
+    private Image bombImage;
 
     private SecureRandom random = new SecureRandom();
     
@@ -40,6 +41,7 @@ public class ImageManager {
         treasureInit();
         policeInit();
         arrowInit();
+        bombInit();
     }
 
     public Image getBulletImage(){
@@ -69,7 +71,9 @@ public class ImageManager {
     public Image getArrowImage(){
         return arrowImage;
     }
-
+    public Image getBombImage(){
+        return bombImage;
+    }
     private void bulletInit(){
         File f = new File("");
         String path = f.getAbsolutePath();
@@ -88,7 +92,23 @@ public class ImageManager {
 			System.out.println(e);
         }        
     }
+    private void bombInit(){
+        File f=new File("");
+        String path=f.getAbsolutePath();
+        if (!path.contains("code"))
+			path = "pic/bomb1.png";
+		else
+            path = path.replaceAll("code", "pic/select.png");
+            
+        BufferedImage image;
 
+        try{
+            image = Thumbnails.of(path).scale(scale).asBufferedImage();
+            bombImage = image;
+        } catch (IOException e){
+            System.out.println(e);
+        }
+    }
     private void wallInit(){
         File f = new File("");
         String path = f.getAbsolutePath();

@@ -75,7 +75,7 @@ public class Stage extends JPanel {
 	private ArrayList<Treasure> treasures;
 	private ArrayList<Goal> goals;
 	private ArrayList<HardWall> hardWalls;
-
+	private Bomb bomb;
 	// private Police cop;
 	private Player stealer;
 	private Portal portal;
@@ -195,8 +195,13 @@ public class Stage extends JPanel {
 					newWall.setImage(imageManager.getWallImage());
 					walls.add(newWall); // create wall at (x,y)
 					x += SPACE;
+					
 					break;
-
+				case '^':
+					Bomb bomb =new Bomb(x + modifyX, y + modifyY);
+					bomb.setImage(imageManager.getBombImage());
+					x += SPACE;
+					break;
 				case ' ':
 					x += SPACE;
 					break;
@@ -526,7 +531,7 @@ public class Stage extends JPanel {
 
 		if (stealer.getBullet() != null)
 			world.add(stealer.getBullet());
-
+		
 		world.addAll(walls);
 		world.addAll(hardWalls);
 		world.addAll(treasures);
@@ -535,7 +540,9 @@ public class Stage extends JPanel {
 
 			world.addAll(cops);
 		}
-
+		System.out.printf("456");
+		if(bomb!=null)world.add(bomb);
+		System.out.printf("123");
 		world.add(stealer);
 		world.add(portal);
 
@@ -610,9 +617,10 @@ public class Stage extends JPanel {
 				cop.setsituation_change(toward);
 
 				g.drawImage(item.getImage(), item.x() + 2, item.y() + 2, this);
-			}
-
-			if (item instanceof Treasure) {
+			}else if (item instanceof Bomb){
+				g.drawImage(item.getImage(), item.x(), item.y(), this);
+				System.out.printf("ee");
+			}else if (item instanceof Treasure) {
 
 				g.drawImage(item.getImage(), item.x(), item.y(), this);
 				if (item.x() == tempBulletX && item.y() == tempBulletY) // bullet collides with treasure
