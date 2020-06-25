@@ -12,47 +12,64 @@ public class Map {
      % : goal with treasure
      *************************************************************/
 
-    private String map1 = 
+	
+	private String map0 = 
+	"HHHHH\n" + 
+	"H@$.H\n" +
+	"HHHHH\n";
+
+
+	private String map1 =  // author : YC SHEN
+		"HHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHH\n" +
+		"H@     ##   #      #    # # # #     H\n" +
+		"H# $# #  !     ##    ##         ### H\n" +
+		"H#    #    ###     #     # ####     H\n" +
+		"H# ##    ##      #  #  # #  !    # #H\n" +
+		"H    #      # ##    #    # #   #   #H\n" +
+		"H   #  ### ##  ## #   # #    #  #   H\n" +
+		"H##        ###       #    #   #    #H\n" +
+		"H     #  #  #  # # #    ##  #    # #H\n" +
+		"H ##  ##  #     # # #   ### ##   # #H\n" +
+		"H ###    #  #    !    ## #     ###  H\n" +
+		"H      #      #     #      #   #.   H\n" +
+		"HHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHH\n";
+
+
+    private String map2 = 
         "HHHHHHHHHHHHHHHHHHHHHHHHHH\n" + 
         "H########################H\n" + 
         "H#.########  !     $.####H\n" + 
         "H# ########$  ###### ####H\n" + 
-        "H#!   #####  $######!####H\n" + 
-        "H# ######  $ $ ##### #^##H\n" + 
+        "H#!   #####  $###^##!####H\n" + 
+        "H# ######  $ $ ##### ####H\n" + 
         "H#$###### # ## ##### ####H\n" + 
         "H# ####   # ## #####  ..#H\n" + 
         "H# ####    $      $   ..#H\n" + 
         "H# ########!### #@##  ..#H\n" + 
-        "H#              #### ####H\n" + 
+        "H#!             #### ####H\n" + 
         "H########################H\n" + 
 		"HHHHHHHHHHHHHHHHHHHHHHHHHH\n" ;
-		
 
-	private String t = 
-		"HHHHH\n" + 
-		"H@$.H\n" +
-		"HHHHH\n";
-
-
-	/*
-    private String map2 =
-		"HHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHH\n" +
-		"HHHH############################HHHHH\n" +
-		"HHHH##          !      .......  #HHHH\n" +
-		"HHHH##$    !         $         ##HHHH\n" +
-		"HH####  $         ########     ##HHHH\n" +
-		"HH##  $ $ #  !                ##HHHHH\n" +
-		"H#### # ## #        !          #####H\n" +
-		"H##   # ## #####      ##!         #HH\n" +
-		"H##                               #HH\n" +
-		"H##### ### #@# $#        $       #HHH\n" +
-		"HHHH##                    ########HHH\n" +
-		"HHHH##############################HHH\n" +
-		"HHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHH\n";
-	*/
+	
+	private String map3 = 
+		"HHHHHHHHHHHHHHHHHHHHH \n" +
+		"H          !#!      H \n" +
+		"H $   ##########    H \n" +
+		"H# ## #       ####  H \n" +
+		"H# ##   $#$#@  #    H \n" +
+		"H  ##  !   $ #   $ #H \n" +
+		"H   #%#  ######## ##H \n" +
+		"H   ##! .....   # ##H \n" +
+		"H## ##  .....   # ##H \n" +
+		"H  $#########  ##$  H \n" +
+		"H   #  !#   #   #   H \n" +
+		"H   $   #  !#   $   H \n" +
+		"H!  #       $   #   H \n" +
+		"H   #   #   #   #  !H \n" +
+		"HHHHHHHHHHHHHHHHHHHHH \n";
 
 
-    private String map3 =
+    private String map4 =
 		"HHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHH\n" +
 		"H##################################H\n" +
 		"H#####           !     .......... #H\n" +
@@ -69,26 +86,82 @@ public class Map {
 		"H##################################H\n" +
 		"HHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHH\n";
 
+	
+	private String map5 = 
+		"HHHHHHHHHHHHHHHHHHHHHHHHH\n" +
+		"H #####! #  ####.$!!!! .H\n" +
+		"H !#!   $   # ! #!!!  !$H\n" +
+		"H  #  ## ## $$# #### !# H\n" +
+		"H ### ##  # #    !  ### H\n" +
+		"H    $  $  $#$ #### ### H\n" +
+		"H !   #  ## #    ... ## H\n" +
+		"H ## ### # @    #... ## H\n" +
+		"H    $  $  ###  #... ## H\n" +
+		"H  !  #    #          ! H\n" +
+		"H  ## #  #    ###     ##H\n" +
+		"H!     !   #   !   #  ! H\n" +
+		"HHHHHHHHHHHHHHHHHHHHHHHHH\n";
 
-    private String map4 = 
-		"HHHHHHHHHHHHHHHHHHHHH \n" +
-		"H          !#!      H \n" +
-		"H $   ##########    H \n" +
-		"H# ## #       ####  H \n" +
-		"H# ##   $#$#@  #    H \n" +
-		"H  ##  !   $ #   $ #H \n" +
-		"H  ##%#  ######## ##H \n" +
-		"H   ##! .....   # ##H \n" +
-		"H## ##  .....   # ##H \n" +
-		"H  $#########  ##$  H \n" +
-		"H   #  !#   #   #   H \n" +
-		"H   $   #  !#   $   H \n" +
-		"H!  #       $   #   H \n" +
-		"H   #   #   #   #  !H \n" +
-		"HHHHHHHHHHHHHHHHHHHHH \n";
+
+	private String map6 = 
+		"HHHHHHHHHHHHHHHHHHHHHHHHH\n" +
+		"H! ##  #! ##  !        !H\n" +
+		"H      #  #      ###### H\n" +
+		"H    ! #  # $#  $     ! H\n" +
+		"H .#.# # ## @#   # #### H\n" +
+		"H . .    #  $# ##     ! H\n" +
+		"H .#.# # # $    #  #### H\n" +
+		"H . . $  ##  ##       ! H\n" +
+		"H .#.# #  #   ## $ ## # H\n" +
+		"H    $  $        # $ $ .H\n" +
+		"H   #    ######      .# H\n" +
+		"H!  ######    #      ## H\n" +
+		"H $    #    #  $    ### H\n" +
+		"H    !      ##   !     !H\n" +
+		"HHHHHHHHHHHHHHHHHHHHHHHHH\n";
 
 	
-	private String map5 =
+	private String map7 = 
+		"HHHHHHHHHHHHHHHHHHHHHHH\n" +
+		"H.... #@###    # !   %H\n" +
+		"H....        #$$  #   H\n" +
+		"H.... ##   ### #  #  !H\n" +
+		"H....   #  ### ## ##  H\n" +
+		"H.   ## #     $ $ #   H\n" +
+		"H  !    # !##$ $  #!  H\n" +
+		"H ##$##!####  # ##### H\n" +
+		"H!      ##    # #    !H\n" +
+		"H$   ! ### #  $    ###H\n" +
+		"H  ##   #!   $ $ #    H\n" +
+		"H%!#%   # ## ## $   ! H\n" +
+		"H###%    $$  !  $$    H\n" +
+		"H%%##    $ ### ## ### H\n" +
+		"H!    !    #!   ! #!  H\n" +
+		"HHHHHHHHHHHHHHHHHHHHHHH\n";
+
+
+
+
+	private String map8 = 
+		"HHHHHHHHHHHHHHHHHHHHHHH\n" +
+		"H!     !      !     !#H\n" +
+		"H  ###   #    #   ...#H\n" +
+		"H  # $ # # ##$   .....H\n" +
+		"H  #  $  #  $    .....H\n" +
+		"H ## # # # !#!   .....H\n" +
+		"H #  # # $  $ #       H\n" +
+		"H  !## ## $## #     #!H\n" +
+		"H #   $  $ #    $   ##H\n" +
+		"H #$ ####  # ### ##   H\n" +
+		"H !   $   $      $ $  H\n" +
+		"H ######## $##$    $  H\n" +
+		"H  $  ! .##      ##   H\n" +
+		"H##########  !   #   @H\n" +
+		"HHHHHHHHHHHHHHHHHHHHHHH\n";
+
+
+
+	private String map9 =
 		"HHHHHHHHHHHHHHHHHHHHHHHH\n" +
 		"H###...HHHHHHHH  ######H\n" + 
 		"H###.       $ H $    .HH\n" + 
@@ -98,140 +171,31 @@ public class Map {
 		"H $$$  $$.H#H H HHHHH HH\n" + 
 		"HH  $  $ HH#H H      $HH\n" +
 		"HH@  HHHHH!  !HHHHHHH HH\n" + 
-		"HH$$$!          !    !HH\n" + 
+		"HH$ $!   !      !$   @HH\n" + 
 		"H    HH !   !     HHH HH\n" + 
 		"HH $ .HHHH!   ! ##HHH$HH\n" +
 		"HH H$$  .HHHHHHHHHH   HH\n" + 
-		"HH. $    HH     $     HH\n" + 
+		"HH. $    HH!    $     HH\n" + 
 		"HHHHH $.HHH  $$$    ...H\n" +
 		"H####   .HH $       ...H\n" +
 		"HHHHHHHHHHHHHHHHHHHHHHHH\n";
 
 
-	private String map6 =  // author : YC SHEN
-	"HHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHH\n" +
-	"H@     ##   #      #    # # # #     H\n" +
-	"H# $# #  !     ##    ##         ### H\n" +
-	"H#    #    ###     #     # ####     H\n" +
-	"H  ##    ##      #  #  # #  !    # #H\n" +
-	"H    #      # ##    #    #     #    H\n" +
-	"H   #  ### ##  ## #   # #    #  #   H\n" +
-	"H##        ###       #    #   #    #H\n" +
-	"H     #  #  #  # # #    ##  #    # #H\n" +
-	"H ##  ##  #     # # #   ### ##   # #H\n" +
-	"H ###    #  #    !    ## #     ###  H\n" +
-	"H      #      #     #      #   #.   H\n" +
-	"HHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHH\n";
-
-
-	/* surpass the screen size
-	private String map7 = 
-	"             HHHHHH      \n" +
-	"             H   HHHHH   \n" +
-	"         HHHHH # #   H   \n" +
-	"    HHHHHH    $  # $ H   \n" +
-	"    H  !    ## ###  $HH  \n" +
-	"HHHHH   HH  H $ $ $$  HHH\n" +
-	"H   ## ######   $    !  H\n" +
-	"H #  # #   @# ########  H\n" +
-	"H  # #$# ####      ### HH\n" +
-	"H# $   # ..## #### ### H \n" +
-	"H#  ##$# ..##$#  $  $  H \n" +
-	"H $ ## ##..     # # #  H \n" +
-	"H  $  ! #..# ## #   HHHH \n" +
-	"HH  # # #..#    HHHHH    \n" +
-	" H# #   #..HHHHHH        \n" +
-	" H  #####..H             \n" +
-	" H  !    ..H             \n" +
-	" HH  ###  HH             \n" +
-	"  HHHHHHHHH              \n";
-	*/
-	
-	private String map8 = 
-	"HHHHHHHHHHHHHHHHHHHHHHH\n" +
-	"H.... #@###    # !   %H\n" +
-	"H....        #$$  #   H\n" +
-	"H.... ##   ### #  #  !H\n" +
-	"H....   #  ### ## ##  H\n" +
-	"H.   ## #     $ $ #   H\n" +
-	"H  !    # !##$ $  #!  H\n" +
-	"H ##$##!####  # ##### H\n" +
-	"H!      ##    # #    !H\n" +
-	"H$   ! ### #  $    ###H\n" +
-	"H  ##   #!   $ $ #    H\n" +
-	"H%!#%   # ## ## $   ! H\n" +
-	"H###%    $$  !  $$    H\n" +
-	"H%%##    $ ### ## ### H\n" +
-	"H!    !    #!   ! #!  H\n" +
-	"HHHHHHHHHHHHHHHHHHHHHHH\n";
-
-
-	private String map9 = 
-	"HHHHHHHHHHHHHHHHHHHHHHHHH\n" +
-	"H! #####! ##  !        !H\n" +
-	"H      #  #      ###### H\n" +
-	"H    ! #  # $#  $     ! H\n" +
-	"H .#.# # ## @#   # #### H\n" +
-	"H . .    #  $# ##     ! H\n" +
-	"H .#.# # # $    #  #### H\n" +
-	"H . . $  ##  ##       ! H\n" +
-	"H .#.# #  #   ## $ #### H\n" +
-	"H    $  $             $.H\n" +
-	"H  ##!   ######  $   .# H\n" +
-	"H! #######    #      ## H\n" +
-	"H $    #    #  $    ### H\n" +
-	"H    !      ##   !     !H\n" +
-	"HHHHHHHHHHHHHHHHHHHHHHHHH\n";
-
-
-	private String map10 = 
-	"HHHHHHHHHHHHHHHHHHHHHHH\n" +
-	"H!     !      !     !#H\n" +
-	"H  ###   #    #   ...#H\n" +
-	"H  # $ # # ##$   .....H\n" +
-	"H  #  $  #  $    .....H\n" +
-	"H ## # # # !#!   .....H\n" +
-	"H #  # # $  $ #       H\n" +
-	"H  !## ## $## #     #!H\n" +
-	"H #   $  $ #    $   ##H\n" +
-	"H #$ ####  # ### ##   H\n" +
-	"H !   $   $      $ $  H\n" +
-	"H ######## $##$    $  H\n" +
-	"H  $  ! .##      ##   H\n" +
-	"H##########  !   #   @H\n" +
-	"HHHHHHHHHHHHHHHHHHHHHHH\n";
-
-
-	private String map11 = 
-	"HHHHHHHHHHHHHHHHHHHHHHHHH\n" +
-	"H #####! #  ####.$!!!! .H\n" +
-	"H !#!   $   # ! #!!!  !$H\n" +
-	"H  #  ## ## $$# #### !# H\n" +
-	"H ### ##  # #    !  ### H\n" +
-	"H    $  $  $#$ #### ### H\n" +
-	"H !   #  ## #    ... ## H\n" +
-	"H ## ### # @    #... ## H\n" +
-	"H    $  $  ###  #... ## H\n" +
-	"H  !  #    #          ! H\n" +
-	"H  ## #  #    ###     ##H\n"+
-	"H!     !   #   !   #  ! H\n"+
-	"HHHHHHHHHHHHHHHHHHHHHHHHH\n";
-
 
    
     public String getMap(int selection){
         switch (selection){
-        	case 1 : return this.map1; //1
-        	case 2 : return this.map4; //4
-			case 3 : return this.map3; // may change here
-			case 4 : return this.map9;
-			case 5 : return this.map11;
-			case 6 : return this.map10;
-			case 7 : return this.map8;
-			case 8 : return this.map5;
-			case 9 : return this.map6;
+        	case 1 : return map1; //1
+        	case 2 : return map2; //4
+			case 3 : return map3; // may change here
+			case 4 : return map4;
+			case 5 : return map5;
+			case 6 : return map6;
+			case 7 : return map7;
+			case 8 : return map8;
+			case 9 : return map9;
 			case 10: return ""; // game end, save the time
-        	default : return this.t;
+        	default : return map0;
         }
     }
 }
