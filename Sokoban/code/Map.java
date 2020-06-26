@@ -19,7 +19,7 @@ public class Map {
 	"HHHHH\n";
 
 
-	private String map1 =  // author : YC SHEN
+	private String map5 =  // author : YC SHEN
 		"HHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHH\n" +
 		"H@     ##   #      #    # # # #     H\n" +
 		"H# $# #  !     ##    ##         ### H\n" +
@@ -35,7 +35,7 @@ public class Map {
 		"HHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHH\n";
 
 
-    private String map2 = 
+    private String map1 = 
         "HHHHHHHHHHHHHHHHHHHHHHHHHH\n" + 
         "H########################H\n" + 
         "H#.########  !     $.####H\n" + 
@@ -51,7 +51,7 @@ public class Map {
 		"HHHHHHHHHHHHHHHHHHHHHHHHHH\n" ;
 
 	
-	private String map3 = 
+	private String map2 = 
 		"HHHHHHHHHHHHHHHHHHHHH \n" +
 		"H          !#!      H \n" +
 		"H $   ##########    H \n" +
@@ -69,7 +69,7 @@ public class Map {
 		"HHHHHHHHHHHHHHHHHHHHH \n";
 
 
-    private String map4 =
+    private String map3 =
 		"HHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHH\n" +
 		"H##################################H\n" +
 		"H#####           !     .......... #H\n" +
@@ -87,7 +87,7 @@ public class Map {
 		"HHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHH\n";
 
 	
-	private String map5 = 
+	private String map4 = 
 		"HHHHHHHHHHHHHHHHHHHHHHHHH\n" +
 		"H #####! #  ####.$!!!! .H\n" +
 		"H !#!   $   # ! #!!!  !$H\n" +
