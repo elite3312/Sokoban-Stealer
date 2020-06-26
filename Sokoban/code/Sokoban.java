@@ -27,10 +27,12 @@ public class Sokoban extends JFrame {
 
 	private int player;
 	private int level;
-
+	
 	private SavesWriter writer;
 	private SavesReader reader;
-
+	private BackgroundMP3Player sounds;
+	private enum sound {bulletSound, bagSound,bombSound};
+	private Boolean trigger=false;
 	private JPanel panel;
 
 	public Sokoban(int player, int level) {
@@ -73,7 +75,7 @@ public class Sokoban extends JFrame {
 
 				stage.executetime++;
 				stage.repaint();
-
+				
 				if(stage.goNextStage()) {
 					
 					music.close();
@@ -100,6 +102,7 @@ public class Sokoban extends JFrame {
 					
 				}
 				if(stage.closeAct()){
+
 					Sokoban.this.dispose();
 					music.close();
 					setVisible(false);

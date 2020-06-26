@@ -47,7 +47,7 @@ public class Stage extends JPanel {
 	private final int playerSkinThree = 3;
 	private final int LevelCount = 9;
 
-	private BackgroundMP3Player sounds;
+	
 	private long timeStart;
 	private long timeMin;
 	private long timeSec;
@@ -67,7 +67,7 @@ public class Stage extends JPanel {
 	private int mapX, mapY;
 	private int lossBuffer = 0; // loss buffer(don't close immediately)
 	private int wonBuffer = 0; // don't switch immediately
-
+	private Boolean checkLost=false;
 	private long collisionIgnoreTime;
 	private Long restartTime;
 	private Long lossTime;
@@ -83,8 +83,10 @@ public class Stage extends JPanel {
 	private Player stealer;
 	private Portal portal;
 
-	private enum sound {bulletSound, bagSound};
-
+	
+	private BackgroundMP3Player sounds;
+	private enum sound {bulletSound, bagSound,bombSound};
+	private Boolean trigger=false;
 	private boolean isCompletedBool = false;
 	private boolean lost = false;
 	private boolean collisionIgnore = false; // penetrate skill
@@ -95,7 +97,7 @@ public class Stage extends JPanel {
 	private boolean nextStage = false;
 	private boolean closeSignal = false;
 	private boolean ending = false;
-
+	private int explodeTime=0;
 	private Graphics graphic; // for the global using
 	private Image arrowImage = new ImageIcon().getImage();
 	private FontMetrics metrics;
@@ -281,10 +283,14 @@ public class Stage extends JPanel {
 		int playerX = 0, playerY = 0;
 
 		if(lost){
+			checkLost=true;
 			stealer.playerExplode();
 		}
 
 		if(restarted){
+			trigger=false;
+			checkLost=false;
+			explodeTime=0;
 			timeStart=System.currentTimeMillis();
 			Long time = new Date().getTime();
 			String stateNow = "";
@@ -628,7 +634,9 @@ public class Stage extends JPanel {
 
 				g.drawImage(item.getImage(), item.x() + 2, item.y() + 2, this);
 			}else if (item instanceof Bomb){
-				if((executetime/10)%2==1)
+				if(lost)
+					g.drawImage(item.getImage(),item.x(),item.y(),this);
+				else if((executetime/10)%2==1)
 					g.drawImage(item.getImageArray(1), item.x(), item.y(), this);
 				else 
 					g.drawImage(item.getImageArray(0), item.x(), item.y(), this);
@@ -687,7 +695,7 @@ public class Stage extends JPanel {
 				playerY = item.y() + 2;
 				
 				int tempX = playerX, tempY = playerY;
-				if(lost)
+				if(checkLost)
 					g.drawImage(item.getImage(), tempX - 20, tempY - 20, this);
 				else
 					g.drawImage(item.getImage(), tempX, tempY, this);
@@ -703,24 +711,47 @@ public class Stage extends JPanel {
 				}
 				bufferedFrames++;
 			}
-			g.setFont(new Font("Microsoft JhengHei", Font.BOLD, 50));
-			g.setColor(new Color(255,0,0));
-			int spendingTime=(int)(System.currentTimeMillis()-timeStart)/1000;
-			int remainingTime=selection*10-spendingTime;
-			if(remainingTime==0)playerLoss();
-			String temp=String.format("%d:%02d",remainingTime/60,remainingTime%60);
-			g.drawString(temp,100,100);
+			
+			if(bomb!=null){
+				g.setFont(new Font("Microsoft JhengHei", Font.BOLD, 50));
+				g.setColor(new Color(255,0,0));
+				int spendingTime=(int)(System.currentTimeMillis()-timeStart)/1000;
+
+				int remainingTime=((selection/3)+1)*200-spendingTime;
+				if(remainingTime<=0){
+					remainingTime=0;
+					playerLoss();
+				}
+				String temp=String.format("%d:%02d",remainingTime/60,remainingTime%60);
+				g.drawString(temp,100,100);
+			}
+			
 			g.setFont(new Font("Microsoft JhengHei", Font.BOLD, 20));
 			g.setColor(new Color(0, 0, 0));
-			String information = "[ESC or P]-選單 3   [X]-穿牆技能    [Z]-傳送門    [SPACE]-武器";
+			String information = "[ESC or P]-選單    [X]-穿牆技能    [Z]-傳送門    [SPACE]-武器";
 			g.drawString(information, (int)(scale * this.width / 2 - 320), this.height - 40);
 
 		}
 		if (forbutton == 1)
 			forbutton = 0; // prevent repeated execution when bottom is clicked
 
-		if(lost) // buffered frames
+		if(lost){ // buffered frames
+
 			lossBuffer++;
+			if(bomb!=null){
+				ImageManager temp;
+				temp=new ImageManager();
+				Image[] bombPics;
+				bombPics=temp.getExploImage();
+				g.drawImage(bombPics[explodeTime],bomb.x()-60,bomb.y()-60,120,120, this);
+				if(explodeTime++>9)explodeTime=10;
+				playExploSound();
+				Image bombImg;
+				bombImg=bombPics[0];
+				bomb.setImage(bombImg);
+			}
+			
+		}
 		if(isCompletedBool)
 			wonBuffer++;
 
@@ -793,7 +824,7 @@ public class Stage extends JPanel {
 					}
 					
 					break;
-
+				
 				case KeyEvent.VK_UP:
 
 					if(gamePause){
@@ -867,7 +898,8 @@ public class Stage extends JPanel {
 					}
 					
 					break;
-
+			
+					
 				case KeyEvent.VK_Z: // portal
 
 					if (portal.getIsActive() == 1) {
@@ -989,14 +1021,26 @@ public class Stage extends JPanel {
 			repaint();
 		}
 	}
-
+	private void playExploSound(){
+		if(trigger==false){
+			trigger=true;
+			
+			try {
+				sounds = new BackgroundMP3Player();
+				sounds.setSound(sound.bombSound.ordinal());
+				sounds.play();
+			} catch (FileNotFoundException | JavaLayerException e1) {
+				System.out.printf("music err");
+			}
+		}
+	}
 	private boolean checkCollisions(Actor a, int d) {
 		// a -> actor, d -> direction
 		if (checkHardWallCollision(a, d) || checkWallCollision(a, d) || checkBagCollision(d))
 			return true;
 		return false;
 	}
-
+	
 	private boolean checkHardWallCollision(Actor actor, int type) {
 		int i;
 

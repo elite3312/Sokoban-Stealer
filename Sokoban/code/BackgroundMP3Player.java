@@ -96,6 +96,9 @@ public class BackgroundMP3Player {
 			case 1:
 				path+= "movebag.mp3";
 				break;
+			case 2:
+				path+= "explosion_.mp3";
+				break;
 			default:
 				path += "attack1.mp3";
 				break;

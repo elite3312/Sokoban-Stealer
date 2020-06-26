@@ -30,6 +30,7 @@ public class ImageManager {
     private Image[] policeImages;
     private Image arrowImage;
     private Image[] bombImage;
+    private Image[] exploImages;
 
     private SecureRandom random = new SecureRandom();
     
@@ -42,6 +43,7 @@ public class ImageManager {
         policeInit();
         arrowInit();
         bombInit();
+        exploInit();
     }
 
     public Image getBulletImage(){
@@ -73,6 +75,9 @@ public class ImageManager {
     }
     public Image[] getBombImage(){
         return bombImage;
+    }
+    public Image[] getExploImage(){
+        return exploImages;
     }
     private void bulletInit(){
         File f = new File("");
@@ -114,6 +119,27 @@ public class ImageManager {
             }
         }
         
+    }
+    private void exploInit(){
+        exploImages=new Image[11];
+        File f=new File("");
+        String path=f.getAbsolutePath();
+        String temp;
+        for(int i=0;i<=10;i++){
+            if(!path.contains("code"))
+                temp=String.format("pic/explosion/Explosion%d.png",i);
+            else
+                temp = path.replaceAll("code", String.format("pic/explosion/Explosion%d.png",i));
+            BufferedImage image;
+
+            try{
+                image = Thumbnails.of(temp).scale(scale).asBufferedImage();
+                exploImages[i] = image;
+            } catch (IOException e){
+                 System.out.println(e);
+            }
+
+        }
     }
     private void wallInit(){
         File f = new File("");

@@ -29,7 +29,7 @@ public class Map {
 		"H   #  ### ##  ## #   # #    #  #   H\n" +
 		"H##        ###       #    #   #    #H\n" +
 		"H     #  #  #  # # #    ##  #    # #H\n" +
-		"H ##  ##  #     # # #   ### ##   # #H\n" +
+		"H ##  ##  #     # # #   #^# ##   # #H\n" +
 		"H ###    #  #    !    ## #     ###  H\n" +
 		"H      #      #     #      #   #.   H\n" +
 		"HHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHH\n";
@@ -59,7 +59,7 @@ public class Map {
 		"H# ##   $#$#@  #    H \n" +
 		"H  ##  !   $ #   $ #H \n" +
 		"H   #%#  ######## ##H \n" +
-		"H   ##! .....   # ##H \n" +
+		"H   ##! .....   # #^H \n" +
 		"H## ##  .....   # ##H \n" +
 		"H  $#########  ##$  H \n" +
 		"H   #  !#   #   #   H \n" +
@@ -78,7 +78,7 @@ public class Map {
 		"H###  $   #                 #     #H\n" +
 		"H###!#     $ #####$   ###       ###H\n" +
 		"H# $ # ##### ###      #   ##### ###H\n" +
-		"H#      ##        #####       ! ###H\n" +
+		"H#      ##        #####       ! #^#H\n" +
 		"H###   ###@##$##    !  $  ####  ###H\n" +
 		"H#####  ###   #     ####   $    ###H\n" +
 		"H#! ## $  #           ##  ! ###$###H\n" +
@@ -93,7 +93,7 @@ public class Map {
 		"H !#!   $   # ! #!!!  !$H\n" +
 		"H  #  ## ## $$# #### !# H\n" +
 		"H ### ##  # #    !  ### H\n" +
-		"H    $  $  $#$ #### ### H\n" +
+		"H    $  $  $#$ #### #^# H\n" +
 		"H !   #  ## #    ... ## H\n" +
 		"H ## ### # @    #... ## H\n" +
 		"H    $  $  ###  #... ## H\n" +
@@ -156,14 +156,14 @@ public class Map {
 		"H !   $   $      $ $  H\n" +
 		"H ######## $##$    $  H\n" +
 		"H  $  ! .##      ##   H\n" +
-		"H##########  !   #   @H\n" +
+		"H########^#  !   #   @H\n" +
 		"HHHHHHHHHHHHHHHHHHHHHHH\n";
 
 
 
 	private String map9 =
 		"HHHHHHHHHHHHHHHHHHHHHHHH\n" +
-		"H###...HHHHHHHH  ######H\n" + 
+		"H#^#...HHHHHHHH  ######H\n" + 
 		"H###.       $ H $    .HH\n" + 
 		"HHHH$ $HHHHHH!H.......HH\n" + 
 		"HH$H$  H.HH#H H $ $$$ HH\n" + 
@@ -177,7 +177,7 @@ public class Map {
 		"HH H$$  .HHHHHHHHHH   HH\n" + 
 		"HH. $    HH!    $     HH\n" + 
 		"HHHHH $.HHH  $$$    ...H\n" +
-		"H####   .HH $       ...H\n" +
+		"H#^##   .HH $       ...H\n" +
 		"HHHHHHHHHHHHHHHHHHHHHHHH\n";
 
 
