@@ -67,7 +67,7 @@ public class Stage extends JPanel {
 	private int mapX, mapY;
 	private int lossBuffer = 0; // loss buffer(don't close immediately)
 	private int wonBuffer = 0; // don't switch immediately
-	private Boolean checkLost=false;
+	private Boolean checkLost = false;
 	private long collisionIgnoreTime;
 	private Long restartTime;
 	private Long lossTime;
@@ -85,7 +85,7 @@ public class Stage extends JPanel {
 
 	
 	private BackgroundMP3Player sounds;
-	private enum sound {bulletSound, bagSound,bombSound};
+	private enum sound {bulletSound, bagSound, bombSound};
 	private Boolean trigger=false;
 	private boolean isCompletedBool = false;
 	private boolean lost = false;
@@ -97,7 +97,7 @@ public class Stage extends JPanel {
 	private boolean nextStage = false;
 	private boolean closeSignal = false;
 	private boolean ending = false;
-	private int explodeTime=0;
+	private int explodeTime = 0;
 	private Graphics graphic; // for the global using
 	private Image arrowImage = new ImageIcon().getImage();
 	private FontMetrics metrics;
@@ -205,8 +205,8 @@ public class Stage extends JPanel {
 					
 					break;
 				case '^':
-					bomb =new Bomb(x + modifyX, y + modifyY);
-					Image[] temp=imageManager.getBombImage();
+					bomb = new Bomb(x + modifyX, y + modifyY);
+					Image[] temp = imageManager.getBombImage();
 					//bomb.setImage(temp[1]);
 					bomb.setImageArray(temp);
 					x += SPACE;
@@ -288,10 +288,10 @@ public class Stage extends JPanel {
 		}
 
 		if(restarted){
-			trigger=false;
-			checkLost=false;
-			explodeTime=0;
-			timeStart=System.currentTimeMillis();
+			trigger = false;
+			checkLost = false;
+			explodeTime = 0;
+			timeStart = System.currentTimeMillis();
 			Long time = new Date().getTime();
 			String stateNow = "";
 
@@ -635,8 +635,8 @@ public class Stage extends JPanel {
 				g.drawImage(item.getImage(), item.x() + 2, item.y() + 2, this);
 			}else if (item instanceof Bomb){
 				if(lost)
-					g.drawImage(item.getImage(),item.x(),item.y(),this);
-				else if((executetime/10)%2==1)
+					g.drawImage(item.getImage(), item.x(), item.y(), this);
+				else if((executetime / 10) % 2 == 1)
 					g.drawImage(item.getImageArray(1), item.x(), item.y(), this);
 				else 
 					g.drawImage(item.getImageArray(0), item.x(), item.y(), this);

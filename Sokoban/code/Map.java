@@ -185,9 +185,9 @@ public class Map {
    
     public String getMap(int selection){
         switch (selection){
-        	case 1 : return map1; //1
-        	case 2 : return map2; //4
-			case 3 : return map3; // may change here
+        	case 1 : return map1;
+        	case 2 : return map2;
+			case 3 : return map3;
 			case 4 : return map4;
 			case 5 : return map5;
 			case 6 : return map6;

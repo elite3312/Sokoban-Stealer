@@ -20,25 +20,165 @@ public class EndingAnimation {
     private FontMetrics metrics;
 
     private final int Line = 45;
-    private int x, y;
     private final int finalY;
-
-    private String[] texts;
+    private int x, y;
 
     private Color color;
     private int R, G, B, R2, G2, B2;
 
-    private String finalWords = "Sokoban - Stealer";
-    private String finalWords2 = "Thanks For Playing";
+    private final String finalWords = "Sokoban - Stealer";
+    private final String finalWords2 = "Thanks For Playing";
     private int finalWordsLen;
 
     private boolean fadeInOver;
     private boolean fadeInOver2;
     private boolean musicPlayed;
+    private boolean recorded;
 
     private int allOver;
 
     private BackgroundMP3Player music;
+
+    private int[] posRecord;
+    private final String[] texts = {
+        "- Created By -", // 0
+        "",
+        "",
+        "李佳勳",
+        "沈彥昭",
+        "吳永璿",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "- Musics By -", // 12
+        "",
+        "",
+        "Spectre    -    AlanWalker",
+        "Jay Jay    -    Kevin MacLeod",
+        "Feel The Drums    -    Spycle",
+        "Tragedy Flame    -    Raiden II",
+        "All Or Nothing    -    Raiden II",
+        "Repeated Tragedy    -    Raiden II",
+        "Minotaur Boss Theme    -    Toram online",
+        "Lovable Clown Sit Com    -    Sir Cubworth",
+        "A Page Of My Story    -    Princess Pricipal",
+        "SPÏKA 「Rigël Theatre」   -    Remilia Scarlet",
+        "Beyond My Beloved Horizon    -    Pirates of the Caribbean",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "- Pictures By -", // 32
+        "",
+        "",
+        "Police    -    Craftpix.net",
+        "Stealer    -    Craftpix.net",
+        "",
+        "Wall    -    OpenGameArt.org",
+        "Chest    -    OpenGameArt.org",
+        "Portal    -    OpenGameArt.org",
+        "Explosion    -    OpenGameArt.org",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "- Game UI -", // 48
+        "",
+        "",
+        "吳永璿",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "- Music Design -", // 58
+        "",
+        "",
+        "李佳勳",
+        "沈彥昭",
+        "吳永璿",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "- Animation -", // 70
+        "",
+        "",
+        "沈彥昭",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "- Special Thanks -", // 94
+        "",
+        "",
+        "Java    -    Oracle",
+        "jiPlayer    -    JavaZOOM",
+        "Thumbnailator    -    coobird",
+        "",
+        "VSCode",
+        "Eclipse",
+        "Audacity",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "- Special Thanks -", // 124
+        "",
+        "",
+        "陳俊佑 助教",
+        "游婉琳 助教",
+        "",
+        "馬尚彬 教授",
+        "",
+        "",
+        "",
+        "",
+        ""
+    };
+
     
     public EndingAnimation(){
 
@@ -61,6 +201,7 @@ public class EndingAnimation {
         fadeInOver = false;
         fadeInOver2 = false;
         musicPlayed = false;
+        recorded = false;
 
         try {
             music = new BackgroundMP3Player();
@@ -70,174 +211,55 @@ public class EndingAnimation {
 
         color = new Color(0, 0, 0);
 
-        texts = new String[]{
-            "- Created By -", // 0
-            "",
-            "",
-            "李佳勳",
-            "沈彥昭",
-            "吳永璿",
-            "",
-            "",
-            "",
-            "",
-            "",
-            "",
-            "- Musics By -", // 12
-            "",
-            "",
-            "Spectre    -    AlanWalker",
-            "Tragedy Flame    -    Raiden II",
-            "All Or Nothing    -    Raiden II",
-            "Repeated Tragedy    -    Raiden II",
-            "Minotaur Boss Theme    -    Toram online",
-            "A Page Of My Story    -    Princess Pricipal",
-            "SPÏKA 「Rigël Theatre」   -    Remilia Scarlet",
-            "Beyond My Beloved Horizon    -    Pirates of the Caribbean",
-            "Jay Jay    -    Kevin MacLeod",
-            "Lovable Clown Sit Com    -    Sir Cubworth",
-            "preset 3",
-            "",
-            "",
-            "",
-            "",
-            "",
-            "",
-            "- Pictures By -", // 32
-            "",
-            "",
-            "Player    -    Craftpix.net",
-            "Police    -    Craftpix.net",
-            "",
-            "Wall    -    OpenGameArt.org",
-            "Chest    -    OpenGameArt.org",
-            "Portal    -    OpenGameArt.org",
-            "Explosion    -    OpenGameArt.org",
-            "",
-            "",
-            "",
-            "",
-            "",
-            "",
-            "- Game UI -", // 48
-            "",
-            "",
-            "吳永璿",
-            "",
-            "",
-            "",
-            "",
-            "",
-            "",
-            "- Music Design -", // 58
-            "",
-            "",
-            "李佳勳",
-            "沈彥昭",
-            "吳永璿",
-            "",
-            "",
-            "",
-            "",
-            "",
-            "",
-            "- Animation Design -", // 70
-            "",
-            "",
-            "沈彥昭",
-            "",
-            "",
-            "",
-            "",
-            "",
-            "",
-            "",
-            "",
-            "",
-            "",
-            "",
-            "",
-            "",
-            "",
-            "",
-            "",
-            "",
-            "",
-            "",
-            "",
-            "- Special Thanks -", // 94
-            "",
-            "",
-            "Java    -    Oracle",
-            "jiPlayer    -    JavaZOOM",
-            "Thumbnailator    -    coobird",
-            "",
-            "VSCode",
-            "Eclipse",
-            "Audacity",
-            "",
-            "",
-            "",
-            "",
-            "",
-            "",
-            "",
-            "",
-            "",
-            "",
-            "",
-            "",
-            "",
-            "",
-            "",
-            "",
-            "",
-            "",
-            "",
-            "",
-            "- Special Thanks -", // 124
-            "",
-            "",
-            "陳俊佑 助教",
-            "游婉琳 助教",
-            "",
-            "馬尚彬 教授",
-            "",
-            "",
-            "",
-            "",
-            "",
-            "",
-            "",
-            "",
-            "",
-            "",
-            "",
-            "",
-            ""
-        };
+        posRecord = new int[texts.length];
+    }
 
+    private void recordPosition(Graphics g){
+
+        int strWidth;
+        g.setColor(Color.BLACK);
+
+        for (int i = 0; i < texts.length; i++){
+
+            if(i == 0 || i == 12 || i == 32 || i == 48 || i == 58 || i == 70 || i == 94 || i == 124){
+                g.setFont(titleFont);
+                metrics = g.getFontMetrics(titleFont);     
+                strWidth = metrics.stringWidth(texts[i]);
+                /*
+                    get the length of string that actual on the screen 
+                    for the use of centrlize the string
+                */
+            }
+            else{
+                g.setFont(font);
+                metrics = g.getFontMetrics(font);
+                strWidth = metrics.stringWidth(texts[i]);
+            }
+
+            posRecord[i] = x / 2 - strWidth / 2;
+        }
+        recorded = true;
     }
 
     public void ending(Graphics g){
 
-        int tempX = x / 2, tempY = y;
+        int tempY = y;
         int index = -1;
-        int strWidth;
 
         if(!musicPlayed){
             music.setSong(99);
             music.play();
             musicPlayed = true;
         }
+
+        if(!recorded)
+            recordPosition(g);
         
         try{ // needed
             Thread.sleep(7);
         } catch (InterruptedException e) {
             System.out.println(e);
         }
-
-        g.setColor(color);
 
         for (String text : texts){
 
@@ -249,43 +271,36 @@ public class EndingAnimation {
 
             if(index == 0 || index == 12 || index == 32 || index == 48 || index == 58 || index == 70 || index == 94 || index == 124){
                 g.setFont(titleFont);
-                metrics = g.getFontMetrics(titleFont);     
-                strWidth = metrics.stringWidth(text);
-                /*
-                    get the length of string that actual on the screen 
-                    for the use of centrlize the string
-                */
             }
             else{
                 g.setFont(font);
-                metrics = g.getFontMetrics(font);
-                strWidth = metrics.stringWidth(text);
             }
 
-            int realX = tempX - strWidth / 2;
-
-            g.drawString(text, realX, tempY);
+            g.drawString(text, posRecord[index], tempY);
 
         }
 
-        if(y + Line * texts.length > (int)dimension.getHeight() / 2) // the last line disappear from screen
+        if(y + Line * texts.length > 0) // the last line disappear from screen
             y -= 1;
         else{
-            if(!fadeInOver)
-                fadeIn(g);
-            else
-                fadeOut(g);
+            fadeIn(g);
         }
+
     }
 
     private void fadeIn(Graphics g){ // gradually change the color to make fade effect
+
+        if(fadeInOver){
+            fadeOut(g);
+            return;
+        }
 
         metrics = g.getFontMetrics(finalFont);     
         finalWordsLen = metrics.stringWidth(finalWords);
 
         g.setFont(finalFont);
 
-        if(R > 1){
+        if(R >= 1){
             R -= 1;
             G -= 1;
             B -= 1;
@@ -293,8 +308,8 @@ public class EndingAnimation {
         }
         else{
             fadeInOver = true;
+            return;
         }
-
         g.setColor(color);
         g.drawString(finalWords, x / 2 - finalWordsLen / 2, finalY / 2);
  
@@ -311,24 +326,29 @@ public class EndingAnimation {
             R += 1;
             G += 1;
             B += 1;
-            color = new Color(R, G, B);
-            g.drawString(finalWords, x / 2 - finalWordsLen / 2, finalY / 2);
         }
         else{
-            if(!fadeInOver2)
-                fadeIn2(g);
-            else
-                fadeOut2(g);
+            fadeIn2(g);
+            return;
         }
+        color = new Color(R, G, B);
+        g.setColor(color);
+        g.drawString(finalWords, x / 2 - finalWordsLen / 2, finalY / 2);
     }
 
     private void fadeIn2(Graphics g){
+
+        if(fadeInOver2){
+            fadeOut2(g);
+            return;
+        }
+
         metrics = g.getFontMetrics(finalFont);     
         finalWordsLen = metrics.stringWidth(finalWords2);
 
         g.setFont(finalFont);
 
-        if(R2 > 1){
+        if(R2 >= 1){
             R2 -= 1;
             G2 -= 1;
             B2 -= 1;
@@ -337,9 +357,9 @@ public class EndingAnimation {
         else{
             fadeInOver2 = true;
         }
-
         g.setColor(color);
         g.drawString(finalWords2, x / 2 - finalWordsLen / 2, finalY / 2);
+
     }
 
     private void fadeOut2(Graphics g){
@@ -357,6 +377,7 @@ public class EndingAnimation {
             allOver++;
 
         color = new Color(R2, G2, B2);
+        g.setColor(color);
         g.drawString(finalWords2, x / 2 - finalWordsLen / 2, finalY / 2);
     }
 

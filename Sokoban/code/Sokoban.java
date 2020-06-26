@@ -31,7 +31,7 @@ public class Sokoban extends JFrame {
 	private SavesWriter writer;
 	private SavesReader reader;
 	private BackgroundMP3Player sounds;
-	private enum sound {bulletSound, bagSound,bombSound};
+	private enum sound {bulletSound, bagSound, bombSound};
 	private Boolean trigger=false;
 	private JPanel panel;
 
@@ -93,9 +93,9 @@ public class Sokoban extends JFrame {
 					}
 					reader.closeFile();
 
-					if(level<=LevelCount){
+					if(level <= LevelCount){
 						
-							music.setSong(level);
+							music.setSong(++level);
 							music.circularPlay();
 					}
 					stage.setNextStage(false);
