@@ -46,6 +46,10 @@ public class ImageManager {
         exploInit();
     }
 
+    public ImageManager(int dontInit) {
+
+    }
+
     public Image getBulletImage() {
         return bulletImage;
     }
@@ -180,7 +184,7 @@ public class ImageManager {
         arrowImage = getImageFromPath(path);
     }
 
-    private String pathConfig(String path, String picName) {
+    public String pathConfig(String path, String picName) {
 
         String res;
 
@@ -193,7 +197,7 @@ public class ImageManager {
         return res;
     }
 
-    private Image getImageFromPath(String path) {
+    public Image getImageFromPath(String path) {
 
         Image result;
 

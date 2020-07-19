@@ -51,81 +51,44 @@ public class Player extends Actor {
 	private void initPlayer(int playerSkinChoosed) {
 
 		String up, down, left, right;
+		ImageManager imanager = new ImageManager(0);
 
 		if(playerSkinChoosed == playerSkinOne){
-			if (!path.contains("code")){
-				up = "pic/character/playerOneUp.png";
-				left = "pic/character/playerOneLeft.png";
-				down = "pic/character/playerOneDown.png";
-				right = "pic/character/playerOneRight.png";
-			}
-			else{
-				up = path.replaceAll("code", "pic/character/playerOneUp.png");
-				left = path.replaceAll("code", "pic/character/playerOneLeft.png");
-				down = path.replaceAll("code", "pic/character/playerOneDown.png");
-				right = path.replaceAll("code", "pic/character/playerOneRight.png");
-			}
+			up = imanager.pathConfig(path, "character/playerOneUp.png");
+			left = imanager.pathConfig(path, "character/playerOneLeft.png");
+			down = imanager.pathConfig(path, "character/playerOneDown.png");
+			right = imanager.pathConfig(path, "character/playerOneRight.png");
 		}
 		else if(playerSkinChoosed == playerSkinTwo){
-			if (!path.contains("code")){
-				up = "pic/character/playerTwoUp.png";
-				left = "pic/character/playerTwoLeft.png";
-				down = "pic/character/playerTwoDown.png";
-				right = "pic/character/playerTwoRight.png";
-			}
-			else{
-				up = path.replaceAll("code", "pic/character/playerTwoUp.png");
-				left = path.replaceAll("code", "pic/character/playerTwoLeft.png");
-				down = path.replaceAll("code", "pic/character/playerTwoDown.png");
-				right = path.replaceAll("code", "pic/character/playerTwoRight.png");
-			}
+			up = imanager.pathConfig(path, "character/playerTwoUp.png");
+			left = imanager.pathConfig(path, "character/playerTwoLeft.png");
+			down = imanager.pathConfig(path, "character/playerTwoDown.png");
+			right = imanager.pathConfig(path, "character/playerTwoRight.png");
 		}
 		else{
-			if (!path.contains("code")){
-				up = "pic/character/playerThreeUp.png";
-				left = "pic/character/playerThreeLeft.png";
-				down = "pic/character/playerThreeDown.png";
-				right = "pic/character/playerThreeRight.png";
-			}
-			else{
-				up = path.replaceAll("code", "pic/character/playerThreeUp.png");
-				left = path.replaceAll("code", "pic/character/playerThreeLeft.png");
-				down = path.replaceAll("code", "pic/character/playerThreeDown.png");
-				right = path.replaceAll("code", "pic/character/playerThreeRight.png");
-			}
+			up = imanager.pathConfig(path, "character/playerThreeUp.png");
+			left = imanager.pathConfig(path, "character/playerThreeLeft.png");
+			down = imanager.pathConfig(path, "character/playerThreeDown.png");
+			right = imanager.pathConfig(path, "character/playerThreeRight.png");
 		}
 
-        try{
-            upIcon = (Image)Thumbnails.of(up).scale(scale).asBufferedImage();
-			leftIcon = (Image)Thumbnails.of(left).scale(scale).asBufferedImage();
-			downIcon = (Image)Thumbnails.of(down).scale(scale).asBufferedImage();
-			rightIcon = (Image)Thumbnails.of(right).scale(scale).asBufferedImage();
+		upIcon = imanager.getImageFromPath(up);
+		leftIcon = imanager.getImageFromPath(left);
+		downIcon = imanager.getImageFromPath(down);
+		rightIcon = imanager.getImageFromPath(right);
 
-			setImage(upIcon);
-
-        } catch (IOException e){
-            System.out.println(e);
-		}
+		setImage(upIcon);
 
 		explosion = 0;
 		String explodePath;
+
 		for(int i = 0; i < 10; i++){
 			Image temp;
 
 			explodePath = path;
-			if (!path.contains("code")){
-				explodePath = String.format("pic/explode/explode%d.png", i);
-			}
-			else{
-				explodePath = path.replaceAll("code", String.format("pic/explode/explode%d.png", i));
-			}
-
-			try{
-				temp = (Image)Thumbnails.of(explodePath).scale(scale).asBufferedImage();
-				explodImages[i] = temp;
-			} catch (IOException e){
-				System.out.println(e);
-			}	
+			explodePath = imanager.pathConfig(path, String.format("explode/explode%d.png", i));
+			
+			explodImages[i] = imanager.getImageFromPath(explodePath);
 		}
 	}
 

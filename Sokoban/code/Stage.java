@@ -36,8 +36,8 @@ public class Stage extends JPanel {
 	private final double scale = dimension.getWidth() / baseWidth; // suitable for all screen size
 
 	// constant
-	private final int MARGIN = (int)(40 * scale);
-	private final int SPACE = (int)(40 * scale); // actor side length
+	private final int MARGIN = (int) (40 * scale);
+	private final int SPACE = (int) (40 * scale); // actor side length
 	private final int LEFT = 1;
 	private final int RIGHT = 2;
 	private final int UP = 3;
@@ -47,7 +47,6 @@ public class Stage extends JPanel {
 	private final int playerSkinThree = 3;
 	private final int LevelCount = 9;
 
-	
 	private long timeStart;
 	private long timeMin;
 	private long timeSec;
@@ -83,10 +82,13 @@ public class Stage extends JPanel {
 	private Player stealer;
 	private Portal portal;
 
-	
 	private BackgroundMP3Player sounds;
-	private enum sound {bulletSound, bagSound, bombSound};
-	private Boolean trigger=false;
+
+	private enum sound {
+		bulletSound, bagSound, bombSound
+	};
+
+	private Boolean trigger = false;
 	private boolean isCompletedBool = false;
 	private boolean lost = false;
 	private boolean collisionIgnore = false; // penetrate skill
@@ -106,21 +108,21 @@ public class Stage extends JPanel {
 	private CheatManager cheater = new CheatManager();
 
 	private EndingAnimation endAnimate = new EndingAnimation();
-	
+
 	public Stage(int playerSkinChoosen, int level) {
-		timeStart=System.currentTimeMillis();
+		timeStart = System.currentTimeMillis();
 
 		selection = level;
 
 		if (playerSkinChoosen == playerSkinTwo)
 			playerSkin = playerSkinTwo;
-		else if(playerSkinChoosen == playerSkinThree)
+		else if (playerSkinChoosen == playerSkinThree)
 			playerSkin = playerSkinThree;
 		else
 			playerSkin = playerSkinOne; // default
 
-		this.width = (int)dimension.getWidth();
-		this.height = (int)dimension.getHeight();
+		this.width = (int) dimension.getWidth();
+		this.height = (int) dimension.getHeight();
 
 		initStage();
 	}
@@ -141,7 +143,7 @@ public class Stage extends JPanel {
 
 	private void initWorld() {
 
-		arrowImage = imageManager.getArrowImage();					
+		arrowImage = imageManager.getArrowImage();
 
 		walls = new ArrayList<>();
 		treasures = new ArrayList<>();
@@ -174,7 +176,7 @@ public class Stage extends JPanel {
 		lossBuffer = 0;
 		wonBuffer = 0;
 
-		if(level == "") // if map is none, return
+		if (level == "") // if map is none, return
 			return;
 
 		mapX = level.indexOf("\n", 0); // len of map width
@@ -202,15 +204,15 @@ public class Stage extends JPanel {
 					newWall.setImage(imageManager.getWallImage());
 					walls.add(newWall); // create wall at (x,y)
 					x += SPACE;
-					
+
 					break;
 				case '^':
 					bomb = new Bomb(x + modifyX, y + modifyY);
 					Image[] temp = imageManager.getBombImage();
-					//bomb.setImage(temp[1]);
+					// bomb.setImage(temp[1]);
 					bomb.setImageArray(temp);
 					x += SPACE;
-					
+
 					break;
 				case ' ':
 					x += SPACE;
@@ -244,7 +246,7 @@ public class Stage extends JPanel {
 					cops.add(newCop);
 					x += SPACE;
 					break;
-				
+
 				case '%':
 					Goal newGoal2 = new Goal(x + modifyX, y + modifyY);
 					newGoal2.setImage(imageManager.getGoalImage());
@@ -270,11 +272,11 @@ public class Stage extends JPanel {
 
 	private void buildWorld(Graphics g) {
 
-		if(selection == LevelCount + 1){ // all completed
+		if (selection == LevelCount + 1) { // all completed
 			nextStage = true;
 			ending = true;
 			endAnimate.ending(g);
-			if(endAnimate.over())
+			if (endAnimate.over())
 				closeSignal = true;
 			repaint();
 			return;
@@ -282,12 +284,12 @@ public class Stage extends JPanel {
 
 		int playerX = 0, playerY = 0;
 
-		if(lost){
-			checkLost=true;
+		if (lost) {
+			checkLost = true;
 			stealer.playerExplode();
 		}
 
-		if(restarted){
+		if (restarted) {
 			trigger = false;
 			checkLost = false;
 			explodeTime = 0;
@@ -295,26 +297,21 @@ public class Stage extends JPanel {
 			Long time = new Date().getTime();
 			String stateNow = "";
 
-			if(time - restartTime < 200){
+			if (time - restartTime < 200) {
 				stateNow = "Loading     ";
-			}
-			else if(time - restartTime >= 200 && time - restartTime < 400){
+			} else if (time - restartTime >= 200 && time - restartTime < 400) {
 				stateNow = "Loading.    ";
-			}
-			else if(time - restartTime >= 400 && time - restartTime < 600){
+			} else if (time - restartTime >= 400 && time - restartTime < 600) {
 				stateNow = "Loading..   ";
-			}
-			else if(time - restartTime >= 600 && time - restartTime < 800){
+			} else if (time - restartTime >= 600 && time - restartTime < 800) {
 				stateNow = "Loading...  ";
-			}
-			else if(time - restartTime >= 800 && time - restartTime < 1000){
+			} else if (time - restartTime >= 800 && time - restartTime < 1000) {
 				stateNow = "Loading.... ";
-			}
-			else if(time - restartTime >= 1000 && time - restartTime < 1200){
+			} else if (time - restartTime >= 1000 && time - restartTime < 1200) {
 				stateNow = "Loading.....";
 			}
 
-			Font font = new Font("Microsoft JhengHei", Font.BOLD, (int)(64 * scale));
+			Font font = new Font("Microsoft JhengHei", Font.BOLD, (int) (64 * scale));
 			metrics = g.getFontMetrics(font);
 			int strWidth = metrics.stringWidth(stateNow);
 
@@ -322,23 +319,22 @@ public class Stage extends JPanel {
 			g.setFont(font);
 
 			g.drawString(stateNow, this.width / 2 - strWidth / 2, this.height / 2);
-			
-			if(time - restartTime < 1200){
+
+			if (time - restartTime < 1200) {
 				return;
-			}
-			else{
+			} else {
 				restarted = false;
 			}
 		}
 
-		if(lossBuffer > 15){
-			if(lost){
-				
+		if (lossBuffer > 15) {
+			if (lost) {
+
 				Long time = new Date().getTime();
 
 				String infoShow = "關卡失敗 !!!";
 
-				Font font = new Font("Microsoft JhengHei", Font.BOLD, (int)(64 * scale));
+				Font font = new Font("Microsoft JhengHei", Font.BOLD, (int) (64 * scale));
 				metrics = g.getFontMetrics(font);
 				int strWidth = metrics.stringWidth(infoShow);
 
@@ -346,10 +342,9 @@ public class Stage extends JPanel {
 				g.setFont(font);
 				g.drawString(infoShow, this.width / 2 - strWidth / 2, this.height / 2);
 
-				if(time - lossTime < 1000){
+				if (time - lossTime < 1000) {
 					return;
-				}
-				else{
+				} else {
 					lost = false;
 					restartLevel();
 					return;
@@ -357,14 +352,14 @@ public class Stage extends JPanel {
 			}
 		}
 
-		if(wonBuffer > 15){
-			if(isCompletedBool){
+		if (wonBuffer > 15) {
+			if (isCompletedBool) {
 				Long time = new Date().getTime();
 
-				if(time - wonTime < 1000){
+				if (time - wonTime < 1000) {
 
 					String infoShow = "關卡勝利 !!!";
-					Font font = new Font("Microsoft JhengHei", Font.BOLD, (int)(64 * scale));
+					Font font = new Font("Microsoft JhengHei", Font.BOLD, (int) (64 * scale));
 					metrics = g.getFontMetrics(font);
 					int strWidth = metrics.stringWidth(infoShow);
 
@@ -372,30 +367,24 @@ public class Stage extends JPanel {
 					g.setFont(font);
 					g.drawString(infoShow, this.width / 2 - strWidth / 2, this.height / 2);
 					return;
-				}
-				else if(time - wonTime > 1000 && time - wonTime < 2200){
+				} else if (time - wonTime > 1000 && time - wonTime < 2200) {
 					String stateNow = "";
 
-					if(time - wonTime < 1200){
+					if (time - wonTime < 1200) {
 						stateNow += "Loading     ";
-					}
-					else if(time - wonTime >= 1200 &&time - wonTime < 1400){
+					} else if (time - wonTime >= 1200 && time - wonTime < 1400) {
 						stateNow += "Loading.    ";
-					}
-					else if(time - wonTime >= 1400 &&time - wonTime < 1600){
+					} else if (time - wonTime >= 1400 && time - wonTime < 1600) {
 						stateNow += "Loading..   ";
-					}
-					else if(time - wonTime >= 1600 &&time - wonTime < 1800){
+					} else if (time - wonTime >= 1600 && time - wonTime < 1800) {
 						stateNow += "Loading...  ";
-					}
-					else if(time - wonTime >= 1800 &&time - wonTime < 2000){
+					} else if (time - wonTime >= 1800 && time - wonTime < 2000) {
 						stateNow += "Loading.... ";
-					}
-					else if(time - wonTime >= 2000 &&time - wonTime < 2200){
+					} else if (time - wonTime >= 2000 && time - wonTime < 2200) {
 						stateNow += "Loading.....";
 					}
-					
-					Font font = new Font("Microsoft JhengHei", Font.BOLD, (int)(64 * scale));
+
+					Font font = new Font("Microsoft JhengHei", Font.BOLD, (int) (64 * scale));
 					metrics = g.getFontMetrics(font);
 					int strWidth = metrics.stringWidth(stateNow);
 
@@ -404,8 +393,7 @@ public class Stage extends JPanel {
 					g.drawString(stateNow, this.width / 2 - strWidth / 2, this.height / 2);
 
 					return;
-				}
-				else{
+				} else {
 					isCompletedBool = false;
 					nextStage = true;
 					selection++;
@@ -414,11 +402,11 @@ public class Stage extends JPanel {
 			}
 		}
 
-		if(gamePause){
+		if (gamePause) {
 			String state = String.format("LEVEL %d", selection);
 			String pau = "【 暫停 】";
 
-			Font font = new Font("Microsoft JhengHei", Font.BOLD, (int)(80 * scale));
+			Font font = new Font("Microsoft JhengHei", Font.BOLD, (int) (80 * scale));
 			metrics = g.getFontMetrics(font);
 			int strWidth = metrics.stringWidth(state);
 
@@ -426,7 +414,7 @@ public class Stage extends JPanel {
 			g.setFont(font);
 			g.drawString(state, this.width / 2 - strWidth / 2, this.height / 5);
 
-			font = new Font("Microsoft JhengHei", Font.PLAIN, (int)(64 * scale));
+			font = new Font("Microsoft JhengHei", Font.PLAIN, (int) (64 * scale));
 			g.setFont(font);
 
 			metrics = g.getFontMetrics(font);
@@ -439,14 +427,13 @@ public class Stage extends JPanel {
 			choose2 = "重新開始";
 			choose3 = "回到主畫面";
 
-			if(pauseSelect == 1){
-				font = new Font("Microsoft JhengHei", Font.PLAIN, (int)(40 * scale));
+			if (pauseSelect == 1) {
+				font = new Font("Microsoft JhengHei", Font.PLAIN, (int) (40 * scale));
 				g.setColor(Color.RED);
 				g.setFont(font);
 				choose1 = ">>" + choose1 + "<<";
-			}
-			else{
-				font = new Font("Microsoft JhengHei", Font.PLAIN, (int)(36 * scale));
+			} else {
+				font = new Font("Microsoft JhengHei", Font.PLAIN, (int) (36 * scale));
 				g.setColor(Color.BLACK);
 				g.setFont(font);
 			}
@@ -454,14 +441,13 @@ public class Stage extends JPanel {
 			strWidth = metrics.stringWidth(choose1);
 			g.drawString(choose1, this.width / 2 - strWidth / 2, this.height / 2 + 40);
 
-			if(pauseSelect == 2){
-				font = new Font("Microsoft JhengHei", Font.PLAIN, (int)(40 * scale));
+			if (pauseSelect == 2) {
+				font = new Font("Microsoft JhengHei", Font.PLAIN, (int) (40 * scale));
 				g.setColor(Color.RED);
 				g.setFont(font);
 				choose2 = ">>" + choose2 + "<<";
-			}
-			else{
-				font = new Font("Microsoft JhengHei", Font.PLAIN, (int)(36 * scale));
+			} else {
+				font = new Font("Microsoft JhengHei", Font.PLAIN, (int) (36 * scale));
 				g.setColor(Color.BLACK);
 				g.setFont(font);
 			}
@@ -469,14 +455,13 @@ public class Stage extends JPanel {
 			strWidth = metrics.stringWidth(choose2);
 			g.drawString(choose2, this.width / 2 - strWidth / 2, this.height / 2 + 90);
 
-			if(pauseSelect == 3){
-				font = new Font("Microsoft JhengHei", Font.PLAIN, (int)(40 * scale));
+			if (pauseSelect == 3) {
+				font = new Font("Microsoft JhengHei", Font.PLAIN, (int) (40 * scale));
 				g.setColor(Color.RED);
 				g.setFont(font);
 				choose3 = ">>" + choose3 + "<<";
-			}
-			else{
-				font = new Font("Microsoft JhengHei", Font.PLAIN, (int)(36 * scale));
+			} else {
+				font = new Font("Microsoft JhengHei", Font.PLAIN, (int) (36 * scale));
 				g.setColor(Color.BLACK);
 				g.setFont(font);
 			}
@@ -516,7 +501,7 @@ public class Stage extends JPanel {
 			stealer.setAmmo(99997);
 			portal.setAvailability(99999);
 
-			if(collisionIgnore){
+			if (collisionIgnore) {
 				Long checkCollisonTime = new Date().getTime() - collisionIgnoreTime;
 				checkCollisonTime = 3000 - checkCollisonTime;
 				if (checkCollisonTime <= 0) {
@@ -525,8 +510,7 @@ public class Stage extends JPanel {
 				double temp = checkCollisonTime / 1000.0;
 				if (temp >= 0)
 					info += String.format("        時間倒數：%.2f", temp);
-			}
-			else{
+			} else {
 				info += "         穿牆技能：∞";
 			}
 		}
@@ -534,11 +518,10 @@ public class Stage extends JPanel {
 		String info2 = String.format("進度：%d / %d", Achived, goals.size());
 
 		g.setColor(new Color(0, 0, 0));
-		g.setFont(new Font("Microsoft JhengHei", Font.BOLD, (int)(25 * scale)));
+		g.setFont(new Font("Microsoft JhengHei", Font.BOLD, (int) (25 * scale)));
 		g.drawString(info, this.width * 5 / 16, 60);
 		g.setColor(new Color(0, 204, 0));
 		g.drawString(info2, this.width * 5 / 16, 90);
-
 
 		ArrayList<Actor> world = new ArrayList<>();
 
@@ -546,7 +529,7 @@ public class Stage extends JPanel {
 
 		if (stealer.getBullet() != null)
 			world.add(stealer.getBullet());
-		
+
 		world.addAll(walls);
 		world.addAll(hardWalls);
 		world.addAll(treasures);
@@ -555,10 +538,11 @@ public class Stage extends JPanel {
 
 			world.addAll(cops);
 		}
-		
-		if(bomb!=null){world.add(bomb);
+
+		if (bomb != null) {
+			world.add(bomb);
 		}
-		
+
 		world.add(stealer);
 		world.add(portal);
 
@@ -571,14 +555,15 @@ public class Stage extends JPanel {
 		for (int i = 0; i < world.size(); i++) {
 
 			Actor item = world.get(i);
-			if (item != null && item instanceof Police && forbutton == 0 && executetime % policePeriod == 1 && !cheater.checkUserCommand()) {
+			if (item != null && item instanceof Police && forbutton == 0 && executetime % policePeriod == 1
+					&& !cheater.checkUserCommand()) {
 
 				Police cop = (Police) item;
 				int policeCanGo = 0; // means next direction police can move
 				int accumulate = 0; // avoid police surrounded by box
 				while (policeCanGo == 0) {
 					if ((accumulate += 1) == 100) {
-						
+
 						world.remove(cop);
 						cops.remove(cop);
 						cop = null;
@@ -586,11 +571,10 @@ public class Stage extends JPanel {
 					}
 					policeCanGo = 1;
 
-					if(isCompletedBool)
+					if (isCompletedBool)
 						policeCanGo = 0;
-					
-					toward = cop.nextStep();
 
+					toward = cop.nextStep();
 
 					if (checkHardWallCollision(cop, toward)) {
 						policeCanGo = 0;
@@ -625,7 +609,7 @@ public class Stage extends JPanel {
 						cop = null;
 						break;
 					}
-					
+
 				}
 				if (cop == null) {
 					continue;
@@ -633,15 +617,15 @@ public class Stage extends JPanel {
 				cop.setsituation_change(toward);
 
 				g.drawImage(item.getImage(), item.x() + 2, item.y() + 2, this);
-			}else if (item instanceof Bomb){
-				if(lost)
+			} else if (item instanceof Bomb) {
+				if (lost)
 					g.drawImage(item.getImage(), item.x(), item.y(), this);
-				else if((executetime / 10) % 2 == 1)
+				else if ((executetime / 10) % 2 == 1)
 					g.drawImage(item.getImageArray(1), item.x(), item.y(), this);
-				else 
+				else
 					g.drawImage(item.getImageArray(0), item.x(), item.y(), this);
-				
-			}else if (item instanceof Treasure) {
+
+			} else if (item instanceof Treasure) {
 
 				g.drawImage(item.getImage(), item.x(), item.y(), this);
 				if (item.x() == tempBulletX && item.y() == tempBulletY) // bullet collides with treasure
@@ -650,7 +634,7 @@ public class Stage extends JPanel {
 			} else if (item instanceof Portal) {
 
 				Portal portalRef = (Portal) item;
-				if (portalRef.getIsActive() == 1){
+				if (portalRef.getIsActive() == 1) {
 					portalRef.animation();
 					g.drawImage(item.getImage(), item.x() + 2, item.y() + 2, this);
 				}
@@ -659,7 +643,7 @@ public class Stage extends JPanel {
 
 				Bullet bulletRef = (Bullet) item;
 				if (bulletRef != null && bulletRef.getMaxRange() > 0) {
-					if(forbutton == 0)
+					if (forbutton == 0)
 						bulletRef.updateXY();
 					tempBulletX = bulletRef.x();
 					tempBulletY = bulletRef.y();
@@ -688,14 +672,13 @@ public class Stage extends JPanel {
 				g.drawImage(item.getImage(), item.x(), item.y(), this);
 				if (item.x() == tempBulletX && item.y() == tempBulletY) // bullet collides with wall
 					stealer.setBullet(null);
-			
 
 			} else if (item instanceof Player) {
 				playerX = item.x() + 2;
 				playerY = item.y() + 2;
-				
+
 				int tempX = playerX, tempY = playerY;
-				if(checkLost)
+				if (checkLost)
 					g.drawImage(item.getImage(), tempX - 20, tempY - 20, this);
 				else
 					g.drawImage(item.getImage(), tempX, tempY, this);
@@ -704,55 +687,55 @@ public class Stage extends JPanel {
 				g.drawImage(item.getImage(), item.x(), item.y(), this);
 			}
 
-
-			if(bufferedFrames < 21000){ // arrow image(for opening)
-				if((bufferedFrames / 3000) % 2 == 0){
+			if (bufferedFrames < 21000) { // arrow image(for opening)
+				if ((bufferedFrames / 3000) % 2 == 0) {
 					g.drawImage(arrowImage, playerX - 5, playerY - 60, this);
 				}
 				bufferedFrames++;
 			}
-			
-			if(bomb!=null){
-				g.setFont(new Font("Microsoft JhengHei", Font.BOLD, 50));
-				g.setColor(new Color(255,0,0));
-				int spendingTime=(int)(System.currentTimeMillis()-timeStart)/1000;
 
-				int remainingTime=((selection/3)+1)*200-spendingTime;
-				if(remainingTime<=0){
-					remainingTime=0;
+			if (bomb != null) {
+				g.setFont(new Font("Microsoft JhengHei", Font.BOLD, 50));
+				g.setColor(new Color(255, 0, 0));
+				int spendingTime = (int) (System.currentTimeMillis() - timeStart) / 1000;
+
+				int remainingTime = ((selection / 3) + 1) * 200 - spendingTime;
+				if (remainingTime <= 0) {
+					remainingTime = 0;
 					playerLoss();
 				}
-				String temp=String.format("%d:%02d",remainingTime/60,remainingTime%60);
-				g.drawString(temp,100,100);
+				String temp = String.format("%d:%02d", remainingTime / 60, remainingTime % 60);
+				g.drawString(temp, 100, 100);
 			}
-			
+
 			g.setFont(new Font("Microsoft JhengHei", Font.BOLD, 20));
 			g.setColor(new Color(0, 0, 0));
 			String information = "[ESC or P]-選單    [X]-穿牆技能    [Z]-傳送門    [SPACE]-武器";
-			g.drawString(information, (int)(scale * this.width / 2 - 320), this.height - 40);
+			g.drawString(information, (int) (scale * this.width / 2 - 320), this.height - 40);
 
 		}
 		if (forbutton == 1)
 			forbutton = 0; // prevent repeated execution when bottom is clicked
 
-		if(lost){ // buffered frames
+		if (lost) { // buffered frames
 
 			lossBuffer++;
-			if(bomb!=null){
+			if (bomb != null) {
 				ImageManager temp;
-				temp=new ImageManager();
+				temp = new ImageManager();
 				Image[] bombPics;
-				bombPics=temp.getExploImage();
-				g.drawImage(bombPics[explodeTime],bomb.x()-60,bomb.y()-60,120,120, this);
-				if(explodeTime++>9)explodeTime=10;
+				bombPics = temp.getExploImage();
+				g.drawImage(bombPics[explodeTime], bomb.x() - 60, bomb.y() - 60, 120, 120, this);
+				if (explodeTime++ > 9)
+					explodeTime = 10;
 				playExploSound();
 				Image bombImg;
-				bombImg=bombPics[0];
+				bombImg = bombPics[0];
 				bomb.setImage(bombImg);
 			}
-			
+
 		}
-		if(isCompletedBool)
+		if (isCompletedBool)
 			wonBuffer++;
 
 		isCompleted();
@@ -798,7 +781,7 @@ public class Stage extends JPanel {
 						}
 
 					}
-					
+
 					break;
 
 				case KeyEvent.VK_RIGHT:
@@ -822,13 +805,13 @@ public class Stage extends JPanel {
 						}
 
 					}
-					
+
 					break;
-				
+
 				case KeyEvent.VK_UP:
 
-					if(gamePause){
-						if(pauseSelect != 1)
+					if (gamePause) {
+						if (pauseSelect != 1)
 							pauseSelect--;
 
 						try {
@@ -843,7 +826,7 @@ public class Stage extends JPanel {
 					currentlyFacing = UP;
 					cheater.pushCommand(UP);
 					stealer.setPlayerImage(UP);
-					
+
 					if (checkCollisions(stealer, UP)) {
 						return;
 					}
@@ -859,15 +842,15 @@ public class Stage extends JPanel {
 						}
 
 					}
-					
+
 					break;
 
 				case KeyEvent.VK_DOWN:
-					
-					if(gamePause){
-						if(pauseSelect != 3)
+
+					if (gamePause) {
+						if (pauseSelect != 3)
 							pauseSelect++;
-					
+
 						try {
 							sounds = new BackgroundMP3Player();
 							sounds.setSound(sound.bagSound.ordinal());
@@ -896,10 +879,9 @@ public class Stage extends JPanel {
 						}
 
 					}
-					
+
 					break;
-			
-					
+
 				case KeyEvent.VK_Z: // portal
 
 					if (portal.getIsActive() == 1) {
@@ -934,13 +916,13 @@ public class Stage extends JPanel {
 						} catch (FileNotFoundException | JavaLayerException e1) {
 							System.out.printf("music err");
 						}
-						
+
 						Bullet newBullet = new Bullet(stealer.x(), stealer.y(), currentlyFacing);
 						newBullet.setImage(imageManager.getBulletImage());
 						stealer.setBullet(newBullet);
 						stealer.setAmmo(stealer.getAmmo() - 1);
 					}
-					
+
 					break;
 
 				case KeyEvent.VK_X: // penetrate
@@ -955,13 +937,13 @@ public class Stage extends JPanel {
 				case KeyEvent.VK_ESCAPE:// pause
 					gamePause = true;
 					break;
-				
+
 				case KeyEvent.VK_P: // pause
 					gamePause = true;
 					break;
-				
+
 				case KeyEvent.VK_ENTER:
-					if(gamePause){
+					if (gamePause) {
 
 						try {
 							sounds = new BackgroundMP3Player();
@@ -971,7 +953,7 @@ public class Stage extends JPanel {
 							System.out.printf("music err");
 						}
 
-						switch(pauseSelect){
+						switch (pauseSelect) {
 							case 1:
 								gamePause = false;
 								break;
@@ -985,31 +967,31 @@ public class Stage extends JPanel {
 							default:
 								break;
 						}
-						
+
 						pauseSelect = 1;
 					}
 					break;
-				
+
 				case KeyEvent.VK_S:
 					cheater.pushChar('s');
 					break;
-				
+
 				case KeyEvent.VK_O:
 					cheater.pushChar('o');
 					break;
-				
+
 				case KeyEvent.VK_K:
 					cheater.pushChar('k');
 					break;
-				
+
 				case KeyEvent.VK_B:
 					cheater.pushChar('b');
 					break;
-				
+
 				case KeyEvent.VK_A:
 					cheater.pushChar('a');
 					break;
-				
+
 				case KeyEvent.VK_N:
 					cheater.pushChar('n');
 					break;
@@ -1021,10 +1003,11 @@ public class Stage extends JPanel {
 			repaint();
 		}
 	}
-	private void playExploSound(){
-		if(trigger==false){
-			trigger=true;
-			
+
+	private void playExploSound() {
+		if (trigger == false) {
+			trigger = true;
+
 			try {
 				sounds = new BackgroundMP3Player();
 				sounds.setSound(sound.bombSound.ordinal());
@@ -1034,13 +1017,14 @@ public class Stage extends JPanel {
 			}
 		}
 	}
+
 	private boolean checkCollisions(Actor a, int d) {
 		// a -> actor, d -> direction
 		if (checkHardWallCollision(a, d) || checkWallCollision(a, d) || checkBagCollision(d))
 			return true;
 		return false;
 	}
-	
+
 	private boolean checkHardWallCollision(Actor actor, int type) {
 		int i;
 
@@ -1144,7 +1128,7 @@ public class Stage extends JPanel {
 		try {
 			sounds = new BackgroundMP3Player();
 			sounds.setSound(sound.bagSound.ordinal());
-			
+
 		} catch (FileNotFoundException | JavaLayerException e1) {
 			System.out.printf("music err");
 		}
@@ -1268,7 +1252,7 @@ public class Stage extends JPanel {
 			default:
 				break;
 		}
-		
+
 		return false;
 	}
 
@@ -1358,7 +1342,7 @@ public class Stage extends JPanel {
 				Goal goal = goals.get(j);
 				if (box.x() == goal.x() && box.y() == goal.y()) {
 					finishedBags += 1;
-					if(box.canGetAmmo()){
+					if (box.canGetAmmo()) {
 						box.getAmmo();
 						canGetAmmocount++;
 					}
@@ -1368,8 +1352,7 @@ public class Stage extends JPanel {
 		if (finishedBags > Achived) {
 			Achived += 1;
 			stealer.setAmmo(stealer.getAmmo() + 2 * canGetAmmocount);
-		}
-		else if(finishedBags < Achived){
+		} else if (finishedBags < Achived) {
 			Achived--;
 		}
 		if (finishedBags == goals.size()) {
@@ -1392,7 +1375,7 @@ public class Stage extends JPanel {
 		isCompletedBool = false;
 		Achived = 1;
 		lossBuffer = 0;
-		
+
 		restarted = true;
 		restartTime = new Date().getTime();
 
@@ -1407,16 +1390,16 @@ public class Stage extends JPanel {
 		return isCompletedBool;
 	}
 
-	public boolean goNextStage(){
-		
+	public boolean goNextStage() {
+
 		return nextStage;
 	}
 
-	public boolean closeAct(){
+	public boolean closeAct() {
 		return closeSignal;
 	}
 
-	public void setNextStage (Boolean b){
+	public void setNextStage(Boolean b) {
 		nextStage = b;
 	}
 }
