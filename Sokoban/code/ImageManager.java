@@ -18,9 +18,9 @@ import java.security.SecureRandom;
 public class ImageManager {
 
     private Dimension dimension = java.awt.Toolkit.getDefaultToolkit().getScreenSize();
-	private final double baseWidth = 1536.0;
-	private final double scale = dimension.getWidth() / baseWidth; // suitable for all screen size
-	private final int SPACE = (int)(40 * scale); // actor side length
+    private final double baseWidth = 1536.0;
+    private final double scale = dimension.getWidth() / baseWidth; // suitable for all screen size
+    private final int SPACE = (int) (40 * scale); // actor side length
 
     private Image bulletImage;
     private Image wallImage;
@@ -33,8 +33,8 @@ public class ImageManager {
     private Image[] exploImages;
 
     private SecureRandom random = new SecureRandom();
-    
-    public ImageManager(){
+
+    public ImageManager() {
         bulletInit();
         wallInit();
         hardWallInit();
@@ -46,260 +46,164 @@ public class ImageManager {
         exploInit();
     }
 
-    public Image getBulletImage(){
+    public Image getBulletImage() {
         return bulletImage;
     }
 
-    public Image getWallImage(){
+    public Image getWallImage() {
         return wallImage;
     }
 
-    public Image getHardWallImage(){
+    public Image getHardWallImage() {
         return hardWallImage;
     }
 
-    public Image getGoalImage(){
+    public Image getGoalImage() {
         return goalImage;
     }
 
-    public Image getTreasureImage(){
+    public Image getTreasureImage() {
         return treasureImages[random.nextInt(10)];
     }
 
-    public Image[] getPoliceImages(){
+    public Image[] getPoliceImages() {
         return policeImages;
     }
 
-    public Image getArrowImage(){
+    public Image getArrowImage() {
         return arrowImage;
     }
-    public Image[] getBombImage(){
+
+    public Image[] getBombImage() {
         return bombImage;
     }
-    public Image[] getExploImage(){
+
+    public Image[] getExploImage() {
         return exploImages;
     }
-    private void bulletInit(){
+
+    private void bulletInit() {
         File f = new File("");
         String path = f.getAbsolutePath();
-		
-		if(!path.contains("code"))
-			path = "pic/bullet.png";
-		else
-			path = path.replaceAll("code", "pic/bullet.png");
-	
 
-		BufferedImage image;
-		try{
-            image = Thumbnails.of(path).scale(scale).asBufferedImage();
-            bulletImage = image;
-		} catch (IOException e){
-			System.out.println(e);
-        }        
+        path = pathConfig(path, "bullet.png");
+        bulletImage = getImageFromPath(path);
     }
-    private void bombInit(){
-        bombImage=new Image[2];
-        File f=new File("");
-        String path=f.getAbsolutePath();
+
+    private void bombInit() {
+        bombImage = new Image[2];
+        File f = new File("");
+        String path = f.getAbsolutePath();
         String temp;
-        for(int i=0;i<2;i++){
-            if (!path.contains("code"))
-                temp = String.format("pic/bomb%d.png", i);
-		    else
-                temp = path.replaceAll("code", String.format("pic/bomb%d.png", i));
 
-            BufferedImage image;
-
-            try{
-                image = Thumbnails.of(temp).scale(scale).asBufferedImage();
-                bombImage[i] = image;
-            } catch (IOException e){
-                System.out.println(e);
-            }
+        for (int i = 0; i < 2; i++) {
+            temp = pathConfig(path, String.format("bomb%d.png", i));
+            bombImage[i] = getImageFromPath(temp);
         }
-        
+
     }
-    private void exploInit(){
-        exploImages=new Image[11];
-        File f=new File("");
-        String path=f.getAbsolutePath();
+
+    private void exploInit() {
+        exploImages = new Image[11];
+        File f = new File("");
+        String path = f.getAbsolutePath();
         String temp;
-        for(int i=0;i<=10;i++){
-            if(!path.contains("code"))
-                temp=String.format("pic/explosion/Explosion%d.png",i);
-            else
-                temp = path.replaceAll("code", String.format("pic/explosion/Explosion%d.png",i));
-            BufferedImage image;
 
-            try{
-                image = Thumbnails.of(temp).scale(scale).asBufferedImage();
-                exploImages[i] = image;
-            } catch (IOException e){
-                 System.out.println(e);
-            }
-
+        for (int i = 0; i <= 10; i++) {
+            temp = pathConfig(path, String.format("explosion/Explosion%d.png", i));
+            exploImages[i] = getImageFromPath(temp);
         }
     }
-    private void wallInit(){
+
+    private void wallInit() {
         File f = new File("");
         String path = f.getAbsolutePath();
-     
-        if (!path.contains("code"))
-			path = "pic/wall.png";
-		else
-            path = path.replaceAll("code", "pic/wall.png");
-            
-        BufferedImage image;
 
-        try{
-            image = Thumbnails.of(path).scale(scale).asBufferedImage();
-            wallImage=image;
-        } catch (IOException e){
-            System.out.println(e);
-        }
+        path = pathConfig(path, "wall.png");
+        wallImage = getImageFromPath(path);
     }
 
-    private void hardWallInit(){
+    private void hardWallInit() {
         File f = new File("");
         String path = f.getAbsolutePath();
-        
-        if(!path.contains("code"))
-            path = "pic/hardWall.png";
-        else
-            path = path.replaceAll("code", "pic/hardWall.png");
 
-        BufferedImage image;
-        try{
-            image = Thumbnails.of(path).scale(scale).asBufferedImage();
-            hardWallImage = image;
-        } catch (IOException e){
-            System.out.println(e);
-        }
+        path = pathConfig(path, "hardWall.png");
+        hardWallImage = getImageFromPath(path);
     }
 
-    private void goalInit(){
+    private void goalInit() {
         File f = new File("");
         String path = f.getAbsolutePath();
-        
-        if(!path.contains("code"))
-            path = "pic/Goal.png";
-        else
-            path = path.replaceAll("code", "pic/Goal.png");
 
-        BufferedImage image;
-        try{
-            image = Thumbnails.of(path).scale(scale).asBufferedImage();
-            goalImage = image;
-        } catch (IOException e){
-            System.out.println(e);
-        }
+        path = pathConfig(path, "Goal.png");
+        goalImage = getImageFromPath(path);
     }
 
-    private void treasureInit(){
+    private void treasureInit() {
         treasureImages = new Image[10];
 
         File f = new File("");
         String path = f.getAbsolutePath();
         String temp;
-        
-        for(int i = 0; i < 10; i++){
-            if(!path.contains("code"))
-                temp = String.format("pic/treasures/Treasure%d.png", i);
-            else{
-                temp = path.replaceAll("code", String.format("pic/treasures/Treasure%d.png", i));
-            }
-                
-            BufferedImage image;
-            try{
-                image = Thumbnails.of(temp).scale(scale).asBufferedImage();
-                treasureImages[i] = image;
-            } catch (IOException e){
-                System.out.println(e);
-            }
+
+        for (int i = 0; i < 10; i++) {
+            temp = pathConfig(path, String.format("treasures/Treasure%d.png", i));
+            treasureImages[i] = getImageFromPath(temp);
         }
     }
 
-    private void policeInit(){
+    private void policeInit() {
         File f = new File("");
         String path = f.getAbsolutePath();
         String temp = path;
 
         policeImages = new Image[4];
-        
-        if(!path.contains("code")){
-            temp = "pic/character/policeLeft.png";
-        }
-        else{
-            temp = path.replaceAll("code", "pic/character/policeLeft.png");
-        }
-        BufferedImage image;
-        try{
-            image = Thumbnails.of(temp).scale(scale).asBufferedImage();
-            policeImages[0] = image;
-        } catch (IOException e){
-            System.out.println(e);
-        }
-        temp = path;
 
+        temp = pathConfig(path, "character/policeLeft.png");
+        policeImages[0] = getImageFromPath(temp);
 
-        if(!path.contains("code")){
-            temp = "pic/character/policeRight.png";
-        }
-        else{
-            temp = path.replaceAll("code", "pic/character/policeRight.png");
-        }
-        try{
-            image = Thumbnails.of(temp).scale(scale).asBufferedImage();
-            policeImages[1] = image;
-        } catch (IOException e){
-            System.out.println(e);
-        }
-        temp = path;
+        temp = pathConfig(path, "character/policeRight.png");
+        policeImages[1] = getImageFromPath(temp);
 
+        temp = pathConfig(path, "character/policeUp.png");
+        policeImages[2] = getImageFromPath(temp);
 
-        if(!path.contains("code")){
-            temp = "pic/character/policeUp.png";
-        }
-        else{
-            temp = path.replaceAll("code", "pic/character/policeUp.png");
-        }
-        try{
-            image = Thumbnails.of(temp).scale(scale).asBufferedImage();
-            policeImages[2] = image;
-        } catch (IOException e){
-            System.out.println(e);
-        }
-        temp = path;
-
-
-        if(!path.contains("code")){
-            temp = "pic/character/policeDown.png";
-        }
-        else{
-            temp = path.replaceAll("code", "pic/character/policeDown.png");
-        }
-        try{
-            image = Thumbnails.of(temp).scale(scale).asBufferedImage();
-            policeImages[3] = image;
-        } catch (IOException e){
-            System.out.println(e);
-        }
+        temp = pathConfig(path, "character/policeDown.png");
+        policeImages[3] = getImageFromPath(temp);
     }
 
-    private void arrowInit(){
+    private void arrowInit() {
         File f = new File("");
-		String path = f.getAbsolutePath();
+        String path = f.getAbsolutePath();
 
-		if(!path.contains("code")){
-			path = "pic/arrow.png";
-		}
-		else{
-			path = path.replaceAll("code", "pic/arrow.png");
-		}
-		try{
-			arrowImage = Thumbnails.of(path).scale(scale).asBufferedImage();
-		} catch (IOException e){
-			System.out.println(e);
-		}
+        path = pathConfig(path, "arrow.png");
+        arrowImage = getImageFromPath(path);
+    }
+
+    private String pathConfig(String path, String picName) {
+
+        String res;
+
+        if (!path.contains("code")) {
+            res = "pic/" + picName;
+        } else {
+            res = path.replaceAll("code", "pic/" + picName);
+        }
+
+        return res;
+    }
+
+    private Image getImageFromPath(String path) {
+
+        Image result;
+
+        try {
+            result = Thumbnails.of(path).scale(scale).asBufferedImage();
+            return result;
+        } catch (IOException e) {
+            System.out.println(e);
+        }
+
+        return null;
     }
 }
