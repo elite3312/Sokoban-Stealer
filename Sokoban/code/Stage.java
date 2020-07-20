@@ -91,7 +91,6 @@ public class Stage extends JPanel {
 	private Boolean trigger = false;
 	private boolean isCompletedBool = false;
 	private boolean lost = false;
-	private boolean collisionIgnore = false; // penetrate skill
 	private boolean penetrateNotUsed = true; // penetrate skill
 	private boolean restarted = false; // restart frame
 	private boolean restartBuffer = false; // restart buffering(for 0.3sec)
@@ -108,6 +107,7 @@ public class Stage extends JPanel {
 	private CheatManager cheater = new CheatManager();
 
 	private EndingAnimation endAnimate = new EndingAnimation();
+	private CollisionDetector collisionDetect = new CollisionDetector();
 
 	public Stage(int playerSkinChoosen, int level) {
 		timeStart = System.currentTimeMillis();
@@ -168,7 +168,7 @@ public class Stage extends JPanel {
 		Achived = 0;
 
 		penetrateNotUsed = true; // penetrate init
-		collisionIgnore = false; // penetrate init
+		collisionDetect.setCollisionIgnore(false); // penatrate init
 		nextStage = false;
 		ending = false;
 		bufferedFrames = 0;
@@ -478,11 +478,11 @@ public class Stage extends JPanel {
 		String info = String.format("傳送門：%d", portal.getAvailability());
 		info += String.format("        子彈：%2d", stealer.getAmmo());
 
-		if (collisionIgnore) {
+		if (collisionDetect.getCollisionIgnore()) {
 			Long checkCollisonTime = new Date().getTime() - collisionIgnoreTime;
 			checkCollisonTime = 3000 - checkCollisonTime;
 			if (checkCollisonTime <= 0) {
-				collisionIgnore = false;
+				collisionDetect.setCollisionIgnore(false);
 			}
 			double temp = checkCollisonTime / 1000.0;
 			if (temp >= 0)
@@ -501,11 +501,11 @@ public class Stage extends JPanel {
 			stealer.setAmmo(99997);
 			portal.setAvailability(99999);
 
-			if (collisionIgnore) {
+			if (collisionDetect.getCollisionIgnore()) {
 				Long checkCollisonTime = new Date().getTime() - collisionIgnoreTime;
 				checkCollisonTime = 3000 - checkCollisonTime;
 				if (checkCollisonTime <= 0) {
-					collisionIgnore = false;
+					collisionDetect.setCollisionIgnore(false);
 				}
 				double temp = checkCollisonTime / 1000.0;
 				if (temp >= 0)
@@ -576,13 +576,13 @@ public class Stage extends JPanel {
 
 					toward = cop.nextStep();
 
-					if (checkHardWallCollision(cop, toward)) {
+					if (collisionDetect.checkHardWallCollision(cop, toward, hardWalls)) {
 						policeCanGo = 0;
-					} else if (checkWallCollision(cop, toward)) {
+					} else if (collisionDetect.checkWallCollision(cop, toward, walls)) {
 						policeCanGo = 0;
-					} else if (checkBagCollisionforPolice(cop, toward)) {
+					} else if (collisionDetect.checkBagCollisionforPolice(cop, toward, treasures)) {
 						policeCanGo = 0;
-					} else if (checkPersonAndPersonCollision(cop, stealer, toward)) {
+					} else if (collisionDetect.checkPersonAndPersonCollision(cop, stealer, toward)) {
 						playerLoss();
 						return;
 					}
@@ -590,7 +590,7 @@ public class Stage extends JPanel {
 						Police pol = cops.get(c);
 						if (cop.equals(pol))
 							continue;
-						if (checkPersonAndPersonCollision(cop, pol, toward)) {
+						if (collisionDetect.checkPersonAndPersonCollision(cop, pol, toward)) {
 							policeCanGo = 0;
 
 						}
@@ -766,7 +766,7 @@ public class Stage extends JPanel {
 					cheater.pushCommand(LEFT);
 					stealer.setPlayerImage(LEFT);
 
-					if (checkCollisions(stealer, LEFT)) {
+					if (collisionDetect.checkCollisions(stealer, LEFT, hardWalls, walls, treasures, cops)) {
 						return;
 					}
 
@@ -774,7 +774,7 @@ public class Stage extends JPanel {
 					if (!cops.isEmpty()) {
 						for (int i = 0; i < cops.size(); i++) {
 							Police cop = cops.get(i);
-							if (checkPersonAndPersonCollision(stealer, cop, LEFT)) {
+							if (collisionDetect.checkPersonAndPersonCollision(stealer, cop, LEFT)) {
 								playerLoss();
 								return;
 							}
@@ -790,7 +790,7 @@ public class Stage extends JPanel {
 					cheater.pushCommand(RIGHT);
 					stealer.setPlayerImage(RIGHT);
 
-					if (checkCollisions(stealer, RIGHT)) {
+					if (collisionDetect.checkCollisions(stealer, RIGHT, hardWalls, walls, treasures, cops)){
 						return;
 					}
 
@@ -798,7 +798,7 @@ public class Stage extends JPanel {
 					if (!cops.isEmpty()) {
 						for (int i = 0; i < cops.size(); i++) {
 							Police cop = cops.get(i);
-							if (checkPersonAndPersonCollision(stealer, cop, RIGHT)) {
+							if (collisionDetect.checkPersonAndPersonCollision(stealer, cop, RIGHT)) {
 								playerLoss();
 								return;
 							}
@@ -827,7 +827,7 @@ public class Stage extends JPanel {
 					cheater.pushCommand(UP);
 					stealer.setPlayerImage(UP);
 
-					if (checkCollisions(stealer, UP)) {
+					if (collisionDetect.checkCollisions(stealer, UP, hardWalls, walls, treasures, cops)) {
 						return;
 					}
 
@@ -835,7 +835,7 @@ public class Stage extends JPanel {
 					if (!cops.isEmpty()) {
 						for (int i = 0; i < cops.size(); i++) {
 							Police cop = cops.get(i);
-							if (checkPersonAndPersonCollision(stealer, cop, UP)) {
+							if (collisionDetect.checkPersonAndPersonCollision(stealer, cop, UP)) {
 								playerLoss();
 								return;
 							}
@@ -864,7 +864,7 @@ public class Stage extends JPanel {
 					cheater.pushCommand(DOWN);
 					stealer.setPlayerImage(DOWN);
 
-					if (checkCollisions(stealer, DOWN)) {
+					if (collisionDetect.checkCollisions(stealer, DOWN, hardWalls, walls, treasures, cops)) {
 						return;
 					}
 
@@ -872,7 +872,7 @@ public class Stage extends JPanel {
 					if (!cops.isEmpty()) {
 						for (int i = 0; i < cops.size(); i++) {
 							Police cop = cops.get(i);
-							if (checkPersonAndPersonCollision(stealer, cop, DOWN)) {
+							if (collisionDetect.checkPersonAndPersonCollision(stealer, cop, DOWN)) {
 								playerLoss();
 								return;
 							}
@@ -928,7 +928,7 @@ public class Stage extends JPanel {
 				case KeyEvent.VK_X: // penetrate
 
 					if (penetrateNotUsed) {
-						collisionIgnore = true;
+						collisionDetect.setCollisionIgnore(true);
 						collisionIgnoreTime = new Date().getTime();
 						penetrateNotUsed = false;
 					}
@@ -1016,313 +1016,6 @@ public class Stage extends JPanel {
 				System.out.printf("music err");
 			}
 		}
-	}
-
-	private boolean checkCollisions(Actor a, int d) {
-		// a -> actor, d -> direction
-		if (checkHardWallCollision(a, d) || checkWallCollision(a, d) || checkBagCollision(d))
-			return true;
-		return false;
-	}
-
-	private boolean checkHardWallCollision(Actor actor, int type) {
-		int i;
-
-		switch (type) {
-			case LEFT:
-				for (i = 0; i < hardWalls.size(); i++) {
-					HardWall hardWall = hardWalls.get(i);
-					if (actor.isLeftCollision(hardWall)) {
-						return true;
-					}
-				}
-				break;
-
-			case RIGHT:
-				for (i = 0; i < hardWalls.size(); i++) {
-					HardWall hardWall = hardWalls.get(i);
-					if (actor.isRightCollision(hardWall)) {
-						return true;
-					}
-				}
-				break;
-
-			case UP:
-				for (i = 0; i < hardWalls.size(); i++) {
-					HardWall hardWall = hardWalls.get(i);
-					if (actor.isTopCollision(hardWall)) {
-						return true;
-					}
-				}
-				break;
-
-			case DOWN:
-				for (i = 0; i < hardWalls.size(); i++) {
-					HardWall hardWall = hardWalls.get(i);
-					if (actor.isBottomCollision(hardWall)) {
-						return true;
-					}
-				}
-				break;
-
-			default:
-				break;
-		}
-
-		return false;
-	}
-
-	private boolean checkWallCollision(Actor actor, int type) {
-
-		if (actor.getActorName() == "player") {
-			if (collisionIgnore) {
-				return false;
-			}
-		}
-
-		switch (type) {
-			case LEFT:
-				for (int i = 0; i < walls.size(); i++) {
-					Wall wall = walls.get(i);
-					if (actor.isLeftCollision(wall)) {
-						return true;
-					}
-				}
-				break;
-
-			case RIGHT:
-				for (int i = 0; i < walls.size(); i++) {
-					Wall wall = walls.get(i);
-					if (actor.isRightCollision(wall)) {
-						return true;
-					}
-				}
-				break;
-
-			case UP:
-				for (int i = 0; i < walls.size(); i++) {
-					Wall wall = walls.get(i);
-					if (actor.isTopCollision(wall)) {
-						return true;
-					}
-				}
-				break;
-
-			case DOWN:
-				for (int i = 0; i < walls.size(); i++) {
-					Wall wall = walls.get(i);
-					if (actor.isBottomCollision(wall)) {
-						return true;
-					}
-				}
-				break;
-
-			default:
-				break;
-		}
-
-		return false;
-	}
-
-	private boolean checkBagCollision(int type) {
-		try {
-			sounds = new BackgroundMP3Player();
-			sounds.setSound(sound.bagSound.ordinal());
-
-		} catch (FileNotFoundException | JavaLayerException e1) {
-			System.out.printf("music err");
-		}
-		switch (type) {
-
-			case LEFT:
-				for (int i = 0; i < treasures.size(); i++) {
-					Treasure box = treasures.get(i);
-					if (stealer.isLeftCollision(box)) {
-						for (int j = 0; j < treasures.size(); j++) {
-							Treasure item = treasures.get(j);
-							if (!box.equals(item)) {
-								if (box.isLeftCollision(item)) {
-									return true;
-								}
-							}
-							if (checkWallCollision(box, LEFT) || checkHardWallCollision(box, LEFT)) {
-								return true;
-							}
-						}
-
-						if (cops != null && !checkBagCollisiontoPolice(box.getX() - SPACE, box.getY())) {
-							box.move(-SPACE, 0);
-							sounds.play();
-						} else if (cops.isEmpty()) { // when police death ,the way can prevent bug
-							box.move(-SPACE, 0);
-							sounds.play();
-						} else
-							return true;
-					}
-				}
-				return false;
-
-			case RIGHT:
-				for (int i = 0; i < treasures.size(); i++) {
-					Treasure box = treasures.get(i);
-					if (stealer.isRightCollision(box)) {
-						for (int j = 0; j < treasures.size(); j++) {
-							Treasure item = treasures.get(j);
-							if (!box.equals(item)) {
-								if (box.isRightCollision(item)) {
-									return true;
-								}
-							}
-							if (checkWallCollision(box, RIGHT) || checkHardWallCollision(box, RIGHT)) {
-								return true;
-							}
-						}
-						if (cops != null && !checkBagCollisiontoPolice(box.getX() + SPACE, box.getY())) {
-							box.move(SPACE, 0);
-							sounds.play();
-						} else if (cops.isEmpty()) {
-							box.move(SPACE, 0);
-							sounds.play();
-						} else
-							return true;
-
-					}
-				}
-				return false;
-
-			case UP:
-				for (int i = 0; i < treasures.size(); i++) {
-					Treasure box = treasures.get(i);
-					if (stealer.isTopCollision(box)) {
-						for (int j = 0; j < treasures.size(); j++) {
-							Treasure item = treasures.get(j);
-							if (!box.equals(item)) {
-								if (box.isTopCollision(item)) {
-									return true;
-								}
-							}
-
-							if (checkWallCollision(box, UP) || checkHardWallCollision(box, UP)) {
-								return true;
-							}
-						}
-
-						if (cops != null && !checkBagCollisiontoPolice(box.getX(), box.getY() - SPACE)) {
-							box.move(0, -SPACE);
-							sounds.play();
-						} else if (cops.isEmpty()) {
-							box.move(0, -SPACE);
-							sounds.play();
-						} else
-							return true;
-
-					}
-				}
-				return false;
-
-			case DOWN:
-				for (int i = 0; i < treasures.size(); i++) {
-					Treasure box = treasures.get(i);
-					if (stealer.isBottomCollision(box)) {
-						for (int j = 0; j < treasures.size(); j++) {
-							Treasure item = treasures.get(j);
-							if (!box.equals(item)) {
-								if (box.isBottomCollision(item)) {
-									return true;
-								}
-							}
-
-							if (checkWallCollision(box, DOWN) || checkHardWallCollision(box, DOWN)) {
-								return true;
-							}
-						}
-						if (cops != null && !checkBagCollisiontoPolice(box.getX(), box.getY() + SPACE)) {
-							box.move(0, SPACE);
-							sounds.play();
-						} else if (cops.isEmpty()) {
-							box.move(0, SPACE);
-							sounds.play();
-						} else
-							return true;
-
-					}
-				}
-				break;
-
-			default:
-				break;
-		}
-
-		return false;
-	}
-
-	private boolean checkBagCollisiontoPolice(int bag_x, int bag_y) {
-		for (int i = 0; i < cops.size(); i++) {
-			Police temp = cops.get(i);
-			if (judge_XandY_Collision(temp.getx(), temp.gety(), bag_x, bag_y))
-				return true;
-
-		}
-		return false;
-	}
-
-	private boolean judge_XandY_Collision(int x, int y, int x1, int y1) {
-		if (x1 == x && y1 == y)
-			return true;
-		else
-			return false;
-	}
-
-	private boolean checkBagCollisionforPolice(Actor actor, int type) {
-
-		switch (type) {
-			case LEFT:
-				for (int i = 0; i < treasures.size(); i++) {
-					Treasure box = treasures.get(i);
-					if (actor.isLeftCollision(box)) {
-						return true;
-					}
-				}
-				return false;
-
-			case RIGHT:
-				for (int i = 0; i < treasures.size(); i++) {
-					Treasure box = treasures.get(i);
-					if (actor.isRightCollision(box)) {
-						return true;
-					}
-				}
-				return false;
-
-			case UP:
-				for (int i = 0; i < treasures.size(); i++) {
-					Treasure box = treasures.get(i);
-					if (actor.isTopCollision(box)) {
-						return true;
-					}
-				}
-				return false;
-
-			case DOWN:
-				for (int i = 0; i < treasures.size(); i++) {
-					Treasure box = treasures.get(i);
-					if (actor.isBottomCollision(box)) {
-						return true;
-					}
-				}
-				return false;
-
-			default:
-				break;
-		}
-		return false;
-	}
-
-	private Boolean checkPersonAndPersonCollision(Actor actor, Actor actor1, int type) {
-		if (actor.x() == actor1.x() && actor.y() == actor1.y()) {
-			return true;
-		}
-		return false;
 	}
 
 	public void playerLoss() {

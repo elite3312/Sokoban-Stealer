@@ -1,3 +1,0 @@
-Main-Class: java2020.finalProject.Main
-Class-Path: jl1.0.1.jar thumbnailator0.4.11.jar
-
