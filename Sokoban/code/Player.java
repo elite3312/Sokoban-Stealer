@@ -42,6 +42,8 @@ public class Player extends Actor {
 	private final double baseWidth = 1536.0;
 	private final double scale = dimension.getWidth() / baseWidth; // suitable for all screen size
 
+	private boolean penetrateSkill = true;
+
 	public Player(int x, int y, int playerSkinChoosed) {
 		super(x, y);
 
@@ -157,5 +159,13 @@ public class Player extends Actor {
 
 		if(explosion > 18)
 			explosion = 18;
+	}
+
+	public void setPenetrateSkill(boolean state){
+		penetrateSkill = state;
+	}
+
+	public boolean getPenetrateSkill() {
+		return penetrateSkill;
 	}
 }

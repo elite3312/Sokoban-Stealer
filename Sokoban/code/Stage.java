@@ -91,7 +91,6 @@ public class Stage extends JPanel {
 	private Boolean trigger = false;
 	private boolean isCompletedBool = false;
 	private boolean lost = false;
-	private boolean penetrateNotUsed = true; // penetrate skill
 	private boolean restarted = false; // restart frame
 	private boolean restartBuffer = false; // restart buffering(for 0.3sec)
 	private boolean gamePause = false;
@@ -167,7 +166,6 @@ public class Stage extends JPanel {
 
 		Achived = 0;
 
-		penetrateNotUsed = true; // penetrate init
 		collisionDetect.setCollisionIgnore(false); // penatrate init
 		nextStage = false;
 		ending = false;
@@ -488,7 +486,7 @@ public class Stage extends JPanel {
 			if (temp >= 0)
 				info += String.format("        技能時間：%.2f", temp);
 		} else {
-			if (penetrateNotUsed) {
+			if (stealer.getPenetrateSkill()) {
 				info += "        穿牆技能：可用";
 			} else {
 				info += "        穿牆技能：不可用";
@@ -497,7 +495,7 @@ public class Stage extends JPanel {
 
 		if (cheater.checkCondition()) {
 			info = "傳送門：∞        子彈：∞";
-			penetrateNotUsed = true;
+			stealer.setPenetrateSkill(true);;
 			stealer.setAmmo(99997);
 			portal.setAvailability(99999);
 
@@ -927,10 +925,10 @@ public class Stage extends JPanel {
 
 				case KeyEvent.VK_X: // penetrate
 
-					if (penetrateNotUsed) {
+					if (stealer.getPenetrateSkill()){
 						collisionDetect.setCollisionIgnore(true);
 						collisionIgnoreTime = new Date().getTime();
-						penetrateNotUsed = false;
+						stealer.setPenetrateSkill(false);
 					}
 					break;
 
