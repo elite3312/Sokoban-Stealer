@@ -1,7 +1,6 @@
-﻿# Sokoban 1.9.9
+﻿# Sokoban 1.10.0
 
 # Demo:
-請按Sokoban\code中的sokoban.jar執行遊戲
 https://youtu.be/ItoZPud7C1g
 
 # info:
@@ -53,4 +52,5 @@ v1.9.5 - 找到其中一個音樂bug並修復；結束動畫調整\
 v1.9.6 - 地圖做完了(9張，順序有調過)；結束動畫調整；stage微調\
 v1.9.7 - 結尾動畫調整\
 v1.9.8 - 做出executable jar\
-v1.9.9 - #
+v1.9.9 - #\
+v1.10.0- refactor
