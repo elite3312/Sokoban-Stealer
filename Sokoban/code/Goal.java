@@ -7,7 +7,7 @@ public class Goal extends Actor {
     }
 
     @Override
-    public String getActorName(){
+    public String getActorName() {
         return "goal";
     }
 

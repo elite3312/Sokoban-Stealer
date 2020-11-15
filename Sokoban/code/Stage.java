@@ -9,9 +9,7 @@ import java.awt.Graphics;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.Font;
-import java.awt.Color;
 import java.awt.Image;
-import java.awt.FontMetrics;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -100,13 +98,13 @@ public class Stage extends JPanel {
 	private int explodeTime = 0;
 	private Graphics graphic; // for the global using
 	private Image arrowImage = new ImageIcon().getImage();
-	private FontMetrics metrics;
 
 	private ImageManager imageManager = new ImageManager();
 	private CheatManager cheater = new CheatManager();
 
-	private EndingAnimation endAnimate = new EndingAnimation();
+	private EndingAnimation animate = new EndingAnimation();
 	private CollisionDetector collisionDetect = new CollisionDetector();
+	private Panel panel;
 
 	public Stage(int playerSkinChoosen, int level) {
 		timeStart = System.currentTimeMillis();
@@ -122,6 +120,8 @@ public class Stage extends JPanel {
 
 		this.width = (int) dimension.getWidth();
 		this.height = (int) dimension.getHeight();
+
+		panel = new Panel(scale, width, height);
 
 		initStage();
 	}
@@ -150,17 +150,13 @@ public class Stage extends JPanel {
 		hardWalls = new ArrayList<>();
 		cops = new ArrayList<>();
 
-		String level;
-
 		int x = 0;
 		int y = MARGIN + 50;
 
-		Map maptest;
+		Map maptest = new Map();
+		String level = maptest.getMap(selection);
 
 		policePeriod = 10;
-
-		maptest = new Map();
-		level = (String) (maptest.getMap(selection));
 
 		portal = new Portal(0, 0);
 
@@ -270,17 +266,17 @@ public class Stage extends JPanel {
 
 	private void buildWorld(Graphics g) {
 
-		if (selection == LevelCount + 1) { // all completed
+		int playerX = 0, playerY = 0;
+
+		if (selection == LevelCount + 1) { // all completed, play ending
 			nextStage = true;
 			ending = true;
-			endAnimate.ending(g);
-			if (endAnimate.over())
+			animate.ending(g);
+			if (animate.over())
 				closeSignal = true;
 			repaint();
 			return;
 		}
-
-		int playerX = 0, playerY = 0;
 
 		if (lost) {
 			checkLost = true;
@@ -292,186 +288,37 @@ public class Stage extends JPanel {
 			checkLost = false;
 			explodeTime = 0;
 			timeStart = System.currentTimeMillis();
+			if (panel.drawRestart(g, restartTime))
+				return;
+			else
+				restarted = false;
+		}
+
+		if (lossBuffer > 15 && lost) {
 			Long time = new Date().getTime();
-			String stateNow = "";
-
-			if (time - restartTime < 200) {
-				stateNow = "Loading     ";
-			} else if (time - restartTime >= 200 && time - restartTime < 400) {
-				stateNow = "Loading.    ";
-			} else if (time - restartTime >= 400 && time - restartTime < 600) {
-				stateNow = "Loading..   ";
-			} else if (time - restartTime >= 600 && time - restartTime < 800) {
-				stateNow = "Loading...  ";
-			} else if (time - restartTime >= 800 && time - restartTime < 1000) {
-				stateNow = "Loading.... ";
-			} else if (time - restartTime >= 1000 && time - restartTime < 1200) {
-				stateNow = "Loading.....";
+			if (!panel.drawLoss(g, time - lossTime)) {
+				lost = false;
+            	restartLevel();
 			}
+			return;
+		}
 
-			Font font = new Font("Microsoft JhengHei", Font.BOLD, (int) (64 * scale));
-			metrics = g.getFontMetrics(font);
-			int strWidth = metrics.stringWidth(stateNow);
-
-			g.setColor(new Color(0, 0, 0));
-			g.setFont(font);
-
-			g.drawString(stateNow, this.width / 2 - strWidth / 2, this.height / 2);
-
-			if (time - restartTime < 1200) {
+		if (wonBuffer > 15 && isCompletedBool) {
+			Long time = new Date().getTime();
+			if (panel.drawWon(g, time - wonTime)) {
 				return;
 			} else {
-				restarted = false;
-			}
-		}
-
-		if (lossBuffer > 15) {
-			if (lost) {
-
-				Long time = new Date().getTime();
-
-				String infoShow = "關卡失敗 !!!";
-
-				Font font = new Font("Microsoft JhengHei", Font.BOLD, (int) (64 * scale));
-				metrics = g.getFontMetrics(font);
-				int strWidth = metrics.stringWidth(infoShow);
-
-				g.setColor(new Color(0, 0, 0));
-				g.setFont(font);
-				g.drawString(infoShow, this.width / 2 - strWidth / 2, this.height / 2);
-
-				if (time - lossTime < 1000) {
-					return;
-				} else {
-					lost = false;
-					restartLevel();
-					return;
-				}
-			}
-		}
-
-		if (wonBuffer > 15) {
-			if (isCompletedBool) {
-				Long time = new Date().getTime();
-
-				if (time - wonTime < 1000) {
-
-					String infoShow = "關卡勝利 !!!";
-					Font font = new Font("Microsoft JhengHei", Font.BOLD, (int) (64 * scale));
-					metrics = g.getFontMetrics(font);
-					int strWidth = metrics.stringWidth(infoShow);
-
-					g.setColor(new Color(0, 0, 0));
-					g.setFont(font);
-					g.drawString(infoShow, this.width / 2 - strWidth / 2, this.height / 2);
-					return;
-				} else if (time - wonTime > 1000 && time - wonTime < 2200) {
-					String stateNow = "";
-
-					if (time - wonTime < 1200) {
-						stateNow += "Loading     ";
-					} else if (time - wonTime >= 1200 && time - wonTime < 1400) {
-						stateNow += "Loading.    ";
-					} else if (time - wonTime >= 1400 && time - wonTime < 1600) {
-						stateNow += "Loading..   ";
-					} else if (time - wonTime >= 1600 && time - wonTime < 1800) {
-						stateNow += "Loading...  ";
-					} else if (time - wonTime >= 1800 && time - wonTime < 2000) {
-						stateNow += "Loading.... ";
-					} else if (time - wonTime >= 2000 && time - wonTime < 2200) {
-						stateNow += "Loading.....";
-					}
-
-					Font font = new Font("Microsoft JhengHei", Font.BOLD, (int) (64 * scale));
-					metrics = g.getFontMetrics(font);
-					int strWidth = metrics.stringWidth(stateNow);
-
-					g.setColor(new Color(0, 0, 0));
-					g.setFont(font);
-					g.drawString(stateNow, this.width / 2 - strWidth / 2, this.height / 2);
-
-					return;
-				} else {
-					isCompletedBool = false;
-					nextStage = true;
-					selection++;
-					initWorld();
-				}
+				isCompletedBool = false;
+				nextStage = true;
+				selection++;
+				initWorld();
 			}
 		}
 
 		if (gamePause) {
-			String state = String.format("LEVEL %d", selection);
-			String pau = "【 暫停 】";
-
-			Font font = new Font("Microsoft JhengHei", Font.BOLD, (int) (80 * scale));
-			metrics = g.getFontMetrics(font);
-			int strWidth = metrics.stringWidth(state);
-
-			g.setColor(Color.BLACK);
-			g.setFont(font);
-			g.drawString(state, this.width / 2 - strWidth / 2, this.height / 5);
-
-			font = new Font("Microsoft JhengHei", Font.PLAIN, (int) (64 * scale));
-			g.setFont(font);
-
-			metrics = g.getFontMetrics(font);
-			strWidth = metrics.stringWidth(pau);
-			g.drawString(pau, this.width / 2 - strWidth / 2, this.height / 2 - 70);
-
-			String choose1, choose2, choose3;
-
-			choose1 = "繼續遊戲";
-			choose2 = "重新開始";
-			choose3 = "回到主畫面";
-
-			if (pauseSelect == 1) {
-				font = new Font("Microsoft JhengHei", Font.PLAIN, (int) (40 * scale));
-				g.setColor(Color.RED);
-				g.setFont(font);
-				choose1 = ">>" + choose1 + "<<";
-			} else {
-				font = new Font("Microsoft JhengHei", Font.PLAIN, (int) (36 * scale));
-				g.setColor(Color.BLACK);
-				g.setFont(font);
-			}
-			metrics = g.getFontMetrics(font);
-			strWidth = metrics.stringWidth(choose1);
-			g.drawString(choose1, this.width / 2 - strWidth / 2, this.height / 2 + 40);
-
-			if (pauseSelect == 2) {
-				font = new Font("Microsoft JhengHei", Font.PLAIN, (int) (40 * scale));
-				g.setColor(Color.RED);
-				g.setFont(font);
-				choose2 = ">>" + choose2 + "<<";
-			} else {
-				font = new Font("Microsoft JhengHei", Font.PLAIN, (int) (36 * scale));
-				g.setColor(Color.BLACK);
-				g.setFont(font);
-			}
-			metrics = g.getFontMetrics(font);
-			strWidth = metrics.stringWidth(choose2);
-			g.drawString(choose2, this.width / 2 - strWidth / 2, this.height / 2 + 90);
-
-			if (pauseSelect == 3) {
-				font = new Font("Microsoft JhengHei", Font.PLAIN, (int) (40 * scale));
-				g.setColor(Color.RED);
-				g.setFont(font);
-				choose3 = ">>" + choose3 + "<<";
-			} else {
-				font = new Font("Microsoft JhengHei", Font.PLAIN, (int) (36 * scale));
-				g.setColor(Color.BLACK);
-				g.setFont(font);
-			}
-			metrics = g.getFontMetrics(font);
-			strWidth = metrics.stringWidth(choose3);
-			g.drawString(choose3, this.width / 2 - strWidth / 2, this.height / 2 + 140);
-
+			panel.drawPause(g, pauseSelect, selection);
 			return;
 		}
-
-		g.setColor(new Color(225, 225, 225));
-		g.fillRect(0, 0, this.getWidth(), this.getHeight());
 
 		String info = String.format("傳送門：%d", portal.getAvailability());
 		info += String.format("        子彈：%2d", stealer.getAmmo());
@@ -1082,7 +929,6 @@ public class Stage extends JPanel {
 	}
 
 	public boolean goNextStage() {
-
 		return nextStage;
 	}
 

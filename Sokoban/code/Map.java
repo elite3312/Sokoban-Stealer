@@ -19,7 +19,7 @@ public class Map {
 	"HHHHH\n";
 
 
-	private String map5 =  // author : YC SHEN
+	private String map5 =
 		"HHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHH\n" +
 		"H@     ##   #      #    # # # #     H\n" +
 		"H# $# #  !     ##    ##         ### H\n" +
