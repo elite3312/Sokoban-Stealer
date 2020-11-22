@@ -17,7 +17,7 @@ public class CollisionDetector {
 	private final int RIGHT = 2;
 	private final int UP = 3;
     private final int DOWN = 4;
-    private final int SPACE = (int) (40 * scale); // actor side length
+    private final int SPACE = (int) (40 * scale); // Object side length
 
     private boolean collisionIgnore;
 
@@ -45,21 +45,21 @@ public class CollisionDetector {
         return collisionIgnore;
     }
 
-    public boolean checkCollisions(Actor a, int d, ArrayList<HardWall> hardWalls, ArrayList<Wall> walls, ArrayList<Treasure> treasures, ArrayList<Police> cops) {
-		// a -> actor, d -> direction
+    public boolean checkCollisions(Object a, int d, ArrayList<HardWall> hardWalls, ArrayList<Wall> walls, ArrayList<Treasure> treasures, ArrayList<Police> cops) {
+		// a -> Object, d -> direction
 		if (checkHardWallCollision(a, d, hardWalls) || checkWallCollision(a, d, walls) || checkBagCollision(d, treasures, a, hardWalls, walls, cops))
 			return true;
 		return false;
 	}
 
-	public boolean checkHardWallCollision(Actor actor, int type, ArrayList<HardWall> hardWalls) {
+	public boolean checkHardWallCollision(Object Object, int type, ArrayList<HardWall> hardWalls) {
 		int i;
 
 		switch (type) {
 			case LEFT:
 				for (i = 0; i < hardWalls.size(); i++) {
 					HardWall hardWall = hardWalls.get(i);
-					if (actor.isLeftCollision(hardWall)) {
+					if (Object.isLeftCollision(hardWall)) {
 						return true;
 					}
 				}
@@ -68,7 +68,7 @@ public class CollisionDetector {
 			case RIGHT:
 				for (i = 0; i < hardWalls.size(); i++) {
 					HardWall hardWall = hardWalls.get(i);
-					if (actor.isRightCollision(hardWall)) {
+					if (Object.isRightCollision(hardWall)) {
 						return true;
 					}
 				}
@@ -77,7 +77,7 @@ public class CollisionDetector {
 			case UP:
 				for (i = 0; i < hardWalls.size(); i++) {
 					HardWall hardWall = hardWalls.get(i);
-					if (actor.isTopCollision(hardWall)) {
+					if (Object.isTopCollision(hardWall)) {
 						return true;
 					}
 				}
@@ -86,7 +86,7 @@ public class CollisionDetector {
 			case DOWN:
 				for (i = 0; i < hardWalls.size(); i++) {
 					HardWall hardWall = hardWalls.get(i);
-					if (actor.isBottomCollision(hardWall)) {
+					if (Object.isBottomCollision(hardWall)) {
 						return true;
 					}
 				}
@@ -99,9 +99,9 @@ public class CollisionDetector {
 		return false;
 	}
 
-	public boolean checkWallCollision(Actor actor, int type, ArrayList<Wall> walls) {
+	public boolean checkWallCollision(Object Object, int type, ArrayList<Wall> walls) {
 
-		if (actor.getActorName() == "player") {
+		if (Object.getObjectName() == "player") {
 			if (collisionIgnore) {
 				return false;
 			}
@@ -111,7 +111,7 @@ public class CollisionDetector {
 			case LEFT:
 				for (int i = 0; i < walls.size(); i++) {
 					Wall wall = walls.get(i);
-					if (actor.isLeftCollision(wall)) {
+					if (Object.isLeftCollision(wall)) {
 						return true;
 					}
 				}
@@ -120,7 +120,7 @@ public class CollisionDetector {
 			case RIGHT:
 				for (int i = 0; i < walls.size(); i++) {
 					Wall wall = walls.get(i);
-					if (actor.isRightCollision(wall)) {
+					if (Object.isRightCollision(wall)) {
 						return true;
 					}
 				}
@@ -129,7 +129,7 @@ public class CollisionDetector {
 			case UP:
 				for (int i = 0; i < walls.size(); i++) {
 					Wall wall = walls.get(i);
-					if (actor.isTopCollision(wall)) {
+					if (Object.isTopCollision(wall)) {
 						return true;
 					}
 				}
@@ -138,7 +138,7 @@ public class CollisionDetector {
 			case DOWN:
 				for (int i = 0; i < walls.size(); i++) {
 					Wall wall = walls.get(i);
-					if (actor.isBottomCollision(wall)) {
+					if (Object.isBottomCollision(wall)) {
 						return true;
 					}
 				}
@@ -151,7 +151,7 @@ public class CollisionDetector {
 		return false;
 	}
 
-	public boolean checkBagCollision(int type, ArrayList<Treasure> treasures, Actor stealer, ArrayList<HardWall> hardWalls, ArrayList<Wall> walls, ArrayList<Police> cops) {
+	public boolean checkBagCollision(int type, ArrayList<Treasure> treasures, Object stealer, ArrayList<HardWall> hardWalls, ArrayList<Wall> walls, ArrayList<Police> cops) {
 
 		sounds.setSound(sound.bagSound.ordinal());
 
@@ -296,13 +296,13 @@ public class CollisionDetector {
 			return false;
 	}
 
-	public boolean checkBagCollisionforPolice(Actor actor, int type, ArrayList<Treasure> treasures) {
+	public boolean checkBagCollisionforPolice(Object Object, int type, ArrayList<Treasure> treasures) {
 
 		switch (type) {
 			case LEFT:
 				for (int i = 0; i < treasures.size(); i++) {
 					Treasure box = treasures.get(i);
-					if (actor.isLeftCollision(box)) {
+					if (Object.isLeftCollision(box)) {
 						return true;
 					}
 				}
@@ -311,7 +311,7 @@ public class CollisionDetector {
 			case RIGHT:
 				for (int i = 0; i < treasures.size(); i++) {
 					Treasure box = treasures.get(i);
-					if (actor.isRightCollision(box)) {
+					if (Object.isRightCollision(box)) {
 						return true;
 					}
 				}
@@ -320,7 +320,7 @@ public class CollisionDetector {
 			case UP:
 				for (int i = 0; i < treasures.size(); i++) {
 					Treasure box = treasures.get(i);
-					if (actor.isTopCollision(box)) {
+					if (Object.isTopCollision(box)) {
 						return true;
 					}
 				}
@@ -329,7 +329,7 @@ public class CollisionDetector {
 			case DOWN:
 				for (int i = 0; i < treasures.size(); i++) {
 					Treasure box = treasures.get(i);
-					if (actor.isBottomCollision(box)) {
+					if (Object.isBottomCollision(box)) {
 						return true;
 					}
 				}
@@ -341,8 +341,8 @@ public class CollisionDetector {
 		return false;
 	}
 
-	public Boolean checkPersonAndPersonCollision(Actor actor, Actor actor1, int type) {
-		if (actor.x() == actor1.x() && actor.y() == actor1.y()) {
+	public Boolean checkPersonAndPersonCollision(Object Object, Object Object1, int type) {
+		if (Object.x() == Object1.x() && Object.y() == Object1.y()) {
 			return true;
 		}
 		return false;

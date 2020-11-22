@@ -5,7 +5,7 @@ import java.security.SecureRandom;
 
 import java.awt.Dimension;
 
-public class Police extends Actor {
+public class Police extends Object {
 
     private final int LEFT = 1;
 	private final int RIGHT = 2;
@@ -35,7 +35,7 @@ public class Police extends Actor {
         SPACE = (int)(SPACE * scale);
     }
 
-    public void setsituation_change(int toward) {
+    public void setSituation(int toward) {
 
         if (toward == 1) {
             dx = x() - SPACE;
@@ -60,7 +60,7 @@ public class Police extends Actor {
     }
 
     @Override
-    public String getActorName(){
+    public String getObjectName(){
         return "police";
     }
 

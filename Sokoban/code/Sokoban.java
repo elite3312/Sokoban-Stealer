@@ -93,7 +93,7 @@ public class Sokoban extends JFrame {
 					}
 					reader.closeFile();
 
-					if(level <= LevelCount){
+					if(level <= LevelCount) {
 						
 							music.setSong(++level);
 							music.circularPlay();
@@ -101,7 +101,7 @@ public class Sokoban extends JFrame {
 					stage.setNextStage(false);
 					
 				}
-				if(stage.closeAct()){
+				if(stage.closeAct()) {
 
 					Sokoban.this.dispose();
 					music.close();
@@ -111,7 +111,7 @@ public class Sokoban extends JFrame {
 			}
 		};
 
-		timer.schedule(refresh, 0, 30);
+		timer.schedule(refresh, 0, 33);
 	}
 
 }

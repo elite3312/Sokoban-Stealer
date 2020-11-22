@@ -118,23 +118,16 @@ public class MainMenuFrame extends JFrame implements ActionListener {
 
 		File f = new File("");
 		String path = f.getAbsolutePath();
-		String selectPath = path;
-		String selectedPath = path;
-		String gameStartPath = path;
-		String exitPath = path;
+		String selectPath = path, selectedPath = path;
 
 		if (!path.contains("code")) {
 			path = "pic/gameTitle2.png";
 			selectPath = "pic/select.png";
 			selectedPath = "pic/selected.png";
-			gameStartPath = "pic/gameStart.png";
-			exitPath = "pic/exit.png";
 		} else {
 			path = path.replaceAll("code", "pic/gameTitle2.png");
 			selectPath = selectPath.replaceAll("code", "pic/select.png");
 			selectedPath = selectedPath.replaceAll("code", "pic/selected.png");
-			gameStartPath = gameStartPath.replaceAll("code", "pic/gameStart.png");
-			exitPath = exitPath.replaceAll("code", "pic/exit.png");
 		}
 
 		try {
@@ -265,6 +258,8 @@ public class MainMenuFrame extends JFrame implements ActionListener {
 		for (int i = 1; i <= levelCount; i++) {
 			JRadioButton l1 = new JRadioButton("Level " + i, true);
 			l1.setFont(font);
+			l1.setBorderPainted(false);
+
 			try {
 				bufImage = Thumbnails.of(selectPath).scale(scale).asBufferedImage();
 				image = (Image) bufImage;
@@ -298,7 +293,7 @@ public class MainMenuFrame extends JFrame implements ActionListener {
 			levelPanel.add(levels.get(i));
 		}
 
-		clearBtn = new JButton("清除遊戲紀錄");
+		clearBtn = new JButton("清除紀錄");
 		clearBtn.addActionListener(this);
 		clearBtn.setFont(btnFont);
 		

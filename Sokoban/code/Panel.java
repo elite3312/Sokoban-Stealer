@@ -9,6 +9,7 @@ import java.util.Date;
 
 import javax.swing.text.StyleContext.SmallAttributeSet;
 
+// provide functions for drawing panel like "pause" or "loading"
 public class Panel {
 
     private FontMetrics metrics;
@@ -46,10 +47,7 @@ public class Panel {
 
         g.drawString(stateNow, this.width / 2 - strWidth / 2, this.height / 2);
 
-        if (gap < 1000) {
-            return true;
-        }
-        return false;
+        return gap < 1000;
     }
 
     public boolean drawLoss(Graphics g, long gap) {
@@ -63,10 +61,7 @@ public class Panel {
         g.setFont(font);
         g.drawString(infoShow, this.width / 2 - strWidth / 2, this.height / 2);
 
-        if (gap < 1000) {
-            return true;
-        }
-        return false;
+        return gap < 1000;
     }
 
     public boolean drawWon(Graphics g, long gap) {

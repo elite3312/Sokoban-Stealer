@@ -1,9 +1,9 @@
 package java2020.finalProject;
 
-public class Wall extends Actor {
+public class Wall extends Object {
 
     @Override
-    public String getActorName(){
+    public String getObjectName(){
         return "wall";
     }
 

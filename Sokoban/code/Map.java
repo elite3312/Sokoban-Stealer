@@ -12,31 +12,14 @@ public class Map {
      % : goal with treasure
      *************************************************************/
 
-	
-	private String map0 = 
-	"HHHHH\n" + 
-	"H@$.H\n" +
-	"HHHHH\n";
+	private String maps[] = new String[]{
+		// map 0  (for debugging)
+		"HHHHH\n" + 
+		"H@$.H\n" +
+		"HHHHH\n",
 
-
-	private String map5 =
-		"HHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHH\n" +
-		"H@     ##   #      #    # # # #     H\n" +
-		"H# $# #  !     ##    ##         ### H\n" +
-		"H#    #    ###     #     # ####     H\n" +
-		"H# ##    ##      #  #  # #  !    # #H\n" +
-		"H    #      # ##    #    # #   #   #H\n" +
-		"H   #  ### ##  ## #   # #    #  #   H\n" +
-		"H##        ###       #    #   #    #H\n" +
-		"H     #  #  #  # # #    ##  #    # #H\n" +
-		"H ##  ##  #     # # #   #^# ##   # #H\n" +
-		"H ###    #  #    !    ## #     ###  H\n" +
-		"H      #      #     #      #   #.   H\n" +
-		"HHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHH\n";
-
-
-    private String map1 = 
-        "HHHHHHHHHHHHHHHHHHHHHHHHHH\n" + 
+		// map 1
+		"HHHHHHHHHHHHHHHHHHHHHHHHHH\n" + 
         "H########################H\n" + 
         "H#.########  !     $.####H\n" + 
         "H# ########$  ###### ####H\n" + 
@@ -48,10 +31,9 @@ public class Map {
         "H# ########!### #@##  ..#H\n" + 
         "H#!             #### ####H\n" + 
         "H########################H\n" + 
-		"HHHHHHHHHHHHHHHHHHHHHHHHHH\n" ;
+		"HHHHHHHHHHHHHHHHHHHHHHHHHH\n",
 
-	
-	private String map2 = 
+		// map 2
 		"HHHHHHHHHHHHHHHHHHHHH \n" +
 		"H          !#!      H \n" +
 		"H $   ##########    H \n" +
@@ -66,10 +48,9 @@ public class Map {
 		"H   $   #  !#   $   H \n" +
 		"H!  #       $   #   H \n" +
 		"H   #   #   #   #  !H \n" +
-		"HHHHHHHHHHHHHHHHHHHHH \n";
+		"HHHHHHHHHHHHHHHHHHHHH \n",
 
-
-    private String map3 =
+		// map 3
 		"HHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHH\n" +
 		"H##################################H\n" +
 		"H#####           !     .......... #H\n" +
@@ -84,10 +65,9 @@ public class Map {
 		"H#! ## $  #           ##  ! ###$###H\n" +
 		"H#            ##    !  #          #H\n" +
 		"H##################################H\n" +
-		"HHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHH\n";
+		"HHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHH\n",
 
-	
-	private String map4 = 
+		// map 4
 		"HHHHHHHHHHHHHHHHHHHHHHHHH\n" +
 		"H #####! #  ####.$!!!! .H\n" +
 		"H !#!   $   # ! #!!!  !$H\n" +
@@ -100,10 +80,24 @@ public class Map {
 		"H  !  #    #          ! H\n" +
 		"H  ## #  #    ###     ##H\n" +
 		"H!     !   #   !   #  ! H\n" +
-		"HHHHHHHHHHHHHHHHHHHHHHHHH\n";
+		"HHHHHHHHHHHHHHHHHHHHHHHHH\n",
 
+		// map 5
+		"HHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHH\n" +
+		"H@     ##   #      #    # # # #     H\n" +
+		"H# $# #  !     ##    ##         ### H\n" +
+		"H#    #    ###     #     # ####     H\n" +
+		"H# ##    ##      #  #  # #  !    # #H\n" +
+		"H    #      # ##    #    # #   #   #H\n" +
+		"H   #  ### ##  ## #   # #    #  #   H\n" +
+		"H##        ###       #    #   #    #H\n" +
+		"H     #  #  #  # # #    ##  #    # #H\n" +
+		"H ##  ##  #     # # #   #^# ##   # #H\n" +
+		"H ###    #  #    !    ## #     ###  H\n" +
+		"H      #      #     #      #   #.   H\n" +
+		"HHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHH\n",
 
-	private String map6 = 
+		// map 6
 		"HHHHHHHHHHHHHHHHHHHHHHHHH\n" +
 		"H! ##  #! ##  !        !H\n" +
 		"H      #  #      ###### H\n" +
@@ -118,10 +112,9 @@ public class Map {
 		"H!  ######    #      ## H\n" +
 		"H $    #    #  $    ### H\n" +
 		"H    !      ##   !     !H\n" +
-		"HHHHHHHHHHHHHHHHHHHHHHHHH\n";
+		"HHHHHHHHHHHHHHHHHHHHHHHHH\n",
 
-	
-	private String map7 = 
+		// map 7
 		"HHHHHHHHHHHHHHHHHHHHHHH\n" +
 		"H.... #@###    # !   %H\n" +
 		"H....        #$$  #   H\n" +
@@ -137,12 +130,9 @@ public class Map {
 		"H###%    $$  !  $$    H\n" +
 		"H%%##    $ ### ## ### H\n" +
 		"H!    !    #!   ! #!  H\n" +
-		"HHHHHHHHHHHHHHHHHHHHHHH\n";
+		"HHHHHHHHHHHHHHHHHHHHHHH\n",
 
-
-
-
-	private String map8 = 
+		// map 8
 		"HHHHHHHHHHHHHHHHHHHHHHH\n" +
 		"H!     !      !     !#H\n" +
 		"H  ###   #    #   ...#H\n" +
@@ -157,11 +147,9 @@ public class Map {
 		"H ######## $##$    $  H\n" +
 		"H  $  ! .##      ##   H\n" +
 		"H########^#  !   #   @H\n" +
-		"HHHHHHHHHHHHHHHHHHHHHHH\n";
+		"HHHHHHHHHHHHHHHHHHHHHHH\n",
 
-
-
-	private String map9 =
+		// map 9
 		"HHHHHHHHHHHHHHHHHHHHHHHH\n" +
 		"H#^#...HHHHHHHH  ######H\n" + 
 		"H###.       $ H $    .HH\n" + 
@@ -178,24 +166,14 @@ public class Map {
 		"HH. $    HH!    $     HH\n" + 
 		"HHHHH $.HHH  $$$    ...H\n" +
 		"H#^##   .HH $       ...H\n" +
-		"HHHHHHHHHHHHHHHHHHHHHHHH\n";
+		"HHHHHHHHHHHHHHHHHHHHHHHH\n"
+	};
 
+    public String getMap(int selection) {
 
-
-   
-    public String getMap(int selection){
-        switch (selection){
-        	case 1 : return map1;
-        	case 2 : return map2;
-			case 3 : return map3;
-			case 4 : return map4;
-			case 5 : return map5;
-			case 6 : return map6;
-			case 7 : return map7;
-			case 8 : return map8;
-			case 9 : return map9;
-			case 10: return ""; // game end, save the time
-        	default : return map0;
-        }
+		if(selection >= 0 && selection < maps.length)
+			return maps[selection];
+		
+		return "";
     }
 }

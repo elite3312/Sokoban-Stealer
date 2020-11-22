@@ -9,7 +9,6 @@ import java.lang.SecurityException;
 import java.util.Formatter;
 import java.util.FormatterClosedException;
 
-
 public class SavesWriter {
 	private static Formatter output; // outputs text to a file
 	private String fileName; // target file name
@@ -60,10 +59,9 @@ public class SavesWriter {
 		
 	}
 
-	public void notStaticCloseFile(){
+	public void notStaticCloseFile() {
 		if (output != null)
 			output.close();
 	}
-
 
 }

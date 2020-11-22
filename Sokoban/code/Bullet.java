@@ -2,7 +2,7 @@ package java2020.finalProject;
 
 import java.awt.Dimension;
 
-public class Bullet extends Actor {
+public class Bullet extends Object {
 
 	private final int LEFT = 1;
 	private final int RIGHT = 2;
@@ -15,7 +15,7 @@ public class Bullet extends Actor {
 	private Dimension dimension = java.awt.Toolkit.getDefaultToolkit().getScreenSize();
 	private final double baseWidth = 1536.0;
 	private final double scale = dimension.getWidth() / baseWidth; // suitable for all screen size
-	private final int SPACE = (int)(40 * scale); // actor side length
+	private final int SPACE = (int)(40 * scale); // Object side length
 
 	public Bullet(int x, int y, int initDir) {
 		super(x, y);
@@ -23,7 +23,7 @@ public class Bullet extends Actor {
 	}
 
 	@Override
-    public String getActorName(){
+    public String getObjectName() {
         return "Bullet";
     }
 
@@ -53,6 +53,8 @@ public class Bullet extends Actor {
 			default:
 				dx = x();
 				dy = y();
+				System.out.printf("unexpected direction: %d\n", dir);
+				System.exit(0);
 				break;
 
 		}

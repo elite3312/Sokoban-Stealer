@@ -1,6 +1,6 @@
 package java2020.finalProject;
 
-public class Treasure extends Actor {
+public class Treasure extends Object {
 
     private boolean isGetAmmo;
 
@@ -10,7 +10,7 @@ public class Treasure extends Actor {
     }
 
     @Override
-    public String getActorName(){
+    public String getObjectName(){
         return "Treasure";
     }
 

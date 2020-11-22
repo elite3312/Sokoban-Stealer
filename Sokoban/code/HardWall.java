@@ -1,13 +1,13 @@
 package java2020.finalProject;
 
-public class HardWall extends Actor {
+public class HardWall extends Object {
 
     public HardWall(int x, int y) {
         super(x, y);
     }
 
     @Override
-    public String getActorName(){
+    public String getObjectName(){
         return "hardWall";
     }
 

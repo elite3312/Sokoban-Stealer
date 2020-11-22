@@ -32,7 +32,6 @@ public class SavesReader {
 		try {
 			input = new Scanner(Paths.get(fileName));
 		} catch (IOException ioException) {
-
 			System.err.println("Error opening file. Terminating.");
 			System.exit(1);
 		}
@@ -42,8 +41,7 @@ public class SavesReader {
 	public int readRecords() {
 		int temp = 0;
 		try {
-			while (input.hasNext()) // while there is more to read
-			{
+			while (input.hasNext()) { // while there is more to read
 				temp = input.nextInt();
 			}
 		} catch (NoSuchElementException elementException) {

@@ -14,7 +14,7 @@ import java.io.IOException;
 import net.coobird.thumbnailator.Thumbnails;
 import net.coobird.thumbnailator.geometry.Positions;
 
-public class Player extends Actor {
+public class Player extends Object {
 
 	private Bullet bullet = null;
 	private int ammo = 3;
@@ -35,12 +35,7 @@ public class Player extends Actor {
 	private Image rightIcon;
 	private Image[] explodImages = new Image[10];
 
-	private File f = new File("");
-	private String path = f.getAbsolutePath();
-
-	private Dimension dimension = java.awt.Toolkit.getDefaultToolkit().getScreenSize();
-	private final double baseWidth = 1536.0;
-	private final double scale = dimension.getWidth() / baseWidth; // suitable for all screen size
+	private String path = new File("").getAbsolutePath();
 
 	private boolean penetrateSkill = true;
 
@@ -52,27 +47,25 @@ public class Player extends Actor {
 
 	private void initPlayer(int playerSkinChoosed) {
 
-		String up, down, left, right;
-		ImageManager imanager = new ImageManager(0);
+		String up, down, left, right, charseq;
+		ImageManager imanager = new ImageManager(false);
 
-		if(playerSkinChoosed == playerSkinOne){
-			up = imanager.pathConfig(path, "character/playerOneUp.png");
-			left = imanager.pathConfig(path, "character/playerOneLeft.png");
-			down = imanager.pathConfig(path, "character/playerOneDown.png");
-			right = imanager.pathConfig(path, "character/playerOneRight.png");
+		switch(playerSkinChoosed) {
+			case playerSkinOne:
+				charseq = "One";
+				break;
+			case playerSkinTwo:
+				charseq = "Two";
+				break;
+			default:
+				charseq = "Three";
+				break;
 		}
-		else if(playerSkinChoosed == playerSkinTwo){
-			up = imanager.pathConfig(path, "character/playerTwoUp.png");
-			left = imanager.pathConfig(path, "character/playerTwoLeft.png");
-			down = imanager.pathConfig(path, "character/playerTwoDown.png");
-			right = imanager.pathConfig(path, "character/playerTwoRight.png");
-		}
-		else{
-			up = imanager.pathConfig(path, "character/playerThreeUp.png");
-			left = imanager.pathConfig(path, "character/playerThreeLeft.png");
-			down = imanager.pathConfig(path, "character/playerThreeDown.png");
-			right = imanager.pathConfig(path, "character/playerThreeRight.png");
-		}
+
+		up = imanager.pathConfig(path, "character/player" + charseq + "Up.png");
+		left = imanager.pathConfig(path, "character/player" + charseq + "Left.png");
+		down = imanager.pathConfig(path, "character/player" + charseq + "Down.png");
+		right = imanager.pathConfig(path, "character/player" + charseq + "Right.png");
 
 		upIcon = imanager.getImageFromPath(up);
 		leftIcon = imanager.getImageFromPath(left);
@@ -84,9 +77,7 @@ public class Player extends Actor {
 		explosion = 0;
 		String explodePath;
 
-		for(int i = 0; i < 10; i++){
-			Image temp;
-
+		for(int i = 0; i < 10; i++) {
 			explodePath = path;
 			explodePath = imanager.pathConfig(path, String.format("explode/explode%d.png", i));
 			
@@ -95,7 +86,7 @@ public class Player extends Actor {
 	}
 
 	@Override
-	public String getActorName() {
+	public String getObjectName() {
 		return "player";
 	}
 
@@ -153,7 +144,7 @@ public class Player extends Actor {
 		this.ammo = ammo;
 	}
 
-	public void playerExplode(){
+	public void playerExplode() {
 		setImage(explodImages[explosion / 2]);
 		explosion++;
 
@@ -161,7 +152,7 @@ public class Player extends Actor {
 			explosion = 18;
 	}
 
-	public void setPenetrateSkill(boolean state){
+	public void setPenetrateSkill(boolean state) {
 		penetrateSkill = state;
 	}
 

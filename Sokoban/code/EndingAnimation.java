@@ -41,7 +41,7 @@ public class EndingAnimation {
 
     private int[] posRecord;
     private final String[] texts = {
-        "- Created By -", // 0
+        "- Created By -",
         "",
         "",
         "李佳勳",
@@ -53,7 +53,7 @@ public class EndingAnimation {
         "",
         "",
         "",
-        "- Musics By -", // 12
+        "- Musics By -",
         "",
         "",
         "Spectre    -    AlanWalker",
@@ -73,7 +73,9 @@ public class EndingAnimation {
         "",
         "",
         "",
-        "- Pictures By -", // 32
+        "",
+        "",
+        "- Pictures By -",
         "",
         "",
         "Police    -    Craftpix.net",
@@ -89,17 +91,19 @@ public class EndingAnimation {
         "",
         "",
         "",
-        "- Game UI -", // 48
+        "",
+        "",
+        "- Game UI -",
         "",
         "",
         "吳永璿",
+        "李佳勳",
         "",
         "",
         "",
         "",
         "",
-        "",
-        "- Music Design -", // 58
+        "- Musics -",
         "",
         "",
         "李佳勳",
@@ -111,10 +115,23 @@ public class EndingAnimation {
         "",
         "",
         "",
-        "- Animation -", // 70
+        "- Maps -",
+        "",
+        "",
+        "李佳勳",
+        "沈彥昭",
+        "吳永璿",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "- Animations -",
         "",
         "",
         "沈彥昭",
+        "李佳勳",
         "",
         "",
         "",
@@ -134,17 +151,16 @@ public class EndingAnimation {
         "",
         "",
         "",
-        "",
-        "- Special Thanks -", // 94
+        "- Special Thanks -",
         "",
         "",
         "Java    -    Oracle",
         "jiPlayer    -    JavaZOOM",
         "Thumbnailator    -    coobird",
         "",
-        "VSCode",
-        "Eclipse",
-        "Audacity",
+        "VSCode    -    Microsoft",
+        "Audacity    -    The Audacity Team",
+        "Eclipse    -    IBM/Eclipse foundation",
         "",
         "",
         "",
@@ -165,7 +181,7 @@ public class EndingAnimation {
         "",
         "",
         "",
-        "- Special Thanks -", // 124
+        "- Special Thanks -",
         "",
         "",
         "陳俊佑 助教",
@@ -180,7 +196,7 @@ public class EndingAnimation {
     };
 
     
-    public EndingAnimation(){
+    public EndingAnimation() {
 
         scale = dimension.getWidth() / baseWidth;
 
@@ -221,7 +237,7 @@ public class EndingAnimation {
 
         for (int i = 0; i < texts.length; i++){
 
-            if(i == 0 || i == 12 || i == 32 || i == 48 || i == 58 || i == 70 || i == 94 || i == 124){
+            if(texts[i] != "" && texts[i].charAt(0) == '-') { // titles
                 g.setFont(titleFont);
                 metrics = g.getFontMetrics(titleFont);     
                 strWidth = metrics.stringWidth(texts[i]);
@@ -229,8 +245,7 @@ public class EndingAnimation {
                     get the length of string that actual on the screen 
                     for the use of centrlize the string
                 */
-            }
-            else{
+            } else {
                 g.setFont(font);
                 metrics = g.getFontMetrics(font);
                 strWidth = metrics.stringWidth(texts[i]);
@@ -241,12 +256,12 @@ public class EndingAnimation {
         recorded = true;
     }
 
-    public void ending(Graphics g){
+    public void ending(Graphics g) {
 
         int tempY = y;
         int index = -1;
 
-        if(!musicPlayed){
+        if(!musicPlayed) {
             music.setSong(99);
             music.play();
             musicPlayed = true;
@@ -255,13 +270,13 @@ public class EndingAnimation {
         if(!recorded)
             recordPosition(g);
         
-        try{ // needed
+        try { // needed
             Thread.sleep(7);
         } catch (InterruptedException e) {
             System.out.println(e);
         }
 
-        for (String text : texts){
+        for(String text : texts) {
 
             tempY += Line;
             index++;
@@ -269,10 +284,9 @@ public class EndingAnimation {
             if(tempY < -Line || tempY > finalY + Line) // if not in screen, skip
                 continue;
 
-            if(index == 0 || index == 12 || index == 32 || index == 48 || index == 58 || index == 70 || index == 94 || index == 124){
+            if(text != "" && text.charAt(0) == '-') { // titles
                 g.setFont(titleFont);
-            }
-            else{
+            } else {
                 g.setFont(font);
             }
 
@@ -282,13 +296,12 @@ public class EndingAnimation {
 
         if(y + Line * texts.length > 0) // the last line disappear from screen
             y -= 1;
-        else{
+        else
             fadeIn(g);
-        }
 
     }
 
-    private void fadeIn(Graphics g){ // gradually change the color to make fade effect
+    private void fadeIn(Graphics g) { // gradually change the color to make fade effect
 
         if(fadeInOver){
             fadeOut(g);
@@ -300,13 +313,12 @@ public class EndingAnimation {
 
         g.setFont(finalFont);
 
-        if(R >= 1){
+        if(R >= 1) {
             R -= 1;
             G -= 1;
             B -= 1;
             color = new Color(R, G, B);
-        }
-        else{
+        } else {
             fadeInOver = true;
             return;
         }
@@ -315,19 +327,18 @@ public class EndingAnimation {
  
     }
 
-    private void fadeOut(Graphics g){
+    private void fadeOut(Graphics g) {
 
         metrics = g.getFontMetrics(finalFont);     
         finalWordsLen = metrics.stringWidth(finalWords);
         
         g.setFont(finalFont);
 
-        if(R <= 238){
+        if(R <= 238) {
             R += 1;
             G += 1;
             B += 1;
-        }
-        else{
+        } else {
             fadeIn2(g);
             return;
         }
@@ -336,9 +347,9 @@ public class EndingAnimation {
         g.drawString(finalWords, x / 2 - finalWordsLen / 2, finalY / 2);
     }
 
-    private void fadeIn2(Graphics g){
+    private void fadeIn2(Graphics g) {
 
-        if(fadeInOver2){
+        if(fadeInOver2) {
             fadeOut2(g);
             return;
         }
@@ -348,13 +359,12 @@ public class EndingAnimation {
 
         g.setFont(finalFont);
 
-        if(R2 >= 1){
+        if(R2 >= 1) {
             R2 -= 1;
             G2 -= 1;
             B2 -= 1;
             color = new Color(R2, G2, B2);
-        }
-        else{
+        } else {
             fadeInOver2 = true;
         }
         g.setColor(color);
@@ -362,7 +372,7 @@ public class EndingAnimation {
 
     }
 
-    private void fadeOut2(Graphics g){
+    private void fadeOut2(Graphics g) {
         metrics = g.getFontMetrics(finalFont);     
         finalWordsLen = metrics.stringWidth(finalWords2);
         
@@ -372,8 +382,7 @@ public class EndingAnimation {
             R2 += 1;
             G2 += 1;
             B2 += 1;
-        }
-        else
+        } else
             allOver++;
 
         color = new Color(R2, G2, B2);
@@ -381,8 +390,8 @@ public class EndingAnimation {
         g.drawString(finalWords2, x / 2 - finalWordsLen / 2, finalY / 2);
     }
 
-    public boolean over(){
-        if(allOver > 25){
+    public boolean over() {
+        if(allOver > 25) {
             music.close();
             return true;
         }

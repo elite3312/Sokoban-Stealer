@@ -20,34 +20,31 @@ public class ImageManager {
     private Dimension dimension = java.awt.Toolkit.getDefaultToolkit().getScreenSize();
     private final double baseWidth = 1536.0;
     private final double scale = dimension.getWidth() / baseWidth; // suitable for all screen size
-    private final int SPACE = (int) (40 * scale); // actor side length
 
     private Image bulletImage;
     private Image wallImage;
     private Image hardWallImage;
     private Image goalImage;
+    private Image arrowImage;
     private Image[] treasureImages;
     private Image[] policeImages;
-    private Image arrowImage;
     private Image[] bombImage;
     private Image[] exploImages;
 
     private SecureRandom random = new SecureRandom();
 
-    public ImageManager() {
-        bulletInit();
-        wallInit();
-        hardWallInit();
-        goalInit();
-        treasureInit();
-        policeInit();
-        arrowInit();
-        bombInit();
-        exploInit();
-    }
-
-    public ImageManager(int dontInit) {
-
+    public ImageManager(boolean init) {
+        if(init) {
+            bulletInit();
+            wallInit();
+            hardWallInit();
+            goalInit();
+            treasureInit();
+            policeInit();
+            arrowInit();
+            bombInit();
+            exploInit();
+        }
     }
 
     public Image getBulletImage() {
@@ -82,7 +79,7 @@ public class ImageManager {
         return bombImage;
     }
 
-    public Image[] getExploImage() {
+    public Image[] getExplodeImage() {
         return exploImages;
     }
 

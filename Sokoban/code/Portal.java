@@ -11,14 +11,14 @@ import net.coobird.thumbnailator.Thumbnails;
 import net.coobird.thumbnailator.geometry.Positions;
 import java.awt.Dimension;
 
-public class Portal extends Actor {
+public class Portal extends Object {
 
 	private int isActive = 0;
-	// private long startTime = 0;
 	private int availability = 3;
-	private Image[] images = new Image[16];
 	private int animater = 0;
 	private int imageSeguence = 0;
+
+	private Image[] images = new Image[16];
 
 	private Dimension dimension = java.awt.Toolkit.getDefaultToolkit().getScreenSize();
 	private final double baseWidth = 1536.0;
@@ -30,7 +30,7 @@ public class Portal extends Actor {
 	}
 
 	@Override
-	public String getActorName() {
+	public String getObjectName() {
 		return "portal";
 	}
 
@@ -43,7 +43,7 @@ public class Portal extends Actor {
 		String path = f.getAbsolutePath();
 		String temp = "";
 
-		for(int i = 10; i < 26; i++){
+		for(int i = 10; i < 26; i++) {
 			temp = path;
 
 			if (!path.contains("code"))
@@ -52,10 +52,10 @@ public class Portal extends Actor {
 				temp = path.replaceAll("code", String.format("pic/portalAnimation/Portal%d.png", i));
 
 			BufferedImage image;
-			try{
+			try {
 				image = Thumbnails.of(temp).scale(scale).asBufferedImage();
 				images[i-10] = image;
-			} catch (IOException e){
+			} catch (IOException e) {
 				System.out.println(e);
 			}
 		}
@@ -72,11 +72,6 @@ public class Portal extends Actor {
 		this.isActive = isActive;
 	}
 
-	/*
-	 * public long getStartTime() { return startTime; }
-	 * 
-	 * public void setStartTime(long startTime) { this.startTime = startTime; }
-	 */
 	public int getAvailability() {
 		return availability;
 	}
@@ -87,7 +82,7 @@ public class Portal extends Actor {
 		this.availability = availability;
 	}
 
-	public void animation(){
+	public void animation() {
 		animater++;
 
 		if(animater > 1){
