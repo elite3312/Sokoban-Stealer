@@ -1,6 +1,6 @@
-﻿# Sokoban 1.10.0
+﻿# Sokoban 1.10.1
 
-# Demo:
+# Demo(1.6.0):
 https://youtu.be/ItoZPud7C1g
 
 # info:
