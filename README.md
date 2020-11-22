@@ -1,4 +1,5 @@
-﻿# Sokoban 1.10.1
+﻿# Sokoban-Stealer 1.10.1
+倉庫番大盜
 
 # Demo(1.6.0):
 https://youtu.be/ItoZPud7C1g
