@@ -12,6 +12,7 @@ import java.util.NoSuchElementException;
 import java.util.Scanner;
 
 public class SavesReader {
+	
 	private Scanner input;
 	private String fileName; // target file name
 
@@ -22,7 +23,6 @@ public class SavesReader {
 	public int readSaves() {
 		openFile();
 		int temp = readRecords();
-
 		closeFile();
 
 		return temp;

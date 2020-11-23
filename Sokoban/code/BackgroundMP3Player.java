@@ -44,21 +44,13 @@ public class BackgroundMP3Player {
 	public BackgroundMP3Player() throws FileNotFoundException, JavaLayerException {
 
 		path = tempfile.getAbsolutePath();
-
-		if(!path.contains("code"))
-			path = "BGM/";
-		else
-			path = path.replaceAll("code", "BGM/");
+		path = path.replaceAll("code", "BGM/");
 	}
 
 	public void setSong(int songSeq) {
 		song = songSeq;
 		path = tempfile.getAbsolutePath();
-
-		if(!path.contains("code"))
-			path = "BGM/";
-		else
-			path = path.replaceAll("code", "BGM/");
+		path = path.replaceAll("code", "BGM/");
 		
 		if(songSeq >= 0 && songSeq < songList.length)
 			path += songList[songSeq];
@@ -69,11 +61,7 @@ public class BackgroundMP3Player {
 	}
 	public void setSound(int type) {
 		path = tempfile.getAbsolutePath();
-
-		if(!path.contains("code"))
-			path = "BGM/";
-		else
-			path = path.replaceAll("code", "BGM/");
+		path = path.replaceAll("code", "BGM/");
 		
 		if(type >= 0 && type < soundList.length)
 			path += soundList[type];

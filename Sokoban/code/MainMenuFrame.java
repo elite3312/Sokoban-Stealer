@@ -62,7 +62,7 @@ public class MainMenuFrame extends JFrame implements ActionListener {
 	private final int playerSkinOne = 1;
 	private final int playerSkinTwo = 2;
 	private final int playerSkinThree = 3;
-	private final int levelCount = 9;
+	private final int levelCount = new Map().getMapCount();
 	private int levelChosen;
 
 	private JButton levelSelect;
@@ -232,11 +232,11 @@ public class MainMenuFrame extends JFrame implements ActionListener {
 		levelPanel = new JPanel(new GridLayout(6, 3));
 		level = new ButtonGroup();
 
-		String tempStr = "播放結尾動畫(未解鎖)";
-		if(progress > levelCount){
-			tempStr = "播放結尾動畫";
-		}
-		playAnimation = new JButton(tempStr);
+		if(progress > levelCount)
+			playAnimation = new JButton("播放結尾動畫");
+		else
+			playAnimation = new JButton("播放結尾動畫(未解鎖)");
+		
 		playAnimation.addActionListener(this);
 		playAnimation.setFont(btnFont);
 		bottomPanel.add(playAnimation);
@@ -246,12 +246,11 @@ public class MainMenuFrame extends JFrame implements ActionListener {
 		else
 			playAnimation.setEnabled(false);
 
-		String labelText = "選擇關卡：(目前解鎖進度:第" + progress + "關)";
-		if (progress > levelCount) {
-			labelText = "選擇關卡：(目前解鎖進度：全破)";
-		}
-		
-		label2 = new JLabel(labelText);
+		if (progress > levelCount)
+			label2 = new JLabel("選擇關卡：(目前解鎖進度：全破)");
+		else
+			label2 = new JLabel("選擇關卡：(目前解鎖進度:第" + progress + "關)");
+
 		label2.setFont(font);
 
 		levels = new ArrayList<JRadioButton>();

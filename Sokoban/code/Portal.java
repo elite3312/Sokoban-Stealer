@@ -13,10 +13,10 @@ import java.awt.Dimension;
 
 public class Portal extends Object {
 
-	private int isActive = 0;
 	private int availability = 3;
-	private int animater = 0;
 	private int imageSeguence = 0;
+
+	private boolean isActive = false;
 
 	private Image[] images = new Image[16];
 
@@ -26,32 +26,15 @@ public class Portal extends Object {
 
 	public Portal(int x, int y) {
 		super(x, y);
-		initPortal();
-	}
-
-	@Override
-	public String getObjectName() {
-		return "portal";
-	}
-
-	private void initPortal() {
-
-		animater = 0;
-		imageSeguence = 0;
 
 		File f = new File("");
 		String path = f.getAbsolutePath();
-		String temp = "";
+		String temp;
 
 		for(int i = 10; i < 26; i++) {
-			temp = path;
-
-			if (!path.contains("code"))
-				temp = String.format("pic/portalAnimation/Portal%d.png", i);
-			else
-				temp = path.replaceAll("code", String.format("pic/portalAnimation/Portal%d.png", i));
-
+			temp = path.replaceAll("code", String.format("pic/portalAnimation/Portal%d.png", i));
 			BufferedImage image;
+
 			try {
 				image = Thumbnails.of(temp).scale(scale).asBufferedImage();
 				images[i-10] = image;
@@ -59,16 +42,20 @@ public class Portal extends Object {
 				System.out.println(e);
 			}
 		}
-		isActive = 0;
 
 		setImage(images[0]);
 	}
 
-	public int getIsActive() {
+	@Override
+	public String getObjectName() {
+		return "portal";
+	}
+
+	public boolean getIsActive() {
 		return isActive;
 	}
 
-	public void setIsActive(int isActive) {
+	public void setIsActive(boolean isActive) {
 		this.isActive = isActive;
 	}
 
@@ -77,21 +64,14 @@ public class Portal extends Object {
 	}
 
 	public void setAvailability(int availability) {
-		if (availability < 0)
-			return;
-		this.availability = availability;
+		if (availability >= 0)
+			this.availability = availability;
 	}
 
 	public void animation() {
-		animater++;
-
-		if(animater > 1){
-			if(imageSeguence == 16){
-				imageSeguence = 0;
-			}
-			animater = 0;
-			setImage(images[imageSeguence++]);
-		}
+		// circulation
+		imageSeguence %= 16;
+		setImage(images[imageSeguence++]);
 	}
 
 }

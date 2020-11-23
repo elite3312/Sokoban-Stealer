@@ -16,6 +16,7 @@ public class Object {
     
     private Image image;
     private Image[] imageArray;
+
     public Object(int x, int y) {
         this.x = x;
         this.y = y;
@@ -31,7 +32,7 @@ public class Object {
         image = img;
     }
     public void setImageArray(Image[] img) {
-        imageArray=img;
+        imageArray = img;
     }
 
     public int x() {
@@ -50,13 +51,15 @@ public class Object {
         this.y = y;
     }
 
-    public String getObjectName(){ // for the use of determine the Object's type, the child Class should override this func
+    // determine the Object's type, the child Class should override this function
+    public String getObjectName() {
         return "none";
     }
 
     public boolean isLeftCollision(Object Object) {
+        // you can't move if move side is the wall        or        is in the wall
         return (x() - SPACE == Object.x() && y() == Object.y()) || (x() == Object.x() && y() == Object.y());
-    } // you can't move if move side is the wall                   or is in the wall
+    }
 
     public boolean isRightCollision(Object Object) {
         return (x() + SPACE == Object.x() && y() == Object.y()) || (x() == Object.x() && y() == Object.y());

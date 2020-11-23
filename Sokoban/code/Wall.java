@@ -3,7 +3,7 @@ package java2020.finalProject;
 public class Wall extends Object {
 
     @Override
-    public String getObjectName(){
+    public String getObjectName() {
         return "wall";
     }
 

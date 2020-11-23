@@ -169,6 +169,11 @@ public class Map {
 		"HHHHHHHHHHHHHHHHHHHHHHHH\n"
 	};
 
+	public int getMapCount() {
+		// need to decrease 1 beacuse the debugging map
+		return this.maps.length - 1;
+	}
+
     public String getMap(int selection) {
 
 		if(selection >= 0 && selection < maps.length)

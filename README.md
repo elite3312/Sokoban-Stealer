@@ -1,5 +1,5 @@
 ﻿# Sokoban-Stealer 1.10.1
-倉庫番大盜
+倉庫番大盜\
 1082 java程式語言
 
 # Demo(1.6.0):
@@ -7,7 +7,7 @@ https://youtu.be/ItoZPud7C1g
 
 # Info:
 demo時的版本為1.6.0(同報告時的版本)，demo後新增的部分請看下方的版本歷史\
-操作說明請看遊戲內說明\
+操作請看遊戲內說明\
 請切換成英文輸入法
 
 # Version History

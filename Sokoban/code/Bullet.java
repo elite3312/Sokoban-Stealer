@@ -6,8 +6,8 @@ public class Bullet extends Object {
 
 	private final int LEFT = 1;
 	private final int RIGHT = 2;
-	private final int TOP = 3;
-	private final int BOTTOM = 4;
+	private final int UP = 3;
+	private final int DOWN = 4;
 
 	private final int dir;
 	private int maxRange = 40;
@@ -28,38 +28,27 @@ public class Bullet extends Object {
     }
 
 	public void updateXY() {
-		int dx;
-		int dy;
 		setMaxRange(getMaxRange() - 1);
 
 		switch (dir) {
-
 			case LEFT:
-				dx = x() - SPACE;
-				dy = y();
+				setX(x() - SPACE);
 				break;
 			case RIGHT:
-				dx = x() + SPACE;
-				dy = y();
+				setX(x() + SPACE);
 				break;
-			case TOP:
-				dx = x();
-				dy = y() - SPACE;
+			case UP:
+				setY(y() - SPACE);
 				break;
-			case BOTTOM:
-				dx = x();
-				dy = y() + SPACE;
+			case DOWN:
+				setY(y() + SPACE);
 				break;
 			default:
-				dx = x();
-				dy = y();
 				System.out.printf("unexpected direction: %d\n", dir);
-				System.exit(0);
+				System.exit(1);
 				break;
 
 		}
-		setX(dx);
-		setY(dy);
 	}
 
 	public int getMaxRange() {

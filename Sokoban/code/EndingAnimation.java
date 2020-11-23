@@ -40,6 +40,7 @@ public class EndingAnimation {
     private BackgroundMP3Player music;
 
     private int[] posRecord;
+
     private final String[] texts = {
         "- Created By -",
         "",
@@ -195,7 +196,6 @@ public class EndingAnimation {
         ""
     };
 
-    
     public EndingAnimation() {
 
         scale = dimension.getWidth() / baseWidth;
@@ -238,13 +238,11 @@ public class EndingAnimation {
         for (int i = 0; i < texts.length; i++){
 
             if(texts[i] != "" && texts[i].charAt(0) == '-') { // titles
+                // get the length of string that actual on the screen 
+                // for the use of centrlize the string
                 g.setFont(titleFont);
                 metrics = g.getFontMetrics(titleFont);     
                 strWidth = metrics.stringWidth(texts[i]);
-                /*
-                    get the length of string that actual on the screen 
-                    for the use of centrlize the string
-                */
             } else {
                 g.setFont(font);
                 metrics = g.getFontMetrics(font);
@@ -284,11 +282,10 @@ public class EndingAnimation {
             if(tempY < -Line || tempY > finalY + Line) // if not in screen, skip
                 continue;
 
-            if(text != "" && text.charAt(0) == '-') { // titles
+            if(text != "" && text.charAt(0) == '-') // titles
                 g.setFont(titleFont);
-            } else {
+            else
                 g.setFont(font);
-            }
 
             g.drawString(text, posRecord[index], tempY);
 
@@ -324,7 +321,6 @@ public class EndingAnimation {
         }
         g.setColor(color);
         g.drawString(finalWords, x / 2 - finalWordsLen / 2, finalY / 2);
- 
     }
 
     private void fadeOut(Graphics g) {

@@ -7,7 +7,7 @@ public class HardWall extends Object {
     }
 
     @Override
-    public String getObjectName(){
+    public String getObjectName() {
         return "hardWall";
     }
 

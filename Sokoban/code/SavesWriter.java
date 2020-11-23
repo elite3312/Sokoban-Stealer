@@ -10,9 +10,9 @@ import java.util.Formatter;
 import java.util.FormatterClosedException;
 
 public class SavesWriter {
+
 	private static Formatter output; // outputs text to a file
 	private String fileName; // target file name
-	
 
 	public SavesWriter(String fileName) {
 		this.fileName = fileName;
@@ -56,7 +56,6 @@ public class SavesWriter {
 	public static void closeFile() {
 		if (output != null)
 			output.close();
-		
 	}
 
 	public void notStaticCloseFile() {

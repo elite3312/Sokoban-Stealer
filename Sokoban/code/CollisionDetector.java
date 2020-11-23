@@ -45,48 +45,41 @@ public class CollisionDetector {
         return collisionIgnore;
     }
 
-    public boolean checkCollisions(Object a, int d, ArrayList<HardWall> hardWalls, ArrayList<Wall> walls, ArrayList<Treasure> treasures, ArrayList<Police> cops) {
-		// a -> Object, d -> direction
-		if (checkHardWallCollision(a, d, hardWalls) || checkWallCollision(a, d, walls) || checkBagCollision(d, treasures, a, hardWalls, walls, cops))
-			return true;
-		return false;
+    public boolean checkCollisions(Object o, int d, ArrayList<HardWall> hardWalls, ArrayList<Wall> walls, ArrayList<Treasure> treasures, ArrayList<Police> cops) {
+		// o -> Object, d -> direction
+		return checkHardWallCollision(o, d, hardWalls) || checkWallCollision(o, d, walls) || checkBagCollision(d, treasures, o, hardWalls, walls, cops);
 	}
 
 	public boolean checkHardWallCollision(Object Object, int type, ArrayList<HardWall> hardWalls) {
-		int i;
 
 		switch (type) {
 			case LEFT:
-				for (i = 0; i < hardWalls.size(); i++) {
-					HardWall hardWall = hardWalls.get(i);
-					if (Object.isLeftCollision(hardWall)) {
+				for (int i = 0; i < hardWalls.size(); i++) {
+					if (Object.isLeftCollision(hardWalls.get(i))) {
 						return true;
 					}
 				}
 				break;
 
 			case RIGHT:
-				for (i = 0; i < hardWalls.size(); i++) {
-					HardWall hardWall = hardWalls.get(i);
-					if (Object.isRightCollision(hardWall)) {
+				for (int i = 0; i < hardWalls.size(); i++) {
+					if (Object.isRightCollision(hardWalls.get(i))) {
 						return true;
 					}
 				}
 				break;
 
 			case UP:
-				for (i = 0; i < hardWalls.size(); i++) {
-					HardWall hardWall = hardWalls.get(i);
-					if (Object.isTopCollision(hardWall)) {
+				for (int i = 0; i < hardWalls.size(); i++) {
+					if (Object.isTopCollision(hardWalls.get(i))) {
 						return true;
 					}
 				}
 				break;
 
 			case DOWN:
-				for (i = 0; i < hardWalls.size(); i++) {
-					HardWall hardWall = hardWalls.get(i);
-					if (Object.isBottomCollision(hardWall)) {
+				for (int i = 0; i < hardWalls.size(); i++) {
+					if (Object.isBottomCollision(hardWalls.get(i))) {
 						return true;
 					}
 				}
@@ -101,17 +94,13 @@ public class CollisionDetector {
 
 	public boolean checkWallCollision(Object Object, int type, ArrayList<Wall> walls) {
 
-		if (Object.getObjectName() == "player") {
-			if (collisionIgnore) {
-				return false;
-			}
-		}
+		if (Object.getObjectName() == "player" && collisionIgnore)
+			return false;
 
 		switch (type) {
 			case LEFT:
 				for (int i = 0; i < walls.size(); i++) {
-					Wall wall = walls.get(i);
-					if (Object.isLeftCollision(wall)) {
+					if (Object.isLeftCollision(walls.get(i))) {
 						return true;
 					}
 				}
@@ -119,8 +108,7 @@ public class CollisionDetector {
 
 			case RIGHT:
 				for (int i = 0; i < walls.size(); i++) {
-					Wall wall = walls.get(i);
-					if (Object.isRightCollision(wall)) {
+					if (Object.isRightCollision(walls.get(i))) {
 						return true;
 					}
 				}
@@ -128,8 +116,7 @@ public class CollisionDetector {
 
 			case UP:
 				for (int i = 0; i < walls.size(); i++) {
-					Wall wall = walls.get(i);
-					if (Object.isTopCollision(wall)) {
+					if (Object.isTopCollision(walls.get(i))) {
 						return true;
 					}
 				}
@@ -137,8 +124,7 @@ public class CollisionDetector {
 
 			case DOWN:
 				for (int i = 0; i < walls.size(); i++) {
-					Wall wall = walls.get(i);
-					if (Object.isBottomCollision(wall)) {
+					if (Object.isBottomCollision(walls.get(i))) {
 						return true;
 					}
 				}
@@ -163,14 +149,10 @@ public class CollisionDetector {
 					if (stealer.isLeftCollision(box)) {
 						for (int j = 0; j < treasures.size(); j++) {
 							Treasure item = treasures.get(j);
-							if (!box.equals(item)) {
-								if (box.isLeftCollision(item)) {
-									return true;
-								}
-							}
-							if (checkWallCollision(box, LEFT, walls) || checkHardWallCollision(box, LEFT, hardWalls)) {
+							if (!box.equals(item) && box.isLeftCollision(item))
 								return true;
-							}
+							if (checkWallCollision(box, LEFT, walls) || checkHardWallCollision(box, LEFT, hardWalls))
+								return true;
 						}
 
 						if (cops != null && !checkBagCollisiontoPolice(box.getX() - SPACE, box.getY(), cops)) {
@@ -191,15 +173,12 @@ public class CollisionDetector {
 					if (stealer.isRightCollision(box)) {
 						for (int j = 0; j < treasures.size(); j++) {
 							Treasure item = treasures.get(j);
-							if (!box.equals(item)) {
-								if (box.isRightCollision(item)) {
-									return true;
-								}
-							}
-							if (checkWallCollision(box, RIGHT, walls) || checkHardWallCollision(box, RIGHT, hardWalls)) {
+							if (!box.equals(item) && box.isRightCollision(item))
 								return true;
-							}
+							if (checkWallCollision(box, RIGHT, walls) || checkHardWallCollision(box, RIGHT, hardWalls))
+								return true;
 						}
+
 						if (cops != null && !checkBagCollisiontoPolice(box.getX() + SPACE, box.getY(), cops)) {
 							box.move(SPACE, 0);
 							sounds.play();
@@ -219,15 +198,10 @@ public class CollisionDetector {
 					if (stealer.isTopCollision(box)) {
 						for (int j = 0; j < treasures.size(); j++) {
 							Treasure item = treasures.get(j);
-							if (!box.equals(item)) {
-								if (box.isTopCollision(item)) {
-									return true;
-								}
-							}
-
-							if (checkWallCollision(box, UP, walls) || checkHardWallCollision(box, UP, hardWalls)) {
+							if (!box.equals(item) && box.isTopCollision(item))
 								return true;
-							}
+							if (checkWallCollision(box, UP, walls) || checkHardWallCollision(box, UP, hardWalls))
+								return true;
 						}
 
 						if (cops != null && !checkBagCollisiontoPolice(box.getX(), box.getY() - SPACE, cops)) {
@@ -249,16 +223,12 @@ public class CollisionDetector {
 					if (stealer.isBottomCollision(box)) {
 						for (int j = 0; j < treasures.size(); j++) {
 							Treasure item = treasures.get(j);
-							if (!box.equals(item)) {
-								if (box.isBottomCollision(item)) {
-									return true;
-								}
-							}
-
-							if (checkWallCollision(box, DOWN, walls) || checkHardWallCollision(box, DOWN, hardWalls)) {
+							if (!box.equals(item) && box.isBottomCollision(item))
 								return true;
-							}
+							if (checkWallCollision(box, DOWN, walls) || checkHardWallCollision(box, DOWN, hardWalls))
+								return true;
 						}
+
 						if (cops != null && !checkBagCollisiontoPolice(box.getX(), box.getY() + SPACE, cops)) {
 							box.move(0, SPACE);
 							sounds.play();
@@ -282,18 +252,15 @@ public class CollisionDetector {
 	public boolean checkBagCollisiontoPolice(int bag_x, int bag_y, ArrayList<Police> cops) {
 		for (int i = 0; i < cops.size(); i++) {
 			Police temp = cops.get(i);
-			if (judge_XandY_Collision(temp.getx(), temp.gety(), bag_x, bag_y))
+			if (judgeXYCollision(temp.getx(), temp.gety(), bag_x, bag_y))
 				return true;
 
 		}
 		return false;
 	}
 
-	public boolean judge_XandY_Collision(int x, int y, int x1, int y1) {
-		if (x1 == x && y1 == y)
-			return true;
-		else
-			return false;
+	public boolean judgeXYCollision(int x, int y, int x1, int y1) {
+		return (x1 == x && y1 == y);
 	}
 
 	public boolean checkBagCollisionforPolice(Object Object, int type, ArrayList<Treasure> treasures) {
@@ -301,8 +268,7 @@ public class CollisionDetector {
 		switch (type) {
 			case LEFT:
 				for (int i = 0; i < treasures.size(); i++) {
-					Treasure box = treasures.get(i);
-					if (Object.isLeftCollision(box)) {
+					if (Object.isLeftCollision(treasures.get(i))) {
 						return true;
 					}
 				}
@@ -310,8 +276,7 @@ public class CollisionDetector {
 
 			case RIGHT:
 				for (int i = 0; i < treasures.size(); i++) {
-					Treasure box = treasures.get(i);
-					if (Object.isRightCollision(box)) {
+					if (Object.isRightCollision(treasures.get(i))) {
 						return true;
 					}
 				}
@@ -319,8 +284,7 @@ public class CollisionDetector {
 
 			case UP:
 				for (int i = 0; i < treasures.size(); i++) {
-					Treasure box = treasures.get(i);
-					if (Object.isTopCollision(box)) {
+					if (Object.isTopCollision(treasures.get(i))) {
 						return true;
 					}
 				}
@@ -328,8 +292,7 @@ public class CollisionDetector {
 
 			case DOWN:
 				for (int i = 0; i < treasures.size(); i++) {
-					Treasure box = treasures.get(i);
-					if (Object.isBottomCollision(box)) {
+					if (Object.isBottomCollision(treasures.get(i))) {
 						return true;
 					}
 				}
@@ -342,9 +305,6 @@ public class CollisionDetector {
 	}
 
 	public Boolean checkPersonAndPersonCollision(Object Object, Object Object1, int type) {
-		if (Object.x() == Object1.x() && Object.y() == Object1.y()) {
-			return true;
-		}
-		return false;
+		return (Object.x() == Object1.x() && Object.y() == Object1.y());
 	}
 }

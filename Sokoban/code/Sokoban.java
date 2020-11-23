@@ -23,16 +23,19 @@ public class Sokoban extends JFrame {
 	private BackgroundMP3Player music;
 
 	private final int MARGIN = 40;
-	private final int LevelCount = 9;
+	private final int LevelCount = new Map().getMapCount();
 
 	private int player;
 	private int level;
 	
 	private SavesWriter writer;
 	private SavesReader reader;
+
 	private BackgroundMP3Player sounds;
 	private enum sound {bulletSound, bagSound, bombSound};
-	private Boolean trigger=false;
+
+	private Boolean trigger = false;
+
 	private JPanel panel;
 
 	public Sokoban(int player, int level) {
@@ -82,7 +85,7 @@ public class Sokoban extends JFrame {
 					
 					reader.openFile();
 
-					if(reader.readSaves()==level){
+					if(reader.readSaves() == level){
 						
 						if(level <= LevelCount){
 							writer.openFile();
@@ -94,15 +97,14 @@ public class Sokoban extends JFrame {
 					reader.closeFile();
 
 					if(level <= LevelCount) {
-						
 							music.setSong(++level);
 							music.circularPlay();
 					}
 					stage.setNextStage(false);
 					
 				}
-				if(stage.closeAct()) {
 
+				if(stage.closeAct()) {
 					Sokoban.this.dispose();
 					music.close();
 					setVisible(false);

@@ -10,31 +10,28 @@ public class Treasure extends Object {
     }
 
     @Override
-    public String getObjectName(){
+    public String getObjectName() {
         return "Treasure";
     }
 
     public void move(int x, int y) {
-        int dx = x() + x;
-        int dy = y() + y;
-
-        setX(dx);
-        setY(dy);
+        setX(x() + x);
+        setY(y() + y);
     }
 
-    public int getX(){
+    public int getX() {
         return x();
     }
 
-    public int getY(){
+    public int getY() {
         return y();
     }
 
-    public void getAmmo(){
+    public void getAmmo() {
         isGetAmmo = true;
     }
 
-    public boolean canGetAmmo(){
+    public boolean canGetAmmo() {
         return !isGetAmmo;
     }
 }
