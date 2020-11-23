@@ -453,9 +453,9 @@ public class Stage extends JPanel {
 				if (lost)
 					g.drawImage(item.getImage(), item.x(), item.y(), this);
 				else if ((executetime / 10) % 2 == 1)
-					g.drawImage(item.getImageArray(1), item.x(), item.y(), this);
+					g.drawImage(item.getImage(), item.x(), item.y(), this);
 				else
-					g.drawImage(item.getImageArray(0), item.x(), item.y(), this);
+					g.drawImage(((Bomb)item).getImage2(), item.x(), item.y(), this);
 
 			} else if (item instanceof Treasure) {
 
@@ -546,19 +546,19 @@ public class Stage extends JPanel {
 
 		if (lost) { // buffered frames
 
+			if(!trigger) {
+				trigger = true;
+				bomb.playExplosionSound();
+			}
+
 			lossBuffer++;
 			if (bomb != null) {
-				Image[] bombPics = imageManager.getExplodeImage();
-
-				g.drawImage(bombPics[explodeTime], bomb.x() - 60, bomb.y() - 60, 120, 120, this);
+				bomb.nextFrame();
+				g.drawImage(bomb.getImage(), bomb.x() - 60, bomb.y() - 60, 120, 120, this);
 
 				if (explodeTime++ > 9)
 					explodeTime = 10;
-
-				playExploSound();
-				bomb.setImage(bombPics[0]);
 			}
-
 		}
 		if (isCompletedBool)
 			wonBuffer++;
@@ -813,20 +813,6 @@ public class Stage extends JPanel {
 			}
 			forbutton = 1;
 			repaint();
-		}
-	}
-
-	private void playExploSound() {
-		if (!trigger) {
-			trigger = true;
-
-			try {
-				sounds = new BackgroundMP3Player();
-				sounds.setSound(sound.bombSound.ordinal());
-				sounds.play();
-			} catch (FileNotFoundException | JavaLayerException e1) {
-				System.out.printf("music err");
-			}
 		}
 	}
 

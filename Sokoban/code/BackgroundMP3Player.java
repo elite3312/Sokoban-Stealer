@@ -59,6 +59,7 @@ public class BackgroundMP3Player {
 
 		file = new File(path);
 	}
+
 	public void setSound(int type) {
 		path = tempfile.getAbsolutePath();
 		path = path.replaceAll("code", "BGM/");
@@ -69,8 +70,8 @@ public class BackgroundMP3Player {
 			path += soundList[0];
 
 		file = new File(path);
-		
 	}
+
 	public void circularPlay() {
 		Thread currentThread;
 		// continuously run in new thread to play in background
@@ -121,5 +122,4 @@ public class BackgroundMP3Player {
 	public int getCurrentMusic() {
 		return song;
 	}
-
 }

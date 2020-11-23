@@ -1,7 +1,6 @@
 package java2020.finalProject;
 
 import java.awt.Image;
-import java.awt.Dimension;
 import java.awt.image.BufferedImage;
 
 import java.util.ArrayList;
@@ -19,11 +18,6 @@ public class Player extends Object {
 	private Bullet bullet = null;
 	private int ammo = 3;
 	private int explosion = 0;
-
-	private final int LEFT = 1;
-	private final int RIGHT = 2;
-	private final int UP = 3;
-	private final int DOWN = 4;
 
 	private int playerDir;
 
@@ -57,7 +51,7 @@ public class Player extends Object {
 			String realPath = imanager.pathConfig(path, "character/player" + charseq + dirs[i] + ".png");
 			icon[i] = imanager.getImageFromPath(realPath);
 		}
-		setImage(icon[UP-1]);
+		setImage(icon[2]);
 
 		String explodePath;
 		for(int i = 0; i < 10; i++) {

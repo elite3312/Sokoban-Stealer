@@ -44,7 +44,6 @@ public class ImageManager {
             treasureInit();
             policeInit();
             arrowInit();
-            bombInit();
             explosionInit();
         }
     }
@@ -92,7 +91,7 @@ public class ImageManager {
         bulletImage = getImageFromPath(path);
     }
 
-    private void bombInit() {
+    public void bombInit() {
         bombImage = new Image[2];
         String path = f.getAbsolutePath();
         String temp;
