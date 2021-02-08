@@ -384,6 +384,10 @@ public class Stage extends JPanel {
 		// initialized to negative numbers to avoid error
 		int tempBulletX = -500, tempBulletY = -500;
 
+		if (cheater.checkUserCommand()) {
+			cops.clear();
+		}
+
 		for (int i = 0; i < world.size(); i++) {
 
 			Object item = world.get(i);
