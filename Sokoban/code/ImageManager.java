@@ -155,7 +155,7 @@ public class ImageManager {
         policeImages = new Image[4];
 
         for(int i = 0; i < 4; i++) {
-            temp = pathConfig(path, "character/police" + directions[i] + ".png");
+            temp = pathConfig(path, "character/Police" + directions[i] + ".png");
             policeImages[i] = getImageFromPath(temp);
         }
     }

@@ -2,10 +2,10 @@ package java2020.finalProject;
 
 public class CheatManager {
 
-    private int[] buffer;
-    private final int[] target = {1, 3, 2, 2, 4, 1, 2, 3};
+    private char[] buffer;
+    private final char[] target = {1, 3, 2, 2, 4, 1, 2, 3};
 
-    private int pivot, pivot2;
+    private short head, head2;
     private boolean activate = false;
     private boolean activate2 = false;
 
@@ -13,24 +13,25 @@ public class CheatManager {
     private char[] user;
 
     public CheatManager() {
-        buffer = new int[8];
+        buffer = new char[8];
         user = new char[7];
-        pivot = 0;
-        pivot2 = 0;
+        head = 0;
+        head2 = 0;
     }
 
     public void pushCommand(int command) {
         if(activate)
             return;
 
-        if(command == target[pivot]) {
-            buffer[pivot++] = command;
-            if(pivot == 8)
-                activate = true;
+        if(command == target[head]) {
+            buffer[head++] = (char)command;
         } else {
-            pivot = 0;
-            buffer[pivot++] = command;
+            head = 0;
+            buffer[head++] = (char)command;
         }
+
+        if(head == target.length)
+            activate = true;
     }
 
     public boolean available() {
@@ -40,21 +41,21 @@ public class CheatManager {
     public void deactivate() {
         activate = false;
         activate2 = false;
-        pivot = 0;
-        pivot2 = 0;
+        head = 0;
+        head2 = 0;
     }
 
     public void pushChar(char character) {
-
-        if(character == game[pivot2]) {
-            user[pivot2++] = character;
-            if(pivot2 == 7) {
-                activate2 = !activate2;
-                pivot2 = 0;
-            }
+        if(character == game[head2]) {
+            user[head2++] = character;
         } else {
-            pivot2 = 0;
-            user[pivot2++] = character;
+            head2 = 0;
+            user[head2++] = character;
+        }
+
+        if(head2 == game.length) {
+            activate2 = !activate2;
+            head2 = 0;
         }
     }
 
