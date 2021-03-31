@@ -116,19 +116,12 @@ public class MainMenuFrame extends JFrame implements ActionListener {
 		topPanel = new JPanel(new BorderLayout());
 		picPanel = new JPanel(new BorderLayout());
 
-		File f = new File("");
-		String path = f.getAbsolutePath();
+		String path = new File("").getAbsolutePath();
 		String selectPath = path, selectedPath = path;
 
-		if (!path.contains("code")) {
-			path = "pic/gameTitle2.png";
-			selectPath = "pic/select.png";
-			selectedPath = "pic/selected.png";
-		} else {
-			path = path.replaceAll("code", "pic/gameTitle2.png");
-			selectPath = selectPath.replaceAll("code", "pic/select.png");
-			selectedPath = selectedPath.replaceAll("code", "pic/selected.png");
-		}
+		path = path.replaceAll("code", "pic/gameTitle2.png");
+		selectPath = selectPath.replaceAll("code", "pic/select.png");
+		selectedPath = selectedPath.replaceAll("code", "pic/selected.png");
 
 		try {
 			bufImage = Thumbnails.of(path).scale(scale).asBufferedImage();
@@ -232,25 +225,19 @@ public class MainMenuFrame extends JFrame implements ActionListener {
 		levelPanel = new JPanel(new GridLayout(6, 3));
 		level = new ButtonGroup();
 
-		if(progress > levelCount)
+		if(progress > levelCount) {
 			playAnimation = new JButton("播放結尾動畫");
-		else
+			playAnimation.setEnabled(true);
+			label2 = new JLabel("選擇關卡：(目前解鎖進度：全破)");
+		} else {
 			playAnimation = new JButton("播放結尾動畫(未解鎖)");
-		
+			playAnimation.setEnabled(false);
+			label2 = new JLabel("選擇關卡：(目前解鎖進度:第" + progress + "關)");
+		}
+
 		playAnimation.addActionListener(this);
 		playAnimation.setFont(btnFont);
 		bottomPanel.add(playAnimation);
-
-		if(progress > levelCount)
-			playAnimation.setEnabled(true);
-		else
-			playAnimation.setEnabled(false);
-
-		if (progress > levelCount)
-			label2 = new JLabel("選擇關卡：(目前解鎖進度：全破)");
-		else
-			label2 = new JLabel("選擇關卡：(目前解鎖進度:第" + progress + "關)");
-
 		label2.setFont(font);
 
 		levels = new ArrayList<JRadioButton>();

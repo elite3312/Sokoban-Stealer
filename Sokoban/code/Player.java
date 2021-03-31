@@ -100,7 +100,9 @@ public class Player extends Object {
 	public void playerExplode() {
 		setImage(explodImages[explosion / 2]);
 		explosion++;
-		explosion %= 18;
+		if(explosion >= 18) {
+			explosion -= 18;
+		}
 	}
 
 	public void setPenetrateSkill(boolean state) {

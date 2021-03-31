@@ -41,7 +41,6 @@ public class Stage extends JPanel {
 	private boolean isCompletedBool = false;
 	private boolean lost = false;
 	private boolean restarted = false; // restart frame
-	private boolean restartBuffer = false; // restart buffering(for 0.3sec)
 	private boolean gamePause = false;
 	private boolean nextStage = false;
 	private boolean closeSignal = false;
@@ -95,14 +94,13 @@ public class Stage extends JPanel {
 
 	private BackgroundMP3Player sounds;
 
-	private Graphics graphic; // for global using
 	private Image arrowImage = new ImageIcon().getImage();
 
 	private ImageManager imageManager = new ImageManager(true);
 	private CheatManager cheater;
 
 	private enum sound {
-		bulletSound, bagSound, bombSound
+		bulletSound, bagSound
 	};
 
 	public Stage(int playerSkinChoosen, int level) {
@@ -120,10 +118,12 @@ public class Stage extends JPanel {
 
 		this.LevelCount = map.getMapCount();
 
-		initStage();
-	}
-
-	private void initStage() {
+		try {
+			sounds = new BackgroundMP3Player();
+		} catch (FileNotFoundException | JavaLayerException e1) {
+			System.out.printf("music err");
+		}
+		
 		addKeyListener(new TAdapter());
 		setFocusable(true);
 		initWorld();
@@ -264,6 +264,7 @@ public class Stage extends JPanel {
 		
 		// all completed, play ending animation
 		if (mapSelection == LevelCount + 1) {
+			
 			nextStage = true;
 			ending = true;
 			animate.ending(g);
@@ -572,7 +573,6 @@ public class Stage extends JPanel {
 
 	@Override
 	public void paintComponent(Graphics g) {
-		graphic = g;
 		super.paintComponent(g);
 		buildWorld(g);
 	}
@@ -637,13 +637,9 @@ public class Stage extends JPanel {
 					if (gamePause) {
 						pause.selectionUp();
 
-						try {
-							sounds = new BackgroundMP3Player();
-							sounds.setSound(sound.bagSound.ordinal());
-							sounds.play();
-						} catch (FileNotFoundException | JavaLayerException e1) {
-							System.out.printf("music err");
-						}
+						sounds.setSound(sound.bagSound.ordinal());
+						sounds.play();
+						
 						return;
 					}
 
@@ -671,13 +667,9 @@ public class Stage extends JPanel {
 					if (gamePause) {
 						pause.selectionDown();
 
-						try {
-							sounds = new BackgroundMP3Player();
-							sounds.setSound(sound.bagSound.ordinal());
-							sounds.play();
-						} catch (FileNotFoundException | JavaLayerException e1) {
-							System.out.printf("music err");
-						}
+						sounds.setSound(sound.bagSound.ordinal());
+						sounds.play();
+						
 						return;
 					}
 
@@ -727,13 +719,8 @@ public class Stage extends JPanel {
 					if (stealer.getBullet() != null)
 						return;
 					else if (stealer.getAmmo() > 0) {
-						try {
-							sounds = new BackgroundMP3Player();
-							sounds.setSound(sound.bulletSound.ordinal());
-							sounds.play();
-						} catch (FileNotFoundException | JavaLayerException e1) {
-							System.out.printf("music err");
-						}
+						sounds.setSound(sound.bulletSound.ordinal());
+						sounds.play();
 
 						Bullet newBullet = new Bullet(stealer.x(), stealer.y(), stealer.getDir());
 						newBullet.setImage(imageManager.getBulletImage());
@@ -763,13 +750,8 @@ public class Stage extends JPanel {
 				case KeyEvent.VK_ENTER:
 					if (gamePause) {
 
-						try {
-							sounds = new BackgroundMP3Player();
-							sounds.setSound(sound.bagSound.ordinal());
-							sounds.play();
-						} catch (FileNotFoundException | JavaLayerException e1) {
-							System.out.printf("music err");
-						}
+						sounds.setSound(sound.bagSound.ordinal());
+						sounds.play();
 
 						switch (pause.getSelection()) {
 							case 1:
@@ -828,7 +810,6 @@ public class Stage extends JPanel {
 
 	public void isCompleted() {
 		int finishedBags = 0;
-		int canGetAmmoCount = 0;
 
 		for (int i = 0; i < treasures.size(); i++) {
 			Treasure box = treasures.get(i);
@@ -839,17 +820,18 @@ public class Stage extends JPanel {
 					finishedBags += 1;
 					if (box.canGetAmmo()) {
 						box.getAmmo();
-						canGetAmmoCount++;
+						stealer.setAmmo(stealer.getAmmo() + 2);
 					}
 				}
 			}
 		}
+		
 		if (finishedBags > achived) {
 			achived++;
-			stealer.setAmmo(stealer.getAmmo() + 2 * canGetAmmoCount);
 		} else if (finishedBags < achived) {
 			achived--;
 		}
+
 		if (finishedBags == goals.size()) {
 			isCompletedBool = true;
 			wonTime = new Date().getTime();
@@ -865,10 +847,6 @@ public class Stage extends JPanel {
 		restartTime = new Date().getTime();
 
 		initWorld();
-	}
-
-	public boolean getisCompleted() {
-		return isCompletedBool;
 	}
 
 	public boolean goNextStage() {
