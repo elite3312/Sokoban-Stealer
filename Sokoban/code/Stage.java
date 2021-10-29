@@ -270,7 +270,7 @@ public class Stage extends JPanel {
 			animate.ending(g);
 			if (animate.over())
 				closeSignal = true;
-			repaint();
+			updateUI();
 			return;
 		}
 
