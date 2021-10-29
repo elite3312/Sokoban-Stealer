@@ -269,7 +269,7 @@ public class EndingAnimation {
             recordPosition(g);
         
         try { // needed
-            Thread.sleep(7);
+            Thread.sleep(10);
         } catch (InterruptedException e) {
             System.out.println(e);
         }
